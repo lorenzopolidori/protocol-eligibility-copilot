@@ -13,24 +13,32 @@ Uses only public registry data and makes no eligibility decision about any patie
 
 ## Background
 
-**Clinical trials.** Before a new medicine or vaccine can be approved, a drug company (the
+### Clinical trials
+
+Before a new medicine or vaccine can be approved, a drug company (the
 *sponsor*) tests it on volunteers in clinical trials. A Phase 3 trial is the large, final stage,
 often with hundreds or thousands of participants at dozens of hospitals (*sites*) in many
 countries. It usually takes years and costs a great deal.
 
-**The protocol.** Each trial follows a written rulebook called the protocol. It covers what is
+### The protocol
+
+Each trial follows a written rulebook called the protocol. It covers what is
 being tested, on whom, how and for how long. Sponsors publish a summary of every protocol on
 [ClinicalTrials.gov](https://clinicaltrials.gov), the public US registry used worldwide. This
 tool reads from it.
 
-**Eligibility criteria.** One part of the protocol sets out who may take part. *Inclusion
+### Eligibility criteria
+
+One part of the protocol sets out who may take part. *Inclusion
 criteria* are what a volunteer must have, and *exclusion criteria* are what rules them out. A
 trial typically has 10 to 40 of them, written in dense medical language. Every
 extra restriction shrinks the pool of patients who qualify. That slows recruitment, raises the
 share of candidates who are screened and then turned away, and often forces costly protocol
 changes (*amendments*) later.
 
-**What the tool does to each criterion.** It turns one block of medical text into a structured
+## The AI agent 
+
+The AI agent in this repository turns one block of medical text for each criterion into a structured
 row that a person can scan, sort and question. Examples from GSK protocols in this demo:
 
 | Criterion (from the protocol) | Category | Threshold | Washout / time window | Flag for the reviewer |
@@ -63,7 +71,9 @@ completed COPD Phase 3 trials. That gap is a useful question to ask early.
 clinical operations lead. They check every row, correct anything wrong, and every change is logged.
 The tool never decides whether any patient is eligible, and it only uses public registry text.
 
-**The goal.** Give study teams a fast, consistent first pass that challenges eligibility criteria
+## The goal
+
+Give study teams a fast, consistent first pass that challenges eligibility criteria
 at the design stage, before sites see the protocol. That is the cheapest point to remove
 unnecessary restrictions, and it should mean faster recruitment and fewer amendments. The wider aim
 is to show a repeatable way to bring agentic AI into a regulated workflow:
@@ -74,7 +84,9 @@ is to show a repeatable way to bring agentic AI into a regulated workflow:
 4. Prove it beats the baseline on quality, cost, speed and consistency.
 5. Keep a human accountable for every output.
 
-**How we know it works.** We can think of it as an exam with an answer key.
+## Evaluation - how we know it works
+
+To evaluate the performance of the AI agent we use an evaluation harness. We can think of it as an exam with an answer key.
 
 1. **The answer key.** Before any AI was run, each of the 70 criteria from the 5 protocols was
    given its correct category by hand. A few criteria genuinely fit two categories, and for
@@ -121,17 +133,16 @@ under study* in an HIV trial but *another illness* in a lung cancer trial.
 key is small and was drafted with AI help. The next steps are a larger key labelled by clinical
 operations experts, and measuring how much reviewer time the tool actually saves.
 
-
 **What about the flags?** The category is only half of the output. For each criterion the AI
 also decides whether to raise flags that ask a reviewer to look again: *washout*, *investigator
 judgement*, *screening burden*, *ambiguous* and *modernisation candidate*.
 
-**The short answer: we don't yet know whether the flags are right.** The category has an answer
+We don't yet know whether the flags are right. The category has an answer
 key. The flags don't, because "does this criterion deserve a second look?" is a judgement call
 that needs clinical operations experts to answer.
 
 **What we can measure now is consistency.** It is a necessary condition, not proof of
-correctness. If the AI raises a flag on one run and not the next, or two models disagree about
+correctness. If the AI agent raises a flag on one run and not the next, or two models disagree about
 the same criterion, that flag can't be trusted yet. Results across the 70 criteria:
 
 | Flag | What it means | Raised by Sonnet | Sonnet repeats itself on a second run | Sonnet and Opus agree* |
