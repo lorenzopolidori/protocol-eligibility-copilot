@@ -12,6 +12,74 @@ run-to-run consistency.
 Built by Lorenzo Polidori with Claude Code. Uses only public registry data and makes no
 eligibility decision about any patient. Not affiliated with or endorsed by GSK.
 
+## Background: the problem in plain words
+
+**Clinical trials.** Before a new medicine or vaccine can be approved, a drug company (the
+*sponsor*) tests it on volunteers in clinical trials. A Phase 3 trial is the large, final stage,
+often with hundreds or thousands of participants at dozens of hospitals (*sites*) in many
+countries. It usually takes years and costs a great deal.
+
+**The protocol.** Each trial follows a written rulebook called the protocol. It covers what is
+being tested, on whom, how and for how long. Sponsors publish a summary of every protocol on
+[ClinicalTrials.gov](https://clinicaltrials.gov), the public US registry used worldwide. This
+tool reads from it.
+
+**Eligibility criteria.** One part of the protocol sets out who may take part. *Inclusion
+criteria* are what a volunteer must have, and *exclusion criteria* are what rules them out. A
+trial typically has 10 to 40 of them, written in dense medical language. They matter a lot: every
+extra restriction shrinks the pool of patients who qualify. That slows recruitment, raises the
+share of candidates who are screened and then turned away, and often forces costly protocol
+changes (*amendments*) later.
+
+**What the tool does to each criterion.** It turns one block of medical text into a structured
+row that a person can scan, sort and question. Examples from GSK protocols in this demo:
+
+| Criterion (from the protocol) | Category | Threshold | Washout / time window | Flag for the reviewer |
+|---|---|---|---|---|
+| "Body mass index (BMI) ≥16 kg/m²" | Demographics | BMI ≥ 16 | none | modernisation candidate |
+| "Treatment with an HIV-1 immunotherapeutic vaccine within 90 days of screening" | Prior therapy | none | 90 days before screening | washout |
+| "Known active infectious diseases … or known HIV" | Comorbidity & safety | none | none | ambiguous; modernisation candidate |
+| "Participants who, in the opinion of the investigator, can and will comply with the protocol…" | Consent & logistics | none | none | investigator judgement |
+
+- **Category:** what kind of rule it is, such as age or weight, the disease itself, past
+  treatments, lab results, other illnesses, pregnancy, or consent. Grouping shows at a glance where
+  a protocol is most restrictive.
+- **Threshold:** the number that decides eligibility, such as a BMI of at least 16 or a lung
+  function reading below 70%.
+- **Washout window:** how long a volunteer must wait after a previous treatment before joining,
+  such as 90 days. Long washouts delay or block enrolment.
+- **Feasibility flags:** prompts for a human to look again. Examples: a rule that adds screening
+  work, relies on a doctor's judgement, is worded ambiguously, or is the kind of exclusion that US
+  regulators (FDA) and oncology groups now encourage sponsors to relax unless it is scientifically
+  needed, such as blanket exclusion of people with HIV.
+
+**Feasibility and the benchmark.** *Feasibility* asks whether a trial can realistically recruit
+the patients it needs, on time and at the planned sites. To give context, the tool finds completed
+trials of the same disease and phase on ClinicalTrials.gov and compares the protocol against their
+typical (median) figures: number of criteria, participants, sites and duration. For example, the
+depemokimab COPD trial plans 1,196 participants, against a median of about 330 in comparable
+completed COPD Phase 3 trials. That gap is a useful question to ask early.
+
+**The reviewer.** The output is a draft for a person on the study team, such as a feasibility or
+clinical operations lead. They check every row, correct anything wrong, and every change is logged.
+The tool never decides whether any patient is eligible, and it only uses public registry text.
+
+**The goal.** Give study teams a fast, consistent first pass that challenges eligibility criteria
+at the design stage, before sites see the protocol. That is the cheapest point to remove
+unnecessary restrictions, and it should mean faster recruitment and fewer amendments. The wider aim
+is to show a repeatable way to bring agentic AI into a regulated workflow:
+
+1. Pick one real workflow.
+2. Measure a simple baseline.
+3. Build the AI step against a fixed contract.
+4. Prove it beats the baseline on quality, cost, speed and consistency.
+5. Keep a human accountable for every output.
+
+**How we know it works.** Each AI answer is compared with a set of 70 criteria labelled in
+advance, and with a simple keyword-matching program that serves as the baseline. The AI models
+get the category right far more often (93% vs 71% on the strict measure). The report also shows
+the cost per protocol, how long each run takes, and whether two runs give the same answer.
+
 ## Architecture
 
 A constrained workflow, not a free-roaming agent. Orchestration is deterministic, and the model is
