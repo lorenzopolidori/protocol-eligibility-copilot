@@ -186,75 +186,94 @@ The consistency figures are produced by `eval/run_eval.mjs` (`flag_stats` in `ev
 
 ## Architecture
 
-A constrained workflow, not a free-roaming agent. Orchestration is deterministic, and the model is
-called at one step against a fixed contract: a taxonomy, an output schema and stable criterion IDs.
-The page and the evaluation harness share one core library, so what is evaluated is exactly what
-runs.
+A constrained workflow, not a free-roaming agent. The code is split into three layers:
+
+- **`steps.js`: the step implementations.** Small functions with no flow control: the two
+  registry tools, the splitter, the rule baseline, the prompt builder, the answer parser and the
+  scorer.
+- **`orchestrator.js`: the flow.** `runPipeline()` runs the steps in a fixed order, picks the
+  classifier, applies the fallbacks and fails closed on bad answers. The model is called at one
+  step only, against a fixed contract: a taxonomy, an output schema and stable criterion IDs.
+- **The callers.** The demo page (`index.html`) and the evaluation harness (`eval/run_eval.mjs`)
+  both call the same `runPipeline()`, so what is evaluated is exactly what the page runs. Each
+  caller supplies only what differs: where the protocol comes from, which classifier to use, how
+  to reach the model, and what to do with the results.
 
 ```mermaid
 flowchart TB
-    subgraph ENTRY["Entry points"]
+    subgraph ENTRY["Callers"]
         direction LR
-        UI["Demo page<br/>index.html · browser"]
-        EV["Evaluation harness<br/>eval/run_eval.mjs"]
+        UI["Demo page · index.html<br/>picks the classifier · draws results<br/>human review · callClaude()"]
+        EV["Evaluation harness · eval/run_eval.mjs<br/>frozen protocols · saved runs<br/>claude() · scoring"]
         UI ~~~ EV
     end
 
-    subgraph ORCH["Orchestrator · fixed 5-step pipeline · lib.js"]
+    subgraph ORCH["Orchestrator · orchestrator.js · runPipeline()"]
         direction LR
-        S1["1 · Fetch<br/>protocol"] --> S2["2 · Split<br/>criteria + stable IDs"] --> S3["3 · Classify<br/>& flag"] --> S4["4 · Benchmark<br/>vs comparators"] --> S5["5 · Human<br/>review"]
+        S1["1 · Fetch<br/>protocol"] --> S2["2 · Split<br/>criteria"] --> S3["3 · Classify<br/>& flag"] --> S4["4 · Benchmark<br/>vs comparators"] --> S5["5 · Hand over<br/>for review"]
     end
 
-    subgraph CAP["Capabilities"]
+    subgraph STEPS["Step implementations · steps.js · no flow control"]
         direction LR
-        TOOLS["Tools · steps 1 & 4<br/>get_study · find_comparators"]
-        SKILL["Skill · step 3<br/>SKILL.md contract:<br/>taxonomy · flags · schema"]
-        GUARD["Guardrails · step 3<br/>schema check · fail closed<br/>rule-baseline fallback"]
-        TOOLS ~~~ SKILL ~~~ GUARD
+        TOOLS["Tools<br/>getStudy()<br/>findComparators()"]
+        PREP["Splitting<br/>summariseStudy()<br/>splitCriteria() · assignIds()"]
+        BASE["Rule baseline<br/>ruleClassify()<br/>ruleExtract()"]
+        SKILL["Skill contract<br/>TAXONOMY · FLAGS<br/>buildPrompt()"]
+        PARSE["Answer parsing<br/>parseModelJson()"]
+        SCORE["Scoring<br/>isCorrect() · score()"]
+        TOOLS ~~~ PREP ~~~ BASE ~~~ SKILL ~~~ PARSE ~~~ SCORE
     end
 
     subgraph EXT["External services"]
         direction LR
         CTG[("ClinicalTrials.gov<br/>API v2 · public data")]
-        CL["Claude API<br/>Haiku · Sonnet · Opus"]
+        CL["Claude<br/>Haiku · Sonnet · Opus"]
         CTG ~~~ CL
     end
 
     subgraph EVID["Evidence & state"]
         direction LR
-        GOLD[("Reference labels<br/>70 criteria")]
-        RUNS[("Raw model runs<br/>cost · latency · tokens")]
-        RES[("Metrics +<br/>recorded runs")]
-        AUD[("Reviewer<br/>audit trail")]
+        GOLD[("Answer key<br/>70 criteria")]
+        RUNS[("Saved model runs<br/>eval/runs/")]
+        RES[("Metrics + recorded runs<br/>data/results.js")]
+        AUD[("Reviewer audit trail<br/>browser tab only")]
         GOLD ~~~ RUNS ~~~ RES ~~~ AUD
     end
 
-    ENTRY -- "both run the same pipeline" --> ORCH
-    ORCH -- "invokes" --> CAP
-    CAP -- "HTTPS" --> EXT
-    ORCH -- "records" --> EVID
+    ENTRY -- "runPipeline(nct, classifier, snapshot, onStep)" --> ORCH
+    ORCH -- "calls step functions" --> STEPS
+    STEPS -- "registry calls" --> EXT
+    ENTRY -- "model calls, passed in as callModel" --> EXT
+    ENTRY -- "read and write" --> EVID
 ```
 
 | Block | Role | Agentic concern it addresses |
 |---|---|---|
-| Orchestrator | Runs fetch → split → classify → benchmark → review in a fixed order, with a fallback at every step | Orchestration, reliability |
-| `get_study`, `find_comparators` | Deterministic tools over the public registry, testable like ordinary code | Tool use |
-| Splitter + contract | One protocol per call, stable IDs, taxonomy definitions in the prompt, no patient data | Context |
-| Schema check | Malformed or missing output becomes `NEEDS_REVIEW`, never a silent default | Reliability |
-| Stateless calls, audit trail | Nothing carries between protocols; the only durable state is the reviewer log and the frozen snapshot | Memory |
-| Eval harness + scorer | Baseline vs models on accuracy, cost, latency and run-to-run agreement; one command to re-run | Evaluation |
-| `SKILL.md` | The step packaged as a reusable skill with its standards | Skills library |
+| `runPipeline()` in `orchestrator.js` | Runs fetch → split → classify → benchmark → hand-over in a fixed order, with a fallback at every step; reports progress through `onStep` | Orchestration, reliability |
+| Classifiers in `orchestrator.js` | `baselineClassifier`, `recordedClassifier` and `modelClassifier`: interchangeable ways to do step 3 | Orchestration |
+| `getStudy()`, `findComparators()` in `steps.js` | Deterministic tools over the public registry, testable like ordinary code | Tool use |
+| Splitter + contract in `steps.js` | One protocol per call, stable IDs, taxonomy definitions in the prompt, no patient data | Context |
+| `failClosed()` in `orchestrator.js` | A malformed or missing answer becomes `NEEDS_REVIEW`, never a silent default | Reliability |
+| Stateless calls | Nothing carries between protocols. The only stored data are the frozen protocols and saved model runs; the reviewer audit trail lives in the browser tab | Memory |
+| Eval harness + `score()` | Baseline vs models on accuracy, cost, latency and run-to-run agreement; one command to re-run | Evaluation |
+| `tests/orchestrator.test.mjs` | Checks every step, fallback and classifier path offline | Reliability |
+| `SKILL.md` | The classification step packaged as a reusable skill with its standards | Skills library |
 
 ## How the code runs: sequence diagrams
 
-Two separate code paths use the same core library, `lib.js`:
+Both callers run the same pipeline, `runPipeline()` in `orchestrator.js`, which calls the step
+functions in `steps.js`:
 
-- **A run on the demo page:** `index.html` calls `lib.js`, ClinicalTrials.gov and, in live mode, Claude.
-- **The offline evaluation:** `eval/run_eval.mjs` calls `lib.js`, the `claude` CLI and ClinicalTrials.gov, and writes the results the page displays.
+- **A run on the demo page:** `index.html` picks the classifier, calls `runPipeline()`, shows
+  progress and results, and handles the human review.
+- **The offline evaluation:** `eval/run_eval.mjs` calls `runPipeline()` once per protocol with the
+  baseline and 30 times with the models, then scores the results and writes the files the page
+  displays.
 
 Read each diagram top to bottom. Solid arrows are calls; dashed arrows are what comes back.
 `alt` boxes are alternatives (only one branch runs), `opt` boxes run only when their condition
-is true, and `loop` boxes repeat.
+is true, and `loop` boxes repeat. When the orchestrator calls back into a caller (for example
+`callModel`), that is a function the caller passed in.
 
 ### A. One run on the demo page
 
@@ -263,77 +282,80 @@ sequenceDiagram
     autonumber
     actor U as Reviewer
     participant P as index.html<br/>page script
-    participant L as lib.js<br/>shared core
+    participant O as orchestrator.js<br/>runPipeline()
+    participant S as steps.js<br/>step functions
     participant R as data/results.js<br/>recorded runs
     participant G as ClinicalTrials.gov<br/>API v2
     participant C as Claude<br/>Messages API
 
     U->>P: pick protocol and classifier, click Run pipeline
     activate P
-    Note over P: run()
+    P->>P: run() → classifierFor(method)
+    P->>O: runPipeline(nct, classifier, fallback = baseline, snapshot, onStep = showStep)
+    activate O
+    Note over P,O: every step reports progress through onStep → showStep() → the 5-step strip
 
     rect rgba(120,120,120,0.08)
-    Note over P,G: Step 1 · Fetch protocol
-    P->>L: getStudy(nct)
-    L->>G: GET /api/v2/studies/NCT…
-    G-->>L: study record (JSON)
-    L->>L: summariseStudy(record)
-    L-->>P: study, incl. criteriaText
+    Note over O,G: Step 1 · Fetch protocol
+    O->>S: getStudy(nct)
+    S->>G: GET /api/v2/studies/NCT…
+    G-->>S: study record (JSON)
+    S->>S: summariseStudy(record)
+    S-->>O: study, incl. criteriaText
     opt registry unreachable (5 evaluation protocols only)
-        P->>R: R.studies[nct]
-        R-->>P: frozen snapshot of the study
+        O->>R: snapshot.study(nct)
+        R-->>O: frozen snapshot of the study
     end
     end
 
     rect rgba(120,120,120,0.08)
-    Note over P,L: Step 2 · Split criteria
-    P->>L: splitCriteria(criteriaText)
-    L-->>P: inclusion and exclusion items
-    P->>L: assignIds(nct, items)
-    L-->>P: criteria with stable IDs
+    Note over O,S: Step 2 · Split criteria
+    O->>S: splitCriteria(criteriaText), assignIds(nct, items)
+    S-->>O: criteria with stable IDs
     end
 
     rect rgba(120,120,120,0.08)
-    Note over P,C: Step 3 · Classify and flag (depends on the classifier picked)
-    alt Rule baseline
-        loop each criterion
-            P->>L: ruleClassify(text) and ruleExtract(text)
-            L-->>P: category, thresholds, time window
-        end
-    else Claude Haiku / Sonnet / Opus · recorded
-        P->>R: R.criteria[id].models[model]
-        R-->>P: stored category, rationale, thresholds, window, flags
-    else Claude Sonnet 5.5 · live, own API key
-        P->>P: callClaude(key, study, criteria)
-        P->>L: buildPrompt(study, criteria)
-        L-->>P: prompt = taxonomy + flag definitions + criteria
+    Note over O,C: Step 3 · Classify and flag: classifier.classify(study, criteria)
+    alt baselineClassifier
+        O->>S: ruleClassify(text), ruleExtract(text) for each criterion
+        S-->>O: category, thresholds, time window
+    else recordedClassifier
+        O->>R: lookup(id) for each criterion
+        R-->>O: stored category, rationale, thresholds, window, flags
+    else modelClassifier (live, own API key)
+        O->>S: buildPrompt(study, criteria)
+        S-->>O: prompt = taxonomy + flag definitions + criteria
+        O->>P: callModel(prompt) = callClaude(key, prompt)
         P->>C: POST /v1/messages, model claude-sonnet-5-5
         C-->>P: JSON array as text
-        P->>L: parseModelJson(text)
-        L-->>P: one object per criterion
-        P->>P: missing or unknown category becomes NEEDS_REVIEW
-        opt no key or API error
-            P->>L: baselinePreds(criteria) uses ruleClassify and ruleExtract
-        end
+        P-->>O: text
+        O->>S: parseModelJson(text)
+        S-->>O: one object per criterion
+        O->>O: failClosed(): missing or unknown category becomes NEEDS_REVIEW
+    end
+    opt classifier throws (no key, API error, no recorded run)
+        O->>S: fallbackClassifier = baselineClassifier()
     end
     end
 
     rect rgba(120,120,120,0.08)
-    Note over P,G: Step 4 · Benchmark
-    P->>L: findComparators(study)
-    L->>G: GET /api/v2/studies, same condition and phase, status COMPLETED
-    G-->>L: up to 50 completed trials
-    L->>L: summariseStudy, splitCriteria, median, monthsBetween
-    L-->>P: comparator medians and examples
+    Note over O,G: Step 4 · Benchmark
+    O->>S: findComparators(study)
+    S->>G: GET /api/v2/studies, same condition and phase, status COMPLETED
+    G-->>S: up to 50 completed trials
+    S-->>O: comparator medians and examples
     opt registry unreachable
-        P->>R: R.comparators[nct]
+        O->>R: snapshot.comparators(nct)
     end
     end
 
+    O-->>P: study, criteria, preds, bench
+    deactivate O
+
     rect rgba(120,120,120,0.08)
-    Note over U,P: Step 5 · Human review
+    Note over U,P: Step 5 · Human review (in the page)
     P->>P: drawStudy(), drawBench(), drawTable()
-    P->>L: isCorrect(category, reference) for the ✓/✗ column
+    P->>S: isCorrect(category, reference) for the ✓/✗ column
     deactivate P
     U->>P: change a category in the Reviewer column
     P->>P: add line to audit trail, drawAudit()
@@ -347,98 +369,96 @@ sequenceDiagram
     autonumber
     actor D as Developer
     participant E as eval/run_eval.mjs
+    participant O as orchestrator.js<br/>runPipeline()
+    participant S as steps.js<br/>step functions
     participant F as eval/data/<br/>+ gold_labels.json
-    participant L as lib.js<br/>shared core
     participant K as eval/runs/<br/>saved model runs
     participant X as claude CLI<br/>headless Claude Code
     participant M as Claude models<br/>Haiku · Sonnet · Opus
     participant G as ClinicalTrials.gov<br/>API v2
-    participant O as eval/results.json<br/>+ data/results.js
+    participant W as eval/results.json<br/>+ data/results.js
 
     D->>E: node eval/run_eval.mjs [--refresh]
 
     rect rgba(120,120,120,0.08)
-    Note over E,G: 1 · Load the frozen test set
+    Note over E,G: 1 · Baseline: one pipeline run per protocol
     loop 5 protocols
+        E->>O: runPipeline(nct, getStudy = frozenStudy, classifier = baselineClassifier())
+        O->>E: getStudy(nct) = frozenStudy(nct)
         alt saved copy exists and no --refresh
             E->>F: read eval/data/NCT….json
         else
             E->>G: GET /api/v2/studies/NCT…
-            G-->>E: study record
             E->>F: save frozen copy
         end
-        E->>L: summariseStudy(), splitCriteria(), assignIds()
-        L-->>E: criteria with stable IDs (70 in total)
+        E-->>O: study
+        O->>S: splitCriteria(), assignIds()
+        O->>S: ruleClassify(), ruleExtract()
+        O->>S: findComparators(study)
+        S->>G: GET /api/v2/studies, completed trials
+        O-->>E: criteria, baseline answers, comparator snapshot
     end
     E->>F: read gold_labels.json (answer key)
     end
 
     rect rgba(120,120,120,0.08)
-    Note over E,L: 2 · Baseline
-    E->>L: ruleClassify(text) for every criterion
-    L-->>E: baseline categories
-    end
-
-    rect rgba(120,120,120,0.08)
-    Note over E,M: 3 · Model runs: 3 models × 2 runs × 5 protocols = 30 calls, pool() runs 5 at a time
+    Note over E,M: 2 · Model runs: 3 models × 2 runs × 5 protocols = 30 pipeline runs, pool() runs 5 at a time
     loop each model, run and protocol
+        E->>O: runPipeline(nct, getStudy = frozenStudy, benchmark off, classifier = modelClassifier(savedOrLiveModel))
+        O->>S: splitCriteria(), assignIds()
+        O->>S: buildPrompt(study, criteria)
+        O->>E: callModel(prompt) = savedOrLiveModel(model, run, nct)
         alt saved run exists and no --refresh
             E->>K: read model-rN-NCT….json
-            K-->>E: raw answer, cost, duration, tokens
         else
-            E->>L: buildPrompt(study, criteria)
-            L-->>E: prompt
             E->>X: claude(model, prompt) runs claude -p, low effort, tools off
             X->>M: model invocation
             M-->>X: JSON answer
             X-->>E: answer + cost + duration + tokens
             E->>K: write model-rN-NCT….json
         end
-        E->>L: parseModelJson(raw)
-        L-->>E: one object per criterion
-        E->>E: missing or unknown category becomes NEEDS_REVIEW
+        E-->>O: text + meta
+        O->>S: parseModelJson(text)
+        O->>O: failClosed(): missing or unknown category becomes NEEDS_REVIEW
+        O-->>E: answers per criterion + meta
     end
     end
 
     rect rgba(120,120,120,0.08)
-    Note over E,L: 4 · Score
-    E->>L: score(gold, predictions) for baseline and each model run
-    L-->>E: accuracy, strict accuracy, macro-F1, errors
+    Note over E,S: 3 · Score
+    E->>S: score(gold, predictions) for baseline and each model run
+    S-->>E: accuracy, strict accuracy, macro-F1, errors
     E->>E: cost and time per protocol, run-to-run agreement, flag_stats
     end
 
-    rect rgba(120,120,120,0.08)
-    Note over E,G: 5 · Benchmark snapshot
-    E->>L: findComparators(study) for each protocol
-    L->>G: GET /api/v2/studies, completed trials
-    G-->>L: comparators
-    L-->>E: comparator medians
-    end
-
-    E->>O: write results.json and data/results.js
-    Note over E,O: index.html loads data/results.js for recorded mode and the evaluation section
+    E->>W: write results.json and data/results.js
+    Note over E,W: index.html loads data/results.js for recorded mode and the evaluation section
 ```
 
 ### Where each function lives
 
 | Function | File | What it does |
 |---|---|---|
-| `run()` | `index.html` | The orchestrator: runs the 5 steps in order and picks the fallbacks |
-| `setStep()`, `drawTrace()` | `index.html` | Update the 5-step progress strip on the page |
-| `callClaude()` | `index.html` | Live mode only: sends the prompt to the Claude Messages API with your key |
-| `baselinePreds()` | `index.html` | Fallback: classifies every criterion with the rule baseline |
+| `runPipeline()` | `orchestrator.js` | **The orchestrator:** runs the 5 steps in order, with the fallbacks |
+| `baselineClassifier()`, `recordedClassifier()`, `modelClassifier()` | `orchestrator.js` | The three interchangeable classifiers for step 3 |
+| `failClosed()` | `orchestrator.js` | Turns missing or unknown categories into NEEDS_REVIEW |
+| `getStudy()` | `steps.js` | **Tool:** fetches one protocol from ClinicalTrials.gov |
+| `findComparators()` | `steps.js` | **Tool:** searches completed trials with the same condition and phase, and computes medians |
+| `summariseStudy()` | `steps.js` | Picks the fields we need out of a ClinicalTrials.gov record |
+| `splitCriteria()`, `assignIds()` | `steps.js` | Split the eligibility text into individual criteria and give each a stable ID |
+| `ruleClassify()`, `ruleExtract()` | `steps.js` | The keyword baseline: category, thresholds and time window |
+| `buildPrompt()` | `steps.js` | Builds the model prompt from the taxonomy, flag definitions and criteria |
+| `parseModelJson()` | `steps.js` | Pulls the JSON answer out of the model's text |
+| `isCorrect()`, `score()` | `steps.js` | Compare answers with the answer key; compute accuracy and macro-F1 |
+| `median()`, `monthsBetween()` | `steps.js` | Small helpers for the benchmark |
+| `run()`, `classifierFor()` | `index.html` | Start a run: choose the classifier and the snapshot, call `runPipeline()`, draw the results |
+| `showStep()`, `setStep()`, `drawTrace()` | `index.html` | Turn progress events into the 5-step strip |
+| `callClaude()` | `index.html` | Live mode: the page's `callModel`, one call to the Claude Messages API with your key |
 | `drawStudy()`, `drawBench()`, `drawTable()`, `drawAudit()` | `index.html` | Render the study facts, benchmark, criteria table and audit trail |
-| `getStudy()` | `lib.js` | **Tool:** fetches one protocol from ClinicalTrials.gov |
-| `findComparators()` | `lib.js` | **Tool:** searches completed trials with the same condition and phase, and computes medians |
-| `summariseStudy()` | `lib.js` | Picks the fields we need out of a ClinicalTrials.gov record |
-| `splitCriteria()`, `assignIds()` | `lib.js` | Split the eligibility text into individual criteria and give each a stable ID |
-| `ruleClassify()`, `ruleExtract()` | `lib.js` | The keyword baseline: category, thresholds and time window |
-| `buildPrompt()` | `lib.js` | Builds the model prompt from the taxonomy, flag definitions and criteria |
-| `parseModelJson()` | `lib.js` | Pulls the JSON answer out of the model's text |
-| `isCorrect()`, `score()` | `lib.js` | Compare answers with the answer key; compute accuracy and macro-F1 |
-| `median()`, `monthsBetween()` | `lib.js` | Small helpers for the benchmark |
+| `frozenStudy()` | `eval/run_eval.mjs` | The harness's `getStudy`: reads the frozen protocol from `eval/data/` |
+| `savedOrLiveModel()` | `eval/run_eval.mjs` | The harness's `callModel`: reuses a saved run or calls the model and saves it |
 | `claude()` | `eval/run_eval.mjs` | Runs `claude -p` (headless Claude Code) for one model call |
-| `pool()` | `eval/run_eval.mjs` | Runs up to 5 model calls in parallel |
+| `pool()` | `eval/run_eval.mjs` | Runs up to 5 pipeline runs in parallel |
 
 ## Results (5 GSK/ViiV Phase 3 protocols, 70 criteria, 2 runs per model, low effort)
 
@@ -458,12 +478,14 @@ clinical operations reviewers.
 ## Layout
 
 ```
-index.html                 the demo page (static; no build step)
-lib.js                     splitter, rule baseline, taxonomy, prompt, scorer, CT.gov tools
-                           (shared by the page and the eval harness, so they cannot drift)
+index.html                 the demo page: UI only (static; no build step)
+orchestrator.js            the flow: runPipeline(), the classifiers, fallbacks, fail-closed check
+steps.js                   the step implementations: tools, splitter, baseline, taxonomy,
+                           prompt, parser, scorer (no flow control)
 data/results.js            evaluation output consumed by the page
 skills/eligibility-criteria-structurer/SKILL.md   the step packaged as a reusable agent skill
-eval/run_eval.mjs          evaluation harness (baseline vs Claude models)
+tests/orchestrator.test.mjs   offline tests of every pipeline path
+eval/run_eval.mjs          evaluation harness: runs runPipeline() and scores the results
 eval/gold_labels.json      reference labels (pilot set; see caveats)
 eval/data/*.json           frozen ClinicalTrials.gov records used for evaluation
 eval/runs/*.json           raw model outputs with cost, latency and token usage
@@ -500,6 +522,12 @@ Requires Node 18+ and the `claude` CLI (Claude Code) signed in.
 
 ```
 node eval/run_eval.mjs --models haiku,sonnet,opus --repeats 2 --effort low
+```
+
+Run the pipeline tests (offline, no model calls):
+
+```
+node --test tests/*.test.mjs
 ```
 
 Saved runs in `eval/runs/` are reused, so re-scoring costs nothing. Pass `--refresh` to

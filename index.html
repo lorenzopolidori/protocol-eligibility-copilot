@@ -344,10 +344,10 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
   <div class="sec-head"><div class="eyebrow">4 · Agentic design</div><h2>Design choices, mapped to how agentic systems fail</h2></div>
   <div class="prose"><p>I built this as a constrained workflow rather than a free-roaming agent. Orchestration is deterministic and the model is called at one step, with a fixed contract. That makes it cheaper to validate and easier to explain to Quality, and it leaves room to add autonomy where it pays.</p></div>
   <div class="grid6">
-    <div><b>Context</b>Each call gets one protocol: the study metadata, the deterministically split criteria with stable IDs, and the taxonomy definitions. No retrieval guesswork and no patient data. The prompt is generated from the same taxonomy object the baseline and the scorer use.</div>
+    <div><b>Context</b>Each call gets one protocol: the study metadata, the deterministically split criteria with stable IDs, and the taxonomy definitions. No retrieval guesswork and no patient data. The prompt is generated from the same taxonomy object in steps.js that the baseline and the scorer use.</div>
     <div><b>Memory</b>Stateless by design: nothing carries between protocols, so results are reproducible. The frozen CT.gov snapshot and saved model runs are the only stored data; the reviewer audit trail lives in the browser tab in this demo. Cross-study memory, such as a library of past amendments, is a next step with its own governance.</div>
     <div><b>Tool use</b>Two tools: <span class="mono">get_study</span> and <span class="mono">find_comparators</span>, both against the public ClinicalTrials.gov API v2. Tools are deterministic, so their outputs can be tested like ordinary code.</div>
-    <div><b>Orchestration</b>Fetch → split → classify → benchmark → human review. Fixed order, with fallbacks at each step: the rule baseline if no model is available, and the frozen snapshot if the registry is unreachable.</div>
+    <div><b>Orchestration</b><span class="mono">runPipeline()</span> in orchestrator.js: fetch → split → classify → benchmark → human review. Fixed order, with fallbacks at each step: the rule baseline if no model is available, and the frozen snapshot if the registry is unreachable.</div>
     <div><b>Evaluation</b>A reference set, a pre-registered baseline, and four metrics: accuracy, cost, latency and run-to-run agreement. The harness (<span class="mono">eval/run_eval.mjs</span>) reruns end to end with one command, so a model or prompt change gets re-scored before it ships.</div>
     <div><b>Reliability</b>Outputs are schema-checked and fail closed: a missing or malformed answer becomes <span class="mono">NEEDS_REVIEW</span> and is never silently defaulted. Two runs per protocol measure consistency. A named human signs off every output.</div>
   </div>
@@ -395,7 +395,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
 <section id="build">
   <div class="sec-head"><div class="eyebrow">7 · How it was built</div><h2>Built in a day, with the evidence attached</h2></div>
   <div class="prose">
-    <p>Built in one day with Claude Code as the agentic development environment. The pieces: <span class="mono">lib.js</span> holds the splitter, baseline, taxonomy, prompt and scorer, shared by this page and the evaluation harness so the two cannot drift apart. <span class="mono">skills/eligibility-criteria-structurer/SKILL.md</span> packages the step as a reusable agent skill, with its standards. <span class="mono">eval/</span> holds the frozen protocols, reference labels, raw model runs and the harness.</p>
+    <p>Built in one day with Claude Code as the agentic development environment. The pieces: <span class="mono">steps.js</span> holds the step implementations: splitter, baseline, taxonomy, prompt, parser, scorer and the two registry tools. <span class="mono">orchestrator.js</span> holds the flow, <span class="mono">runPipeline()</span>, which this page and the evaluation harness both call, so what is evaluated is exactly what runs here. <span class="mono">skills/eligibility-criteria-structurer/SKILL.md</span> packages the step as a reusable agent skill, with its standards. <span class="mono">eval/</span> holds the frozen protocols, reference labels, raw model runs and the harness.</p>
     <p><strong>Limitations.</strong> The reference set is small (70 criteria), and the labels were drafted with AI assistance before human review, which can favour model-style labelling. The categories are deliberately coarse, so the task saturates. The feasibility flags are checked only for consistency, not correctness, and the thresholds are not yet scored. Costs come from Claude Code's harness at list price, so they are an upper bound on a direct API call. Manual review time has not been measured yet; a time-and-motion baseline with study teams is the next step before any value claim on cycle time.</p>
   </div>
 </section>
@@ -406,16 +406,17 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
 </footer>
 </div>
 
-<script src="lib.js"></script>
+<script src="steps.js"></script>
+<script src="orchestrator.js"></script>
 <script src="data/results.js"></script>
 <script>
 (function () {
   "use strict";
-  const R = window.PEC_RESULTS, P = window.PEC;
+  const R = window.PEC_RESULTS, Steps = window.Steps, Orchestrator = window.Orchestrator;
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const CAT_VAR = Object.fromEntries(P.CATS.map((c, i) => [c, `var(--c${i + 1})`]));
-  const CAT_LABEL = Object.fromEntries(P.TAXONOMY.map((t) => [t.key, t.label]));
+  const CAT_VAR = Object.fromEntries(Steps.CATS.map((c, i) => [c, `var(--c${i + 1})`]));
+  const CAT_LABEL = Object.fromEntries(Steps.TAXONOMY.map((t) => [t.key, t.label]));
   CAT_LABEL.NEEDS_REVIEW = "Needs review";
   const SHORT = { NCT07177339: "Depemokimab · COPD", NCT07099898: "GSK'227 ADC · SCLC", NCT07650916: "CAB+RPV ULA · HIV", NCT07851246: "mRNA flu vaccine", NCT06716606: "Belimumab · SSc-ILD" };
   const MODEL_IDS = R.models;
@@ -467,95 +468,85 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
   }
   const setStep = (k, st, msg, detail) => { trace[k] = { state: st, msg, detail }; drawTrace(); };
 
-  async function timed(fn) { const t = performance.now(); const v = await fn(); return [v, performance.now() - t]; }
   const ms = (x) => x < 1000 ? `${x.toFixed(0)} ms` : `${(x / 1000).toFixed(1)} s`;
+
+  // The flow itself lives in orchestrator.js. This page picks the classifier, supplies the frozen
+  // snapshot for fallbacks, turns progress events into the 5-step strip, and handles review.
+  function classifierFor(m, recRows) {
+    if (m === "baseline") return Orchestrator.baselineClassifier();
+    if (m === "live") return Orchestrator.modelClassifier((prompt) => callClaude($("apiKey").value.trim(), prompt), "claude-sonnet-5-5");
+    return Orchestrator.recordedClassifier((id) => recRows[id] && recRows[id].models[m], MODEL_IDS[m]);
+  }
+
+  function showStep(step, st, info) {
+    const m = state.method;
+    const MSG = {
+      fetch: { run: ["fetching…"], done: [`live · ${ms(info.ms || 0)}`], fallback: ["registry unreachable here · frozen snapshot"],
+               error: ["could not reach ClinicalTrials.gov", "This viewer blocks external requests, and this NCT ID is not in the recorded set. Pick one of the five evaluation protocols, or open lorenzopolidori.github.io/protocol-eligibility-copilot for live mode."] },
+      split: { done: [`${info.n} criteria`], fallback: ["registry text changed since snapshot · using snapshot"], error: [info.error] },
+      bench: { run: ["searching comparators…"], done: [`live · ${info.n} trials · ${ms(info.ms || 0)}`], fallback: [`snapshot · ${info.n} trials`], error: ["unavailable"] },
+      review: { human: ["awaiting reviewer", "edit categories below; changes are logged"] },
+    };
+    if (step === "classify") {
+      if (st === "run") return setStep(step, st, info.classifier === "model" ? "calling Claude…" : "classifying…", info.label);
+      if (st === "fallback") return setStep(step, st, `${info.error} · rule baseline`, "fallback: keyword rules");
+      if (st === "error") return setStep(step, st, info.error);
+      if (info.classifier === "baseline") return setStep(step, st, "rule baseline · <1 ms", "keyword rules, no model");
+      if (info.classifier === "recorded") { const sm = byM[m]; return setStep(step, st, `recorded · ~${sm.latency_s_per_protocol.toFixed(0)} s, $${sm.cost_per_protocol.toFixed(3)}`, MODEL_IDS[m]); }
+      return setStep(step, st, `live · ${ms(info.ms)}` + (info.parseError ? " · unreadable reply, all marked needs review" : ""), "claude-sonnet-5-5 · schema-checked");
+    }
+    const [msg, detail] = (MSG[step] && MSG[step][st]) || [st];
+    setStep(step, st, msg, detail);
+  }
 
   async function run() {
     for (const k in trace) delete trace[k];
     document.querySelectorAll("#trialChips [data-nct]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.nct === state.nct)));
     $("runBtn").disabled = true;
     state.audit = []; drawAudit();
-    const recorded = R.trials.includes(state.nct);
-    let study, criteria, liveOk = true;
-
-    // 1. fetch
-    setStep("fetch", "run", "fetching…");
+    const nct = state.nct, m = state.method;
+    const recorded = R.trials.includes(nct);
+    const recList = R.criteria.filter((c) => c.nct === nct);
+    const recRows = Object.fromEntries(recList.map((c) => [c.id, c]));
+    let out;
     try {
-      const [s, t] = await timed(() => P.getStudy(state.nct));
-      study = s; setStep("fetch", "done", `live · ${ms(t)}`);
-    } catch (e) {
-      liveOk = false;
-      if (recorded) { study = { ...R.studies[state.nct] }; setStep("fetch", "fallback", "registry unreachable here · frozen snapshot"); }
-      else { setStep("fetch", "error", "could not reach ClinicalTrials.gov", "This viewer blocks external requests, and this NCT ID is not in the recorded set. Pick one of the five evaluation protocols, or open lorenzopolidori.github.io/protocol-eligibility-copilot for live mode."); finish(); return; }
-    }
-    // 2. split
-    if (study.criteriaText) criteria = P.assignIds(study.nct, P.splitCriteria(study.criteriaText));
-    else criteria = R.criteria.filter((c) => c.nct === state.nct).map(({ id, section, text, nct }) => ({ id, section, text, nct }));
-    setStep("split", "done", `${criteria.length} criteria`);
-    if (recorded && criteria.length !== R.criteria.filter((c) => c.nct === state.nct).length) {
-      setStep("split", "fallback", "registry text changed since snapshot · using snapshot");
-      criteria = R.criteria.filter((c) => c.nct === state.nct).map(({ id, section, text, nct }) => ({ id, section, text, nct }));
-    }
-    // 3. classify
-    const recRows = Object.fromEntries(R.criteria.filter((c) => c.nct === state.nct).map((c) => [c.id, c]));
-    let preds = {};
-    const m = state.method;
-    if (m === "baseline") {
-      criteria.forEach((c) => (preds[c.id] = { category: P.ruleClassify(c.text), thresholds: P.ruleExtract(c.text).thresholds, time_window: P.ruleExtract(c.text).time_window, flags: [] }));
-      setStep("classify", "done", "rule baseline · <1 ms", "keyword rules, no model");
-    } else if (m === "live") {
-      const key = $("apiKey").value.trim();
-      if (!key) { setStep("classify", "error", "add an API key to run live"); preds = baselinePreds(criteria); }
-      else {
-        setStep("classify", "run", "calling Claude…", "claude-sonnet-5-5 · live");
-        try {
-          const [out, t] = await timed(() => callClaude(key, study, criteria));
-          out.forEach((o) => (preds[o.id] = { ...o, category: P.CATS.includes(o.category) ? o.category : "NEEDS_REVIEW" }));
-          criteria.forEach((c) => { if (!preds[c.id]) preds[c.id] = { category: "NEEDS_REVIEW" }; });
-          setStep("classify", "done", `live · ${ms(t)}`, "claude-sonnet-5-5 · schema-checked");
-        } catch (e) { setStep("classify", "error", String(e.message).slice(0, 90), "falling back to rule baseline"); preds = baselinePreds(criteria); }
-      }
-    } else if (recorded) {
-      criteria.forEach((c) => (preds[c.id] = (recRows[c.id] && recRows[c.id].models[m]) || { category: "NEEDS_REVIEW" }));
-      const sm = byM[m];
-      setStep("classify", "done", `recorded · ~${sm.latency_s_per_protocol.toFixed(0)} s, $${sm.cost_per_protocol.toFixed(3)}`, MODEL_IDS[m]);
-    } else {
-      preds = baselinePreds(criteria);
-      setStep("classify", "fallback", "no recorded run for this protocol · rule baseline", "choose the live option with your key for Claude");
-    }
-    // 4. bench
-    setStep("bench", "run", "searching comparators…");
-    let bench = null;
-    if (liveOk) {
-      try { const [b, t] = await timed(() => P.findComparators(study)); bench = b; setStep("bench", "done", `live · ${b.sampled} trials · ${ms(t)}`); }
-      catch (e) { bench = R.comparators[state.nct] || null; setStep("bench", bench ? "fallback" : "error", bench ? "snapshot" : "comparator search failed"); }
-    } else { bench = R.comparators[state.nct] || null; setStep("bench", bench ? "fallback" : "error", bench ? `snapshot · ${bench.sampled} trials` : "unavailable"); }
-    setStep("review", "human", "awaiting reviewer", "edit categories below; changes are logged");
-
-    state.study = study; state.bench = bench; state.live = liveOk;
-    state.rows = criteria.map((c) => ({ ...c, pred: preds[c.id] || { category: "NEEDS_REVIEW" }, ref: recRows[c.id] ? { gold: recRows[c.id].gold, alt: recRows[c.id].alt } : null, reviewer: null }));
-    $("modeNote").textContent = noteFor(recorded, liveOk, m);
-    $("modeNote").className = "note" + (liveOk ? "" : " warn");
+      out = await Orchestrator.runPipeline(nct, {
+        classifier: classifierFor(m, recRows),
+        fallbackClassifier: Orchestrator.baselineClassifier(),
+        snapshot: recorded ? {
+          study: () => ({ ...R.studies[nct] }),
+          criteria: () => recList.map(({ id, section, text, nct }) => ({ id, section, text, nct })),
+          comparators: () => R.comparators[nct] || null,
+        } : {},
+        humanReview: true,
+        onStep: showStep,
+      });
+    } catch (e) { finish(); return; } // the failing step is already shown in the strip
+    state.study = out.study; state.bench = out.bench; state.live = out.live;
+    state.rows = out.criteria.map((c) => ({ ...c, pred: out.preds[c.id] || { category: "NEEDS_REVIEW" }, ref: recRows[c.id] ? { gold: recRows[c.id].gold, alt: recRows[c.id].alt } : null, reviewer: null }));
+    $("modeNote").textContent = noteFor(recorded, out.live, out.classification.fellBack ? "baseline" : m);
+    $("modeNote").className = "note" + (out.live ? "" : " warn");
     drawStudy(); drawBench(); drawTable();
     finish();
   }
   function finish() { $("runBtn").disabled = false; }
-  function baselinePreds(criteria) { const p = {}; criteria.forEach((c) => { const x = P.ruleExtract(c.text); p[c.id] = { category: P.ruleClassify(c.text), thresholds: x.thresholds, time_window: x.time_window, flags: [] }; }); return p; }
   function noteFor(recorded, liveOk, m) {
     const a = liveOk ? "Protocol and comparators fetched live from ClinicalTrials.gov." : "This viewer blocks external requests, so the protocol and comparators come from the frozen snapshot taken for the evaluation.";
     const b = m === "baseline" ? " Classifier: keyword rules." : m === "live" ? " Classifier: Claude, called from your browser with your key." : recorded ? ` Classifier: recorded output from ${MODEL_IDS[m]} (run 1 of ${R.repeats}).` : "";
     return a + b;
   }
 
-  async function callClaude(key, study, criteria) {
+  // callModel for the live classifier: one call to the Claude Messages API from the browser.
+  async function callClaude(key, prompt) {
+    if (!key) throw new Error("add an API key to run live");
     const r = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: { "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-      body: JSON.stringify({ model: "claude-sonnet-5-5", max_tokens: 8000, system: "You are a precise clinical-operations data analyst. Follow the output format exactly.", messages: [{ role: "user", content: P.buildPrompt(study, criteria) }] }),
+      body: JSON.stringify({ model: "claude-sonnet-5-5", max_tokens: 8000, system: "You are a precise clinical-operations data analyst. Follow the output format exactly.", messages: [{ role: "user", content: prompt }] }),
     });
     if (!r.ok) throw new Error(`Anthropic API ${r.status}: ${(await r.text()).slice(0, 120)}`);
     const j = await r.json();
-    return P.parseModelJson((j.content || []).filter((b) => b.type === "text").map((b) => b.text).join(""));
+    return { text: (j.content || []).filter((b) => b.type === "text").map((b) => b.text).join(""), meta: { usage: j.usage } };
   }
 
   // ---------- render ----------
@@ -572,7 +563,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
     ];
     $("studyFacts").innerHTML = facts.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
     const counts = {}; state.rows.forEach((r) => { const c = r.reviewer || r.pred.category; counts[c] = (counts[c] || 0) + 1; });
-    const keys = [...P.CATS, "NEEDS_REVIEW"].filter((k) => counts[k]);
+    const keys = [...Steps.CATS, "NEEDS_REVIEW"].filter((k) => counts[k]);
     $("comp").innerHTML = keys.map((k) => `<span title="${esc(CAT_LABEL[k])}: ${counts[k]}" style="flex:${counts[k]};background:${CAT_VAR[k] || "var(--ink-3)"}"></span>`).join("");
     $("compLegend").innerHTML = keys.map((k) => `<span><i style="background:${CAT_VAR[k] || "var(--ink-3)"}"></i>${esc(CAT_LABEL[k])} <span class="num">${counts[k]}</span></span>`).join("");
   }
@@ -587,7 +578,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
       ["Eligibility criteria", nCrit, b.median_criteria, 0],
       ["Enrolment (participants)", s.enrollment, b.median_enrollment, 0],
       ["Sites listed", s.sites || null, b.median_sites, 0],
-      ["Start → primary completion (months)", P.monthsBetween(s.start, s.primaryCompletion), b.median_duration_months, 1],
+      ["Start → primary completion (months)", Steps.monthsBetween(s.start, s.primaryCompletion), b.median_duration_months, 1],
     ];
     $("benchTbl").innerHTML = `<tr><th>Measure</th><th>This protocol</th><th>Comparator median</th></tr>` + rows.map(([k, a, m, d]) => `<tr><td>${k}</td><td>${fmt(a, d)}</td><td>${fmt(m, d)}</td></tr>`).join("");
     const ex = (b.examples || []).slice(0, 3).map((e) => `<a href="https://clinicaltrials.gov/study/${esc(e.nct)}" target="_blank" rel="noopener" class="mono">${esc(e.nct)}</a>`).join(", ");
@@ -603,12 +594,12 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
       if (r.section !== sec) { sec = r.section; html += `<tr class="sec"><td colspan="${hasRef ? 6 : 5}">${sec} criteria</td></tr>`; }
       const c = r.pred.category;
       let v = "";
-      if (hasRef && r.ref) { const good = P.isCorrect(c, r.ref); n++; ok += good ? 1 : 0; v = `<td><span class="verdict ${good ? "ok" : "no"}" title="reference: ${esc(CAT_LABEL[r.ref.gold])}${r.ref.alt.length ? " (also accepted: " + r.ref.alt.map((a) => CAT_LABEL[a]).join(", ") + ")" : ""}">${good ? "✓" : "✗"} ref</span></td>`; }
+      if (hasRef && r.ref) { const good = Steps.isCorrect(c, r.ref); n++; ok += good ? 1 : 0; v = `<td><span class="verdict ${good ? "ok" : "no"}" title="reference: ${esc(CAT_LABEL[r.ref.gold])}${r.ref.alt.length ? " (also accepted: " + r.ref.alt.map((a) => CAT_LABEL[a]).join(", ") + ")" : ""}">${good ? "✓" : "✗"} ref</span></td>`; }
       else if (hasRef) v = "<td></td>";
       const thr = [...(r.pred.thresholds || [])].map(esc).join("; ");
       const win = r.pred.time_window ? `<div class="thr">⏱ ${esc(r.pred.time_window)}</div>` : "";
-      const flags = (r.pred.flags || []).map((f) => `<span class="flag" title="${esc(P.FLAGS[f] || f)}">${esc(f.replace(/_/g, " "))}</span>`).join("");
-      const opts = P.CATS.map((k) => `<option value="${k}" ${k === (r.reviewer || c) ? "selected" : ""}>${esc(CAT_LABEL[k])}</option>`).join("");
+      const flags = (r.pred.flags || []).map((f) => `<span class="flag" title="${esc(Steps.FLAGS[f] || f)}">${esc(f.replace(/_/g, " "))}</span>`).join("");
+      const opts = Steps.CATS.map((k) => `<option value="${k}" ${k === (r.reviewer || c) ? "selected" : ""}>${esc(CAT_LABEL[k])}</option>`).join("");
       html += `<tr><td class="txt">${esc(r.text)}${r.pred.rationale ? `<span class="rat">${esc(r.pred.rationale)}</span>` : ""}</td>
         <td><span class="cat"><i style="background:${CAT_VAR[c] || "var(--ink-3)"}"></i>${esc(CAT_LABEL[c] || c)}</span></td>${v}
         <td><span class="thr">${thr || "–"}</span>${win}</td><td>${flags || '<span class="muted">–</span>'}</td>

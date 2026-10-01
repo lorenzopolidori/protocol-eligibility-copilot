@@ -1,6 +1,8 @@
-/* Protocol Eligibility Copilot — shared logic.
- * Loaded by index.html in the browser AND by eval/run_eval.mjs in Node, so the live demo and the
- * offline evaluation use exactly the same splitter, baseline and scoring code.
+/* Protocol Eligibility Copilot — step implementations.
+ * Pure building blocks with no flow control: the taxonomy, the splitter, the rule baseline, the
+ * prompt builder, the answer parser, the scorer and the two ClinicalTrials.gov tools.
+ * The order of the steps, the fallbacks and the fail-closed check live in orchestrator.js.
+ * Loaded by index.html in the browser and by eval/run_eval.mjs in Node.
  */
 (function (root) {
   "use strict";
@@ -232,5 +234,5 @@ No prose before or after the JSON.`;
 
   const api = { TAXONOMY, CATS, FLAGS, splitCriteria, assignIds, ruleClassify, ruleExtract, buildPrompt, parseModelJson, isCorrect, score, summariseStudy, getStudy, findComparators, median, monthsBetween };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
-  else root.PEC = api;
+  else root.Steps = api;
 })(typeof window !== "undefined" ? window : globalThis);

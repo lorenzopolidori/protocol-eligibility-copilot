@@ -12,7 +12,7 @@ protocol text (no patient data).
 ## Inputs
 - Study identifier, title, condition(s), phase.
 - Atomic criteria, each with an id and section (inclusion / exclusion). Splitting is done
-  deterministically upstream (`splitCriteria` in `lib.js`) so every run sees the same items.
+  deterministically upstream (`splitCriteria` in `steps.js`) so every run sees the same items.
 
 ## Taxonomy (exactly one per criterion; the TARGET condition is the study condition)
 - **DEMOGRAPHICS** — age, sex, body weight, BMI.
@@ -41,7 +41,7 @@ JSON array only, same order as input:
 `{"id", "category", "rationale" (≤15 words), "thresholds": [..], "time_window": str|null, "flags": [..]}`
 
 ## Standards (what makes this skill library-ready)
-- **Versioned contract:** taxonomy + schema live in `lib.js`; prompt is generated from it.
+- **Versioned contract:** taxonomy + schema live in `steps.js`; prompt is generated from it by `buildPrompt()`.
 - **Evaluated before use:** `eval/run_eval.mjs` scores the skill against a rule baseline on a
   labelled reference set; results, cost and latency are published with the skill.
 - **Reliability:** output is schema-checked; malformed output fails closed (criterion shown as
