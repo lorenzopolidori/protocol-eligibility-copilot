@@ -12,6 +12,94 @@ run-to-run consistency.
 Built by Lorenzo Polidori with Claude Code. Uses only public registry data and makes no
 eligibility decision about any patient. Not affiliated with or endorsed by GSK.
 
+## Architecture
+
+A constrained workflow, not a free-roaming agent. Orchestration is deterministic, and the model is
+called at one step against a fixed contract: a taxonomy, an output schema and stable criterion IDs.
+The page and the evaluation harness share one core library, so what is evaluated is exactly what
+runs.
+
+```mermaid
+flowchart TB
+    subgraph ENTRY["Entry points"]
+        direction LR
+        UI["Demo page<br/>index.html · browser"]
+        EV["Evaluation harness<br/>eval/run_eval.mjs"]
+        UI ~~~ EV
+    end
+
+    subgraph ORCH["Orchestrator · fixed 5-step pipeline · lib.js"]
+        direction LR
+        S1["1 · Fetch<br/>protocol"] --> S2["2 · Split<br/>criteria + stable IDs"] --> S3["3 · Classify<br/>& flag"] --> S4["4 · Benchmark<br/>vs comparators"] --> S5["5 · Human<br/>review"]
+    end
+
+    subgraph CAP["Capabilities"]
+        direction LR
+        TOOLS["Tools · steps 1 & 4<br/>get_study · find_comparators"]
+        SKILL["Skill · step 3<br/>SKILL.md contract:<br/>taxonomy · flags · schema"]
+        GUARD["Guardrails · step 3<br/>schema check · fail closed<br/>rule-baseline fallback"]
+        TOOLS ~~~ SKILL ~~~ GUARD
+    end
+
+    subgraph EXT["External services"]
+        direction LR
+        CTG[("ClinicalTrials.gov<br/>API v2 · public data")]
+        CL["Claude API<br/>Haiku · Sonnet · Opus"]
+        CTG ~~~ CL
+    end
+
+    subgraph EVID["Evidence & state"]
+        direction LR
+        GOLD[("Reference labels<br/>70 criteria")]
+        RUNS[("Raw model runs<br/>cost · latency · tokens")]
+        RES[("Metrics +<br/>recorded runs")]
+        AUD[("Reviewer<br/>audit trail")]
+        GOLD ~~~ RUNS ~~~ RES ~~~ AUD
+    end
+
+    ENTRY -- "both run the same pipeline" --> ORCH
+    ORCH -- "invokes" --> CAP
+    CAP -- "HTTPS" --> EXT
+    ORCH -- "records" --> EVID
+```
+
+| Block | Role | Agentic concern it addresses |
+|---|---|---|
+| Orchestrator | Runs fetch → split → classify → benchmark → review in a fixed order, with a fallback at every step | Orchestration, reliability |
+| `get_study`, `find_comparators` | Deterministic tools over the public registry, testable like ordinary code | Tool use |
+| Splitter + contract | One protocol per call, stable IDs, taxonomy definitions in the prompt, no patient data | Context |
+| Schema check | Malformed or missing output becomes `NEEDS_REVIEW`, never a silent default | Reliability |
+| Stateless calls, audit trail | Nothing carries between protocols; the only durable state is the reviewer log and the frozen snapshot | Memory |
+| Eval harness + scorer | Baseline vs models on accuracy, cost, latency and run-to-run agreement; one command to re-run | Evaluation |
+| `SKILL.md` | The step packaged as a reusable skill with its standards | Skills library |
+
+## Flow of one run
+
+```mermaid
+flowchart TD
+    A(["Reviewer picks a protocol<br/>NCT ID + classifier"]) --> B{"Registry<br/>reachable?"}
+    B -- yes --> C["get_study<br/>live ClinicalTrials.gov record"]
+    B -- no --> C2["Frozen snapshot<br/>evaluation protocols only"]
+    C --> D["Split eligibility text<br/>into atomic criteria with stable IDs"]
+    C2 --> D
+    D --> E{"Classifier"}
+    E -- "Rule baseline" --> F1["Keyword rules<br/>+ regex thresholds & windows"]
+    E -- "Recorded run" --> F2["Stored output from<br/>Haiku / Sonnet / Opus"]
+    E -- "Live, own API key" --> F3["Build prompt from contract<br/>→ Claude Sonnet 5.5"]
+    F3 --> G{"Valid JSON<br/>& known category?"}
+    G -- yes --> H["Category · rationale ·<br/>thresholds · window · flags"]
+    G -- no --> H2["NEEDS_REVIEW<br/>fail closed"]
+    F3 -. API error .-> F1
+    F1 --> H
+    F2 --> H
+    H2 --> I
+    H --> I["find_comparators<br/>completed trials · same condition & phase"]
+    I --> J["Benchmark<br/>criteria · enrolment · sites · duration<br/>vs comparator medians"]
+    J --> K[/"Reviewer checks every criterion<br/>and overrides categories where needed"/]
+    K --> L[("Audit trail<br/>time-stamped · attributable")]
+    K --> M(["Structured, reviewed criteria<br/>for feasibility discussion"])
+```
+
 ## Results (5 GSK/ViiV Phase 3 protocols, 70 criteria, 2 runs per model, low effort)
 
 | Method | Accuracy (lenient) | Accuracy (strict) | Cost / protocol* | Time / protocol | Run agreement |
