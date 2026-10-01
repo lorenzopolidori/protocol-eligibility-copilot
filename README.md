@@ -9,10 +9,9 @@ for a reviewer. It then benchmarks the protocol against completed trials in the 
 and phase. It is evaluated against a rule-based baseline on quality, cost, latency and
 run-to-run consistency.
 
-Built by Lorenzo Polidori with Claude Code. Uses only public registry data and makes no
-eligibility decision about any patient. Not affiliated with or endorsed by GSK.
+Uses only public registry data and makes no eligibility decision about any patient. Not affiliated with or endorsed by GSK.
 
-## Background: the problem in plain words
+## Background
 
 **Clinical trials.** Before a new medicine or vaccine can be approved, a drug company (the
 *sponsor*) tests it on volunteers in clinical trials. A Phase 3 trial is the large, final stage,
@@ -26,7 +25,7 @@ tool reads from it.
 
 **Eligibility criteria.** One part of the protocol sets out who may take part. *Inclusion
 criteria* are what a volunteer must have, and *exclusion criteria* are what rules them out. A
-trial typically has 10 to 40 of them, written in dense medical language. They matter a lot: every
+trial typically has 10 to 40 of them, written in dense medical language. Every
 extra restriction shrinks the pool of patients who qualify. That slows recruitment, raises the
 share of candidates who are screened and then turned away, and often forces costly protocol
 changes (*amendments*) later.
