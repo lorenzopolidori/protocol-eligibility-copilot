@@ -245,32 +245,200 @@ flowchart TB
 | Eval harness + scorer | Baseline vs models on accuracy, cost, latency and run-to-run agreement; one command to re-run | Evaluation |
 | `SKILL.md` | The step packaged as a reusable skill with its standards | Skills library |
 
-## Flow of one run
+## How the code runs: sequence diagrams
+
+Two separate code paths use the same core library, `lib.js`:
+
+- **A run on the demo page:** `index.html` calls `lib.js`, ClinicalTrials.gov and, in live mode, Claude.
+- **The offline evaluation:** `eval/run_eval.mjs` calls `lib.js`, the `claude` CLI and ClinicalTrials.gov, and writes the results the page displays.
+
+Read each diagram top to bottom. Solid arrows are calls; dashed arrows are what comes back.
+`alt` boxes are alternatives (only one branch runs), `opt` boxes run only when their condition
+is true, and `loop` boxes repeat.
+
+### A. One run on the demo page
 
 ```mermaid
-flowchart TD
-    A(["Reviewer picks a protocol<br/>NCT ID + classifier"]) --> B{"Registry<br/>reachable?"}
-    B -- yes --> C["get_study<br/>live ClinicalTrials.gov record"]
-    B -- no --> C2["Frozen snapshot<br/>evaluation protocols only"]
-    C --> D["Split eligibility text<br/>into atomic criteria with stable IDs"]
-    C2 --> D
-    D --> E{"Classifier"}
-    E -- "Rule baseline" --> F1["Keyword rules<br/>+ regex thresholds & windows"]
-    E -- "Recorded run" --> F2["Stored output from<br/>Haiku / Sonnet / Opus"]
-    E -- "Live, own API key" --> F3["Build prompt from contract<br/>→ Claude Sonnet 5.5"]
-    F3 --> G{"Valid JSON<br/>& known category?"}
-    G -- yes --> H["Category · rationale ·<br/>thresholds · window · flags"]
-    G -- no --> H2["NEEDS_REVIEW<br/>fail closed"]
-    F3 -. API error .-> F1
-    F1 --> H
-    F2 --> H
-    H2 --> I
-    H --> I["find_comparators<br/>completed trials · same condition & phase"]
-    I --> J["Benchmark<br/>criteria · enrolment · sites · duration<br/>vs comparator medians"]
-    J --> K[/"Reviewer checks every criterion<br/>and overrides categories where needed"/]
-    K --> L[("Audit trail<br/>time-stamped · attributable")]
-    K --> M(["Structured, reviewed criteria<br/>for feasibility discussion"])
+sequenceDiagram
+    autonumber
+    actor U as Reviewer
+    participant P as index.html<br/>page script
+    participant L as lib.js<br/>shared core
+    participant R as data/results.js<br/>recorded runs
+    participant G as ClinicalTrials.gov<br/>API v2
+    participant C as Claude<br/>Messages API
+
+    U->>P: pick protocol and classifier, click Run pipeline
+    activate P
+    Note over P: run()
+
+    rect rgba(120,120,120,0.08)
+    Note over P,G: Step 1 · Fetch protocol
+    P->>L: getStudy(nct)
+    L->>G: GET /api/v2/studies/NCT…
+    G-->>L: study record (JSON)
+    L->>L: summariseStudy(record)
+    L-->>P: study, incl. criteriaText
+    opt registry unreachable (5 evaluation protocols only)
+        P->>R: R.studies[nct]
+        R-->>P: frozen snapshot of the study
+    end
+    end
+
+    rect rgba(120,120,120,0.08)
+    Note over P,L: Step 2 · Split criteria
+    P->>L: splitCriteria(criteriaText)
+    L-->>P: inclusion and exclusion items
+    P->>L: assignIds(nct, items)
+    L-->>P: criteria with stable IDs
+    end
+
+    rect rgba(120,120,120,0.08)
+    Note over P,C: Step 3 · Classify and flag (depends on the classifier picked)
+    alt Rule baseline
+        loop each criterion
+            P->>L: ruleClassify(text) and ruleExtract(text)
+            L-->>P: category, thresholds, time window
+        end
+    else Claude Haiku / Sonnet / Opus · recorded
+        P->>R: R.criteria[id].models[model]
+        R-->>P: stored category, rationale, thresholds, window, flags
+    else Claude Sonnet 5.5 · live, own API key
+        P->>P: callClaude(key, study, criteria)
+        P->>L: buildPrompt(study, criteria)
+        L-->>P: prompt = taxonomy + flag definitions + criteria
+        P->>C: POST /v1/messages, model claude-sonnet-5-5
+        C-->>P: JSON array as text
+        P->>L: parseModelJson(text)
+        L-->>P: one object per criterion
+        P->>P: missing or unknown category becomes NEEDS_REVIEW
+        opt no key or API error
+            P->>L: baselinePreds(criteria) uses ruleClassify and ruleExtract
+        end
+    end
+    end
+
+    rect rgba(120,120,120,0.08)
+    Note over P,G: Step 4 · Benchmark
+    P->>L: findComparators(study)
+    L->>G: GET /api/v2/studies, same condition and phase, status COMPLETED
+    G-->>L: up to 50 completed trials
+    L->>L: summariseStudy, splitCriteria, median, monthsBetween
+    L-->>P: comparator medians and examples
+    opt registry unreachable
+        P->>R: R.comparators[nct]
+    end
+    end
+
+    rect rgba(120,120,120,0.08)
+    Note over U,P: Step 5 · Human review
+    P->>P: drawStudy(), drawBench(), drawTable()
+    P->>L: isCorrect(category, reference) for the ✓/✗ column
+    deactivate P
+    U->>P: change a category in the Reviewer column
+    P->>P: add line to audit trail, drawAudit()
+    end
 ```
+
+### B. The offline evaluation (`node eval/run_eval.mjs`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor D as Developer
+    participant E as eval/run_eval.mjs
+    participant F as eval/data/<br/>+ gold_labels.json
+    participant L as lib.js<br/>shared core
+    participant K as eval/runs/<br/>saved model runs
+    participant X as claude CLI<br/>headless Claude Code
+    participant M as Claude models<br/>Haiku · Sonnet · Opus
+    participant G as ClinicalTrials.gov<br/>API v2
+    participant O as eval/results.json<br/>+ data/results.js
+
+    D->>E: node eval/run_eval.mjs [--refresh]
+
+    rect rgba(120,120,120,0.08)
+    Note over E,G: 1 · Load the frozen test set
+    loop 5 protocols
+        alt saved copy exists and no --refresh
+            E->>F: read eval/data/NCT….json
+        else
+            E->>G: GET /api/v2/studies/NCT…
+            G-->>E: study record
+            E->>F: save frozen copy
+        end
+        E->>L: summariseStudy(), splitCriteria(), assignIds()
+        L-->>E: criteria with stable IDs (70 in total)
+    end
+    E->>F: read gold_labels.json (answer key)
+    end
+
+    rect rgba(120,120,120,0.08)
+    Note over E,L: 2 · Baseline
+    E->>L: ruleClassify(text) for every criterion
+    L-->>E: baseline categories
+    end
+
+    rect rgba(120,120,120,0.08)
+    Note over E,M: 3 · Model runs: 3 models × 2 runs × 5 protocols = 30 calls, pool() runs 5 at a time
+    loop each model, run and protocol
+        alt saved run exists and no --refresh
+            E->>K: read model-rN-NCT….json
+            K-->>E: raw answer, cost, duration, tokens
+        else
+            E->>L: buildPrompt(study, criteria)
+            L-->>E: prompt
+            E->>X: claude(model, prompt) runs claude -p, low effort, tools off
+            X->>M: model invocation
+            M-->>X: JSON answer
+            X-->>E: answer + cost + duration + tokens
+            E->>K: write model-rN-NCT….json
+        end
+        E->>L: parseModelJson(raw)
+        L-->>E: one object per criterion
+        E->>E: missing or unknown category becomes NEEDS_REVIEW
+    end
+    end
+
+    rect rgba(120,120,120,0.08)
+    Note over E,L: 4 · Score
+    E->>L: score(gold, predictions) for baseline and each model run
+    L-->>E: accuracy, strict accuracy, macro-F1, errors
+    E->>E: cost and time per protocol, run-to-run agreement, flag_stats
+    end
+
+    rect rgba(120,120,120,0.08)
+    Note over E,G: 5 · Benchmark snapshot
+    E->>L: findComparators(study) for each protocol
+    L->>G: GET /api/v2/studies, completed trials
+    G-->>L: comparators
+    L-->>E: comparator medians
+    end
+
+    E->>O: write results.json and data/results.js
+    Note over E,O: index.html loads data/results.js for recorded mode and the evaluation section
+```
+
+### Where each function lives
+
+| Function | File | What it does |
+|---|---|---|
+| `run()` | `index.html` | The orchestrator: runs the 5 steps in order and picks the fallbacks |
+| `setStep()`, `drawTrace()` | `index.html` | Update the 5-step progress strip on the page |
+| `callClaude()` | `index.html` | Live mode only: sends the prompt to the Claude Messages API with your key |
+| `baselinePreds()` | `index.html` | Fallback: classifies every criterion with the rule baseline |
+| `drawStudy()`, `drawBench()`, `drawTable()`, `drawAudit()` | `index.html` | Render the study facts, benchmark, criteria table and audit trail |
+| `getStudy()` | `lib.js` | **Tool:** fetches one protocol from ClinicalTrials.gov |
+| `findComparators()` | `lib.js` | **Tool:** searches completed trials with the same condition and phase, and computes medians |
+| `summariseStudy()` | `lib.js` | Picks the fields we need out of a ClinicalTrials.gov record |
+| `splitCriteria()`, `assignIds()` | `lib.js` | Split the eligibility text into individual criteria and give each a stable ID |
+| `ruleClassify()`, `ruleExtract()` | `lib.js` | The keyword baseline: category, thresholds and time window |
+| `buildPrompt()` | `lib.js` | Builds the model prompt from the taxonomy, flag definitions and criteria |
+| `parseModelJson()` | `lib.js` | Pulls the JSON answer out of the model's text |
+| `isCorrect()`, `score()` | `lib.js` | Compare answers with the answer key; compute accuracy and macro-F1 |
+| `median()`, `monthsBetween()` | `lib.js` | Small helpers for the benchmark |
+| `claude()` | `eval/run_eval.mjs` | Runs `claude -p` (headless Claude Code) for one model call |
+| `pool()` | `eval/run_eval.mjs` | Runs up to 5 model calls in parallel |
 
 ## Results (5 GSK/ViiV Phase 3 protocols, 70 criteria, 2 runs per model, low effort)
 
