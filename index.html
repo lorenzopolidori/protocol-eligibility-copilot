@@ -482,10 +482,10 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
   function showStep(step, st, info) {
     const m = state.method;
     const MSG = {
-      fetch: { run: ["fetching…"], done: [`live · ${ms(info.ms || 0)}`], fallback: ["registry unreachable here · frozen snapshot"],
+      fetch: { run: ["fetching…"], done: [`live registry · ${ms(info.ms || 0)}`], fallback: ["registry unreachable here · frozen snapshot"],
                error: ["could not reach ClinicalTrials.gov", "This viewer blocks external requests, and this NCT ID is not in the recorded set. Pick one of the five evaluation protocols, or open lorenzopolidori.github.io/protocol-eligibility-copilot for live mode."] },
       split: { done: [`${info.n} criteria`], fallback: ["registry text changed since snapshot · using snapshot"], error: [info.error] },
-      bench: { run: ["searching comparators…"], done: [`live · ${info.n} trials · ${ms(info.ms || 0)}`], fallback: [`snapshot · ${info.n} trials`], error: ["unavailable"] },
+      bench: { run: ["searching comparators…"], done: [`live registry · ${info.n} trials · ${ms(info.ms || 0)}`], fallback: [`snapshot · ${info.n} trials`], error: ["unavailable"] },
       review: { human: ["awaiting reviewer", "edit categories below; changes are logged"] },
     };
     if (step === "classify") {
@@ -493,8 +493,8 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
       if (st === "fallback") return setStep(step, st, `${info.error} · rule baseline`, "fallback: keyword rules");
       if (st === "error") return setStep(step, st, info.error);
       if (info.classifier === "baseline") return setStep(step, st, "rule baseline · <1 ms", "keyword rules, no model");
-      if (info.classifier === "recorded") { const sm = byM[m]; return setStep(step, st, `recorded · ~${sm.latency_s_per_protocol.toFixed(0)} s, $${sm.cost_per_protocol.toFixed(3)}`, MODEL_IDS[m]); }
-      return setStep(step, st, `live · ${ms(info.ms)}` + (info.parseError ? " · unreadable reply, all marked needs review" : ""), "claude-sonnet-5-5 · schema-checked");
+      if (info.classifier === "recorded") { const sm = byM[m]; return setStep(step, st, `saved answer · no model call · original run ${sm.latency_s_per_protocol.toFixed(0)} s, $${sm.cost_per_protocol.toFixed(3)}`, MODEL_IDS[m]); }
+      return setStep(step, st, `live Claude call · ${ms(info.ms)}` + (info.parseError ? " · unreadable reply, all marked needs review" : ""), "claude-sonnet-5-5 · billed to your key");
     }
     const [msg, detail] = (MSG[step] && MSG[step][st]) || [st];
     setStep(step, st, msg, detail);
@@ -533,7 +533,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
   function finish() { $("runBtn").disabled = false; }
   function noteFor(recorded, liveOk, m) {
     const a = liveOk ? "Protocol and comparators fetched live from ClinicalTrials.gov." : "This viewer blocks external requests, so the protocol and comparators come from the frozen snapshot taken for the evaluation.";
-    const b = m === "baseline" ? " Classifier: keyword rules." : m === "live" ? " Classifier: Claude, called from your browser with your key." : recorded ? ` Classifier: recorded output from ${MODEL_IDS[m]} (run 1 of ${R.repeats}).` : "";
+    const b = m === "baseline" ? " Classifier: keyword rules." : m === "live" ? " Classifier: Claude, called from your browser with your key." : recorded ? ` Classifier: saved answers from ${MODEL_IDS[m]} (run 1 of ${R.repeats}); no model is called and nothing is charged.` : "";
     return a + b;
   }
 
