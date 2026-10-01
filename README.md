@@ -74,10 +74,53 @@ is to show a repeatable way to bring agentic AI into a regulated workflow:
 4. Prove it beats the baseline on quality, cost, speed and consistency.
 5. Keep a human accountable for every output.
 
-**How we know it works.** Each AI answer is compared with a set of 70 criteria labelled in
-advance, and with a simple keyword-matching program that serves as the baseline. The AI models
-get the category right far more often (93% vs 71% on the strict measure). The report also shows
-the cost per protocol, how long each run takes, and whether two runs give the same answer.
+**How we know it works.** Think of it as an exam with an answer key.
+
+1. **The answer key.** Before any AI was run, each of the 70 criteria from the 5 protocols was
+   given its correct category by hand. A few criteria genuinely fit two categories, and for
+   those a second answer is also accepted.
+2. **Two candidates take the exam:**
+   - **The baseline:** a simple program that matches keywords. If it sees "vaccine" it answers
+     *Prior therapy*; if it sees "history of" or "disease" it answers *Comorbidity*. It stands in
+     for the quick tool a team might build first. It was written before the AI was tested and
+     never adjusted to fit the answer key.
+   - **The AI:** Claude, given the same criteria and the written category definitions.
+3. **Marking.** Each answer is compared with the key.
+
+Real examples where the two disagreed:
+
+| Criterion (trial) | Answer key | Keyword baseline | Claude Sonnet |
+|---|---|---|---|
+| "History of hypersensitivity or allergic reaction to any previous influenza vaccine" (flu vaccine) | Comorbidity & safety: it is an allergy | ✗ Prior therapy, because it saw "vaccine" | ✓ Comorbidity & safety |
+| "HIV-1 RNA <50 copies/mL at screening" (HIV treatment) | Disease: viral load measures the disease being studied | ✗ Comorbidity, because it saw "HIV" | ✓ Disease |
+| "Moderate to severe COPD, defined as a clinically documented history of COPD…" (COPD) | Disease: it defines the condition under study | ✗ Comorbidity, because it saw "history of" | ✓ Disease |
+
+The baseline matches words, while the AI reads context. For example, HIV is *the disease
+under study* in an HIV trial but *another illness* in a lung cancer trial.
+
+**The scores.**
+- *Strict* counts only exact matches with the main answer: baseline 50 of 70 (71%), Claude
+  Sonnet 65 of 70 (93%).
+- *Lenient* also accepts the reasonable second answer: baseline 54 of 70 (77%), Sonnet 70 of 70
+  (100%).
+- All five of Sonnet's strict misses were criteria with two valid answers where it picked the
+  other one. For example, "chronic hypercapnia requiring non-invasive ventilation" is *Disease*
+  in the key, because it describes how severe the COPD is. Sonnet chose *Prior therapy*, because
+  ventilation is a treatment. Both are defensible.
+
+**Is it practical to use?** Accuracy is not enough on its own, so the report also measures:
+- **Cost:** about $0.03 to process a whole protocol with Sonnet, at list price.
+- **Speed:** about 9 seconds per protocol.
+- **Consistency:** each protocol was run twice. Sonnet gave identical answers both times for all
+  70 criteria; Haiku did for 96% and Opus for 99%. A reviewer should not get a different answer
+  on Tuesday than on Monday.
+- **Reliability:** every answer came back in the expected format. A malformed answer would be
+  marked "needs review", never guessed.
+
+**Bottom line.** The AI clearly beats the simple tool, and it is cheap and fast. But the answer
+key is small and was drafted with AI help. The next steps are a larger key labelled by clinical
+operations experts, and measuring how much reviewer time the tool actually saves.
+
 
 ## Architecture
 
