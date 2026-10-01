@@ -301,6 +301,31 @@ eval/data/*.json           frozen ClinicalTrials.gov records used for evaluation
 eval/runs/*.json           raw model outputs with cost, latency and token usage
 ```
 
+## Recorded vs live: what gets saved
+
+**The evaluation results are static, captured once.** All 30 model runs (3 models × 2 runs × 5
+protocols) were made on 1 Oct 2026 by running `eval/run_eval.mjs` locally. They were committed to
+this repo by hand, one JSON file per call in `eval/runs/`, holding the model's raw answer, cost,
+time and token counts. No automation adds or changes them: there is no CI job, schedule or bot.
+
+**The demo page never saves anything.** It is a static site on GitHub Pages, so it can read files
+from this repo but cannot write to it.
+
+| Classifier on the page | What happens | Saved? |
+|---|---|---|
+| Rule baseline | Keyword rules run in your browser | No |
+| Claude Haiku / Sonnet / Opus · recorded | Shows the stored answers from those 30 runs (`data/results.js`) | No; read only |
+| Claude Sonnet 5.5 · live | Calls Claude from your browser with your own API key | No; gone when you reload |
+
+The live ClinicalTrials.gov lookups and the reviewer audit trail also exist only in your browser
+tab. The audit trail illustrates the idea. A real deployment in a regulated (GxP) setting would
+store each reviewer decision permanently, with the reviewer's name and a timestamp.
+
+**New results enter the repo only on purpose.** Someone re-runs the evaluation locally (below),
+checks the new scores, and commits them. The git history then shows when the numbers changed and
+why. A fixed test set with saved answers keeps every score reproducible: anyone can re-score the
+same answers with a new metric without calling the models again.
+
 ## Re-run the evaluation
 
 Requires Node 18+ and the `claude` CLI (Claude Code) signed in.
@@ -309,8 +334,9 @@ Requires Node 18+ and the `claude` CLI (Claude Code) signed in.
 node eval/run_eval.mjs --models haiku,sonnet,opus --repeats 2 --effort low
 ```
 
-Cached runs in `eval/runs/` are reused; pass `--refresh` to re-fetch the protocols and re-call
-the models.
+Saved runs in `eval/runs/` are reused, so re-scoring costs nothing. Pass `--refresh` to
+re-fetch the protocols and call the models again, which overwrites those files; then review and
+commit the changes.
 
 ## Live mode
 
