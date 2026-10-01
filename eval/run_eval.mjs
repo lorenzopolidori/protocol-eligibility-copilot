@@ -18,6 +18,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const req = createRequire(import.meta.url);
 const S = req(join(here, "..", "steps.js"));          // step implementations
 const O = req(join(here, "..", "orchestrator.js"));   // the pipeline
+const Models = req(join(here, "..", "models.js"));    // shared system prompt
 const TRIALS = ["NCT07177339", "NCT07099898", "NCT07650916", "NCT07851246", "NCT06716606"];
 const MODELS = {
   haiku: "claude-haiku-4-5-20251001",
@@ -62,12 +63,14 @@ const allCriteria = TRIALS.flatMap((n) => studies[n].criteria);
 if (allCriteria.length !== goldList.length) throw new Error(`criteria/gold mismatch ${allCriteria.length} vs ${goldList.length}`);
 
 // 3. Models (30 pipeline runs: models × repeats × protocols, 5 at a time)
+// Model adapter for the harness: headless Claude Code. Lives here, not in models.js, because it
+// needs Node's child_process. Uses the same system prompt as models.js.
 function claude(model, prompt) {
   return new Promise((resolve, reject) => {
     // neutral cwd so no project CLAUDE.md / memory leaks into the context
     const cwd = join(tmpdir(), "pec-eval"); mkdirSync(cwd, { recursive: true });
     const child = execFile("claude", ["-p", "--model", model, "--effort", effort, "--output-format", "json", "--tools", "",
-      "--system-prompt", "You are a precise clinical-operations data analyst. Follow the output format exactly."],
+      "--system-prompt", Models.SYSTEM_PROMPT],
       { maxBuffer: 20 * 1024 * 1024, timeout: 300000, cwd },
       (err, stdout) => (err ? reject(err) : resolve(JSON.parse(stdout))));
     child.stdin.end(prompt);

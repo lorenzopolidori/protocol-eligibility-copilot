@@ -186,7 +186,7 @@ The consistency figures are produced by `eval/run_eval.mjs` (`flag_stats` in `ev
 
 ## Architecture
 
-A constrained workflow, not a free-roaming agent. The code is split into three layers:
+A constrained workflow, not a free-roaming agent. The code is split into layers:
 
 - **`steps.js`: the step implementations.** Small functions with no flow control: the two
   registry tools, the splitter, the rule baseline, the prompt builder, the answer parser and the
@@ -194,17 +194,22 @@ A constrained workflow, not a free-roaming agent. The code is split into three l
 - **`orchestrator.js`: the flow.** `runPipeline()` runs the steps in a fixed order, picks the
   classifier, applies the fallbacks and fails closed on bad answers. The model is called at one
   step only, against a fixed contract: a taxonomy, an output schema and stable criterion IDs.
+- **`models.js`: the model adapters.** `messagesApiModel()` reaches the Claude Messages API
+  and works in the browser and in Node. It is passed into the pipeline as `callModel`, so the
+  orchestrator decides *when* the model is called and the adapter decides *how*. Swapping
+  provider or model means passing a different adapter. The evaluation's `claude` command-line
+  adapter stays in `eval/run_eval.mjs` because it needs Node. Both use the same system prompt.
 - **The callers.** The demo page (`index.html`) and the evaluation harness (`eval/run_eval.mjs`)
   both call the same `runPipeline()`, so what is evaluated is exactly what the page runs. Each
   caller supplies only what differs: where the protocol comes from, which classifier to use, how
-  to reach the model, and what to do with the results.
+  adapter reaches the model, and what to do with the results.
 
 ```mermaid
 flowchart TB
     subgraph ENTRY["Callers"]
         direction LR
-        UI["Demo page · index.html<br/>picks the classifier · draws results<br/>human review · callClaude()"]
-        EV["Evaluation harness · eval/run_eval.mjs<br/>frozen protocols · saved runs<br/>claude() · scoring"]
+        UI["Demo page · index.html<br/>picks the classifier · draws results<br/>human review"]
+        EV["Evaluation harness · eval/run_eval.mjs<br/>frozen protocols · saved runs<br/>scoring"]
         UI ~~~ EV
     end
 
@@ -222,6 +227,13 @@ flowchart TB
         PARSE["Answer parsing<br/>parseModelJson()"]
         SCORE["Scoring<br/>isCorrect() · score()"]
         TOOLS ~~~ PREP ~~~ BASE ~~~ SKILL ~~~ PARSE ~~~ SCORE
+    end
+
+    subgraph MOD["Model adapters · passed in as callModel(prompt)"]
+        direction LR
+        MA["messagesApiModel()<br/>models.js · browser + Node<br/>Claude Messages API"]
+        MC["savedOrLiveModel() → claude()<br/>eval/run_eval.mjs · Node only<br/>headless Claude Code + saved runs"]
+        MA ~~~ MC
     end
 
     subgraph EXT["External services"]
@@ -243,7 +255,8 @@ flowchart TB
     ENTRY -- "runPipeline(nct, classifier, snapshot, onStep)" --> ORCH
     ORCH -- "calls step functions" --> STEPS
     STEPS -- "registry calls" --> EXT
-    ENTRY -- "model calls, passed in as callModel" --> EXT
+    ORCH -- "callModel(prompt) at step 3" --> MOD
+    MOD -- "model calls" --> EXT
     ENTRY -- "read and write" --> EVID
 ```
 
@@ -253,10 +266,11 @@ flowchart TB
 | Classifiers in `orchestrator.js` | `baselineClassifier`, `recordedClassifier` and `modelClassifier`: interchangeable ways to do step 3 | Orchestration |
 | `getStudy()`, `findComparators()` in `steps.js` | Deterministic tools over the public registry, testable like ordinary code | Tool use |
 | Splitter + contract in `steps.js` | One protocol per call, stable IDs, taxonomy definitions in the prompt, no patient data | Context |
+| `messagesApiModel()` in `models.js` | Model adapter passed in as `callModel`; the eval's CLI adapter is the other one | Model choice |
 | `failClosed()` in `orchestrator.js` | A malformed or missing answer becomes `NEEDS_REVIEW`, never a silent default | Reliability |
 | Stateless calls | Nothing carries between protocols. The only stored data are the frozen protocols and saved model runs; the reviewer audit trail lives in the browser tab | Memory |
 | Eval harness + `score()` | Baseline vs models on accuracy, cost, latency and run-to-run agreement; one command to re-run | Evaluation |
-| `tests/orchestrator.test.mjs` | Checks every step, fallback and classifier path offline | Reliability |
+| `tests/*.test.mjs` | Check every step, fallback and classifier path, and the model adapter, offline | Reliability |
 | `SKILL.md` | The classification step packaged as a reusable skill with its standards | Skills library |
 
 ## How the code runs: sequence diagrams
@@ -264,16 +278,17 @@ flowchart TB
 Both callers run the same pipeline, `runPipeline()` in `orchestrator.js`, which calls the step
 functions in `steps.js`:
 
-- **A run on the demo page:** `index.html` picks the classifier, calls `runPipeline()`, shows
-  progress and results, and handles the human review.
+- **A run on the demo page:** `index.html` picks the classifier (in live mode with the
+  `messagesApiModel()` adapter from `models.js`), calls `runPipeline()`, shows progress and
+  results, and handles the human review.
 - **The offline evaluation:** `eval/run_eval.mjs` calls `runPipeline()` once per protocol with the
   baseline and 30 times with the models, then scores the results and writes the files the page
   displays.
 
 Read each diagram top to bottom. Solid arrows are calls; dashed arrows are what comes back.
 `alt` boxes are alternatives (only one branch runs), `opt` boxes run only when their condition
-is true, and `loop` boxes repeat. When the orchestrator calls back into a caller (for example
-`callModel`), that is a function the caller passed in.
+is true, and `loop` boxes repeat. `callModel` and `getStudy` are functions the caller passes in:
+when the orchestrator calls them, it is calling the caller's adapter.
 
 ### A. One run on the demo page
 
@@ -284,6 +299,7 @@ sequenceDiagram
     participant P as index.html<br/>page script
     participant O as orchestrator.js<br/>runPipeline()
     participant S as steps.js<br/>step functions
+    participant MJ as models.js<br/>messagesApiModel()
     participant R as data/results.js<br/>recorded runs
     participant G as ClinicalTrials.gov<br/>API v2
     participant C as Claude<br/>Messages API
@@ -291,6 +307,10 @@ sequenceDiagram
     U->>P: pick protocol and classifier, click Run pipeline
     activate P
     P->>P: run() → classifierFor(method)
+    opt live mode
+        P->>MJ: messagesApiModel(apiKey = form field, model claude-sonnet-5-5)
+        MJ-->>P: callModel adapter, handed to modelClassifier()
+    end
     P->>O: runPipeline(nct, classifier, fallback = baseline, snapshot, onStep = showStep)
     activate O
     Note over P,O: every step reports progress through onStep → showStep() → the 5-step strip
@@ -325,10 +345,10 @@ sequenceDiagram
     else modelClassifier (live, own API key)
         O->>S: buildPrompt(study, criteria)
         S-->>O: prompt = taxonomy + flag definitions + criteria
-        O->>P: callModel(prompt) = callClaude(key, prompt)
-        P->>C: POST /v1/messages, model claude-sonnet-5-5
-        C-->>P: JSON array as text
-        P-->>O: text
+        O->>MJ: callModel(prompt)
+        MJ->>C: POST /v1/messages, model claude-sonnet-5-5, SYSTEM_PROMPT
+        C-->>MJ: JSON array as text
+        MJ-->>O: text + meta (usage)
         O->>S: parseModelJson(text)
         S-->>O: one object per criterion
         O->>O: failClosed(): missing or unknown category becomes NEEDS_REVIEW
@@ -411,7 +431,7 @@ sequenceDiagram
         alt saved run exists and no --refresh
             E->>K: read model-rN-NCT….json
         else
-            E->>X: claude(model, prompt) runs claude -p, low effort, tools off
+            E->>X: claude(model, prompt) runs claude -p, low effort, tools off, models.js SYSTEM_PROMPT
             X->>M: model invocation
             M-->>X: JSON answer
             X-->>E: answer + cost + duration + tokens
@@ -451,13 +471,14 @@ sequenceDiagram
 | `parseModelJson()` | `steps.js` | Pulls the JSON answer out of the model's text |
 | `isCorrect()`, `score()` | `steps.js` | Compare answers with the answer key; compute accuracy and macro-F1 |
 | `median()`, `monthsBetween()` | `steps.js` | Small helpers for the benchmark |
+| `messagesApiModel()` | `models.js` | Model adapter: returns a `callModel` that makes one Claude Messages API call (browser or Node) |
+| `SYSTEM_PROMPT` | `models.js` | The system prompt every model call uses, including the eval's CLI calls |
 | `run()`, `classifierFor()` | `index.html` | Start a run: choose the classifier and the snapshot, call `runPipeline()`, draw the results |
 | `showStep()`, `setStep()`, `drawTrace()` | `index.html` | Turn progress events into the 5-step strip |
-| `callClaude()` | `index.html` | Live mode: the page's `callModel`, one call to the Claude Messages API with your key |
 | `drawStudy()`, `drawBench()`, `drawTable()`, `drawAudit()` | `index.html` | Render the study facts, benchmark, criteria table and audit trail |
 | `frozenStudy()` | `eval/run_eval.mjs` | The harness's `getStudy`: reads the frozen protocol from `eval/data/` |
 | `savedOrLiveModel()` | `eval/run_eval.mjs` | The harness's `callModel`: reuses a saved run or calls the model and saves it |
-| `claude()` | `eval/run_eval.mjs` | Runs `claude -p` (headless Claude Code) for one model call |
+| `claude()` | `eval/run_eval.mjs` | Model adapter for the eval: runs `claude -p` (headless Claude Code) for one model call |
 | `pool()` | `eval/run_eval.mjs` | Runs up to 5 pipeline runs in parallel |
 
 ## Results (5 GSK/ViiV Phase 3 protocols, 70 criteria, 2 runs per model, low effort)
@@ -480,11 +501,12 @@ clinical operations reviewers.
 ```
 index.html                 the demo page: UI only (static; no build step)
 orchestrator.js            the flow: runPipeline(), the classifiers, fallbacks, fail-closed check
+models.js                  the model adapters: messagesApiModel(), shared system prompt
 steps.js                   the step implementations: tools, splitter, baseline, taxonomy,
                            prompt, parser, scorer (no flow control)
 data/results.js            evaluation output consumed by the page
 skills/eligibility-criteria-structurer/SKILL.md   the step packaged as a reusable agent skill
-tests/orchestrator.test.mjs   offline tests of every pipeline path
+tests/*.test.mjs           offline tests: every pipeline path, and the model adapter
 eval/run_eval.mjs          evaluation harness: runs runPipeline() and scores the results
 eval/gold_labels.json      reference labels (pilot set; see caveats)
 eval/data/*.json           frozen ClinicalTrials.gov records used for evaluation

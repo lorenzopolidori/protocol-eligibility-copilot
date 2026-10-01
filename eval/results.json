@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-01T17:12:22.120Z",
+ "generated": "2026-10-01T17:22:17.563Z",
  "trials": [
   "NCT07177339",
   "NCT07099898",
@@ -129,7 +129,7 @@
     }
    ],
    "cost_per_protocol": 0,
-   "latency_s_per_protocol": 0.0011333407999999238,
+   "latency_s_per_protocol": 0.0011731092000000173,
    "schema_valid": 1,
    "run_agreement": 1
   },

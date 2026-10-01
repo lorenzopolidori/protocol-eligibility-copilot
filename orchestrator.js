@@ -58,7 +58,7 @@
   }
 
   // callModel(prompt, study) sends the prompt to a model and resolves to { text, meta }.
-  // The page passes a browser call to the Claude Messages API; the evaluation passes the claude CLI.
+  // Adapters: models.messagesApiModel() (page, Messages API) or the claude CLI adapter in eval/run_eval.mjs.
   function modelClassifier(callModel, label) {
     return {
       kind: "model", label,

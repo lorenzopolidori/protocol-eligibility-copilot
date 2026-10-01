@@ -395,7 +395,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
 <section id="build">
   <div class="sec-head"><div class="eyebrow">7 · How it was built</div><h2>Built in a day, with the evidence attached</h2></div>
   <div class="prose">
-    <p>Built in one day with Claude Code as the agentic development environment. The pieces: <span class="mono">steps.js</span> holds the step implementations: splitter, baseline, taxonomy, prompt, parser, scorer and the two registry tools. <span class="mono">orchestrator.js</span> holds the flow, <span class="mono">runPipeline()</span>, which this page and the evaluation harness both call, so what is evaluated is exactly what runs here. <span class="mono">skills/eligibility-criteria-structurer/SKILL.md</span> packages the step as a reusable agent skill, with its standards. <span class="mono">eval/</span> holds the frozen protocols, reference labels, raw model runs and the harness.</p>
+    <p>Built in one day with Claude Code as the agentic development environment. The pieces: <span class="mono">steps.js</span> holds the step implementations: splitter, baseline, taxonomy, prompt, parser, scorer and the two registry tools. <span class="mono">orchestrator.js</span> holds the flow, <span class="mono">runPipeline()</span>, which this page and the evaluation harness both call, so what is evaluated is exactly what runs here. <span class="mono">models.js</span> holds the model adapter that live mode passes into the pipeline. <span class="mono">skills/eligibility-criteria-structurer/SKILL.md</span> packages the step as a reusable agent skill, with its standards. <span class="mono">eval/</span> holds the frozen protocols, reference labels, raw model runs and the harness.</p>
     <p><strong>Limitations.</strong> The reference set is small (70 criteria), and the labels were drafted with AI assistance before human review, which can favour model-style labelling. The categories are deliberately coarse, so the task saturates. The feasibility flags are checked only for consistency, not correctness, and the thresholds are not yet scored. Costs come from Claude Code's harness at list price, so they are an upper bound on a direct API call. Manual review time has not been measured yet; a time-and-motion baseline with study teams is the next step before any value claim on cycle time.</p>
   </div>
 </section>
@@ -408,11 +408,12 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
 
 <script src="steps.js"></script>
 <script src="orchestrator.js"></script>
+<script src="models.js"></script>
 <script src="data/results.js"></script>
 <script>
 (function () {
   "use strict";
-  const R = window.PEC_RESULTS, Steps = window.Steps, Orchestrator = window.Orchestrator;
+  const R = window.PEC_RESULTS, Steps = window.Steps, Orchestrator = window.Orchestrator, Models = window.Models;
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const CAT_VAR = Object.fromEntries(Steps.CATS.map((c, i) => [c, `var(--c${i + 1})`]));
@@ -470,11 +471,11 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
 
   const ms = (x) => x < 1000 ? `${x.toFixed(0)} ms` : `${(x / 1000).toFixed(1)} s`;
 
-  // The flow itself lives in orchestrator.js. This page picks the classifier, supplies the frozen
+  // The flow lives in orchestrator.js and model access in models.js. This page picks the classifier, supplies the frozen
   // snapshot for fallbacks, turns progress events into the 5-step strip, and handles review.
   function classifierFor(m, recRows) {
     if (m === "baseline") return Orchestrator.baselineClassifier();
-    if (m === "live") return Orchestrator.modelClassifier((prompt) => callClaude($("apiKey").value.trim(), prompt), "claude-sonnet-5-5");
+    if (m === "live") return Orchestrator.modelClassifier(Models.messagesApiModel({ apiKey: () => $("apiKey").value.trim(), model: "claude-sonnet-5-5" }), "claude-sonnet-5-5");
     return Orchestrator.recordedClassifier((id) => recRows[id] && recRows[id].models[m], MODEL_IDS[m]);
   }
 
@@ -534,19 +535,6 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
     const a = liveOk ? "Protocol and comparators fetched live from ClinicalTrials.gov." : "This viewer blocks external requests, so the protocol and comparators come from the frozen snapshot taken for the evaluation.";
     const b = m === "baseline" ? " Classifier: keyword rules." : m === "live" ? " Classifier: Claude, called from your browser with your key." : recorded ? ` Classifier: recorded output from ${MODEL_IDS[m]} (run 1 of ${R.repeats}).` : "";
     return a + b;
-  }
-
-  // callModel for the live classifier: one call to the Claude Messages API from the browser.
-  async function callClaude(key, prompt) {
-    if (!key) throw new Error("add an API key to run live");
-    const r = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-      body: JSON.stringify({ model: "claude-sonnet-5-5", max_tokens: 8000, system: "You are a precise clinical-operations data analyst. Follow the output format exactly.", messages: [{ role: "user", content: prompt }] }),
-    });
-    if (!r.ok) throw new Error(`Anthropic API ${r.status}: ${(await r.text()).slice(0, 120)}`);
-    const j = await r.json();
-    return { text: (j.content || []).filter((b) => b.type === "text").map((b) => b.text).join(""), meta: { usage: j.usage } };
   }
 
   // ---------- render ----------
