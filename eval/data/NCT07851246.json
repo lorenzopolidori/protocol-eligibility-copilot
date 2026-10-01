@@ -1,0 +1,328 @@
+{
+ "protocolSection": {
+  "identificationModule": {
+   "nctId": "NCT07851246",
+   "orgStudyIdInfo": {
+    "id": "218132"
+   },
+   "secondaryIdInfos": [
+    {
+     "id": "2026-526925-17",
+     "type": "OTHER",
+     "domain": "EU CT Number"
+    }
+   ],
+   "organization": {
+    "fullName": "GlaxoSmithKline",
+    "class": "INDUSTRY"
+   },
+   "briefTitle": "A Study to Evaluate the Immune Response and Safety of a Vaccine Against Influenza in Adults 18-64 Years of Age",
+   "officialTitle": "A Phase 3 Randomized, Observer-Blind, Controlled Study to Evaluate the Immunogenicity, Reactogenicity and Safety of an mRNA-based Seasonal Influenza Vaccine, in Adults 18-64 Years of Age"
+  },
+  "statusModule": {
+   "statusVerifiedDate": "2026-09",
+   "overallStatus": "NOT_YET_RECRUITING",
+   "expandedAccessInfo": {
+    "hasExpandedAccess": false
+   },
+   "startDateStruct": {
+    "date": "2026-10-01",
+    "type": "ESTIMATED"
+   },
+   "primaryCompletionDateStruct": {
+    "date": "2027-07-09",
+    "type": "ESTIMATED"
+   },
+   "completionDateStruct": {
+    "date": "2027-07-09",
+    "type": "ESTIMATED"
+   },
+   "studyFirstSubmitDate": "2026-09-25",
+   "studyFirstSubmitQcDate": "2026-09-25",
+   "studyFirstPostDateStruct": {
+    "date": "2026-10-01",
+    "type": "ACTUAL"
+   },
+   "lastUpdateSubmitDate": "2026-09-25",
+   "lastUpdatePostDateStruct": {
+    "date": "2026-10-01",
+    "type": "ACTUAL"
+   }
+  },
+  "sponsorCollaboratorsModule": {
+   "responsibleParty": {
+    "type": "SPONSOR"
+   },
+   "leadSponsor": {
+    "name": "GlaxoSmithKline",
+    "class": "INDUSTRY"
+   }
+  },
+  "oversightModule": {
+   "oversightHasDmc": true,
+   "isFdaRegulatedDrug": true,
+   "isFdaRegulatedDevice": false
+  },
+  "descriptionModule": {
+   "briefSummary": "This clinical trial will study an investigational seasonal influenza vaccine in adults 18 to 64 years of age. The vaccine is based on messenger ribonucleic acid, also called mRNA. The main goals of the study are to learn how well the vaccine helps the body make an immune response against influenza and what medical problems participants may have after vaccination. Researchers will also compare immune responses in adults 18 to 64 years of age from this study, with immune responses in adults 65 years of age and older from another study. Participants will receive 1 injection into the upper arm muscle and will be followed for about 6 months."
+  },
+  "conditionsModule": {
+   "conditions": [
+    "Influenza, Human"
+   ],
+   "keywords": [
+    "Influenza;",
+    "Seasonal influenza vaccine;",
+    "Messenger ribonucleic acid vaccine;",
+    "mRNA vaccine;",
+    "Immunogenicity;",
+    "Reactogenicity;",
+    "Safety"
+   ]
+  },
+  "designModule": {
+   "studyType": "INTERVENTIONAL",
+   "phases": [
+    "PHASE3"
+   ],
+   "designInfo": {
+    "allocation": "RANDOMIZED",
+    "interventionModel": "PARALLEL",
+    "primaryPurpose": "PREVENTION",
+    "maskingInfo": {
+     "masking": "TRIPLE",
+     "maskingDescription": "Observer-blind.",
+     "whoMasked": [
+      "PARTICIPANT",
+      "INVESTIGATOR",
+      "OUTCOMES_ASSESSOR"
+     ]
+    }
+   },
+   "enrollmentInfo": {
+    "count": 3000,
+    "type": "ESTIMATED"
+   }
+  },
+  "armsInterventionsModule": {
+   "armGroups": [
+    {
+     "label": "mRNA Seasonal Flu Vaccine - Cohort 1",
+     "type": "EXPERIMENTAL",
+     "description": "Participants 18 to 64 years of age will receive a single dose of investigational mRNA Seasonal Flu vaccine on Day 1.",
+     "interventionNames": [
+      "Biological: mRNA Seasonal Flu vaccine"
+     ]
+    },
+    {
+     "label": "Comparator 1_Cohort 1",
+     "type": "ACTIVE_COMPARATOR",
+     "description": "Participants 18 to 64 years of age will receive a single dose of comparator 1 on Day 1.",
+     "interventionNames": [
+      "Biological: Comparator 1"
+     ]
+    },
+    {
+     "label": "mRNA Seasonal Flu Vaccine - Cohort 2",
+     "type": "EXPERIMENTAL",
+     "description": "Participants 60 to 64 years of age will receive a single dose of investigational mRNA Seasonal Flu vaccine on Day 1.",
+     "interventionNames": [
+      "Biological: mRNA Seasonal Flu vaccine"
+     ]
+    },
+    {
+     "label": "Comparator 2_Cohort 2",
+     "type": "ACTIVE_COMPARATOR",
+     "description": "Participants 60 to 64 years of age will receive a single dose of comparator 2 on Day 1.",
+     "interventionNames": [
+      "Biological: Comparator 2"
+     ]
+    }
+   ],
+   "interventions": [
+    {
+     "type": "BIOLOGICAL",
+     "name": "mRNA Seasonal Flu vaccine",
+     "description": "One dose of the mRNA Flu vaccine received intramuscularly.",
+     "armGroupLabels": [
+      "mRNA Seasonal Flu Vaccine - Cohort 1",
+      "mRNA Seasonal Flu Vaccine - Cohort 2"
+     ]
+    },
+    {
+     "type": "BIOLOGICAL",
+     "name": "Comparator 1",
+     "description": "One dose of the comparator vaccine received intramuscularly.",
+     "armGroupLabels": [
+      "Comparator 1_Cohort 1"
+     ]
+    },
+    {
+     "type": "BIOLOGICAL",
+     "name": "Comparator 2",
+     "description": "One dose of the comparator vaccine received intramuscularly.",
+     "armGroupLabels": [
+      "Comparator 2_Cohort 2"
+     ]
+    }
+   ]
+  },
+  "outcomesModule": {
+   "primaryOutcomes": [
+    {
+     "measure": "Geometric Mean Titer (GMT) of Antigen 1 Titer",
+     "timeFrame": "At Day 29"
+    },
+    {
+     "measure": "GMT of Antigen 2 Titer",
+     "timeFrame": "At Day 29"
+    },
+    {
+     "measure": "Percentage of participants with Antigen 1 seroconversion rate (SCR)",
+     "timeFrame": "From Day 1 to Day 29"
+    },
+    {
+     "measure": "Number of participants with solicited administration site adverse events",
+     "timeFrame": "Day 1 to Day 7"
+    },
+    {
+     "measure": "Number of participants with systemic adverse events",
+     "timeFrame": "Day 1 to Day 7"
+    },
+    {
+     "measure": "Number of participants with unsolicited adverse events",
+     "timeFrame": "Day 1 to Day 28"
+    },
+    {
+     "measure": "Number of participants with serious adverse events (SAEs)",
+     "timeFrame": "Day 1 to Day 181"
+    },
+    {
+     "measure": "Number of participants with adverse events of special interest (AESIs)",
+     "timeFrame": "Day 1 to Day 181"
+    },
+    {
+     "measure": "Number of Participants with any Laboratory abnormalities",
+     "timeFrame": "At Day 1 (pre-dose) and at Day 29 (post - dose)"
+    }
+   ],
+   "secondaryOutcomes": [
+    {
+     "measure": "GMT of Antigen 1 and Antigen 2 antibodies",
+     "timeFrame": "At Day 29"
+    },
+    {
+     "measure": "Percentage of Participants with Antigen 1 and Antigen 2 antibodies SCR",
+     "timeFrame": "Day 1 to Day 29"
+    },
+    {
+     "measure": "Geometric Mean Increase (GMI) of Antigen 1 Titer",
+     "timeFrame": "At Day 29 relative to baseline (Day 1)"
+    },
+    {
+     "measure": "GMI of Antigen 2 Titer",
+     "timeFrame": "At Day 29 relative to baseline (Day 1)"
+    },
+    {
+     "measure": "Percentage of Participants with Antigen 1 Seroprotection Rate (SPR)",
+     "timeFrame": "At Day 1 and Day 29"
+    },
+    {
+     "measure": "Percentage of Participants with Antigen 2 SCR",
+     "timeFrame": "Day 1 to Day 29"
+    },
+    {
+     "measure": "GMT of virus neutralization titers",
+     "timeFrame": "At Day 29"
+    },
+    {
+     "measure": "Percentage of participants with seroconversion of virus neutralization titers",
+     "timeFrame": "Day 1 to Day 29"
+    },
+    {
+     "measure": "GMI of virus neutralization titers",
+     "timeFrame": "At Day 29 relative to baseline (Day 1)"
+    }
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion Criteria:\n\n* Participants who, in the opinion of the investigator, can and will comply with the requirements of the protocol (e.g., completion of the eDiary, return for follow-up visits, attendance to study contacts, and ability to access and utilize a phone or other electronic communications) independently or with the assistance of a caregiver.\n* A male or female participant between and including 18 to 64 years of age at the time of study intervention administration\n* Participants of childbearing potential may be enrolled, if the participant:\n\n  * has practiced adequate contraception for at least 30 days prior to study intervention administration, and\n  * has a negative urine pregnancy test within 24 hours prior to study intervention administration, and\n  * has agreed to continue adequate contraception for at least 8 weeks after study intervention administration.\n\nExclusion Criteria:\n\n* History of test confirmed influenza infection within 180 days prior to study intervention administration.\n* Confirmed or suspected immunosuppressive or immunodeficient condition, except for stable human immunodeficiency virus infection meeting protocol-defined stability criteria.\n* History of myocarditis or pericarditis considered causally associated with the administration of an mRNA vaccine.\n* History of hypersensitivity or allergic reaction to any previous influenza vaccine.\n* History of hypersensitivity or allergic reaction to any previous mRNA vaccine.\n* History of Guillain-Barr\u00e9 syndrome (GBS) within 6 weeks of receiving any vaccine.\n* Acute or unstable chronic conditions as determined by medical history and clinical examination.\n* Administration of an influenza vaccine in the period starting 180 days before the study intervention administration or planned administration prior to Visit 2 during the study.\n* Planned administration/administration of prohibited vaccines within protocol-defined time windows before or after study intervention administration.\n* Use of any investigational or non-registered product (other than the study intervention during the period beginning 30 days before the dose of study intervention (Day -29 to Day 1), or their planned use during the study period.\n* Chronic administration of immune-modifying drugs (defined as more than 14 consecutive days in total) and/or planned use of long-acting immune modifying treatments at any time up to the end of the study.\n* Pregnant or lactating female participant.",
+   "healthyVolunteers": true,
+   "sex": "ALL",
+   "minimumAge": "18 Years",
+   "maximumAge": "64 Years",
+   "stdAges": [
+    "ADULT"
+   ]
+  },
+  "contactsLocationsModule": {
+   "centralContacts": [
+    {
+     "name": "US GSK Clinical Trials Call Center",
+     "role": "CONTACT",
+     "phone": "877-379-3718",
+     "email": "GSKClinicalSupportHD@gsk.com"
+    },
+    {
+     "name": "EU GSK Clinical Trials Call Center",
+     "role": "CONTACT",
+     "phone": "+44 (0) 20 89904466",
+     "email": "GSKClinicalSupportHD@gsk.com"
+    }
+   ]
+  },
+  "ipdSharingStatementModule": {
+   "ipdSharing": "YES",
+   "description": "Study Sponsor will assess requests from qualified researchers for anonymized individual patient-level data and related study documents. Data sharing is subject to certain criteria, conditions, and exceptions. For further information, refer to https://www.gsk-studyregister.com/gsk-patient-level-data-sharing-july2025.pdf",
+   "infoTypes": [
+    "STUDY_PROTOCOL",
+    "SAP",
+    "ICF",
+    "CSR"
+   ],
+   "timeFrame": "Anonymized IPD will be made available within 6 months of publication of primary, key secondary and safety results for studies in product with approved indication(s) or asset(s) with development terminated across all indications.",
+   "accessCriteria": "Anonymized IPD is shared with researchers whose proposals are approved by an Independent Review Panel and after a Data Sharing Agreement is in place. Access is provided for an initial period of 12 months, but an extension may be granted, when justified, for up to 6 months.",
+   "url": "https://www.gsk-studyregister.com/gsk-patient-level-data-sharing-july2025.pdf"
+  }
+ },
+ "derivedSection": {
+  "miscInfoModule": {
+   "versionHolder": "2026-10-01"
+  },
+  "conditionBrowseModule": {
+   "meshes": [
+    {
+     "id": "D007251",
+     "term": "Influenza, Human"
+    }
+   ],
+   "ancestors": [
+    {
+     "id": "D012141",
+     "term": "Respiratory Tract Infections"
+    },
+    {
+     "id": "D007239",
+     "term": "Infections"
+    },
+    {
+     "id": "D009976",
+     "term": "Orthomyxoviridae Infections"
+    },
+    {
+     "id": "D012327",
+     "term": "RNA Virus Infections"
+    },
+    {
+     "id": "D014777",
+     "term": "Virus Diseases"
+    },
+    {
+     "id": "D012140",
+     "term": "Respiratory Tract Diseases"
+    }
+   ]
+  }
+ },
+ "hasResults": false
+}

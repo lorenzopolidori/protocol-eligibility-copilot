@@ -1,0 +1,46 @@
+{
+ "model": "opus",
+ "modelId": "claude-opus-5-5",
+ "effort": "low",
+ "rep": 1,
+ "nct": "NCT07851246",
+ "wall_ms": 15605,
+ "duration_api_ms": 12787,
+ "cost_usd": 0.0341312,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 12116,
+  "output_tokens": 1585,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1585,
+    "cache_read_input_tokens": 12116,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "[{\"id\":\"NCT07851246-inc-00\",\"category\":\"CONSENT_LOGISTICS\",\"rationale\":\"Ability to comply with eDiary, visits, electronic communications.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"ambiguous\"]},\n{\"id\":\"NCT07851246-inc-01\",\"category\":\"DEMOGRAPHICS\",\"rationale\":\"Age range 18-64 years at vaccination.\",\"thresholds\":[\"age >= 18 years\",\"age <= 64 years\"],\"time_window\":\"at time of study intervention administration\",\"flags\":[]},\n{\"id\":\"NCT07851246-inc-02\",\"category\":\"REPRODUCTIVE\",\"rationale\":\"Contraception and negative pregnancy test for participants of childbearing potential.\",\"thresholds\":[\"contraception >= 30 days pre-dose\",\"negative urine pregnancy test\",\"contraception >= 8 weeks post-dose\"],\"time_window\":\"30 days before to 8 weeks after dosing; pregnancy test within 24 hours pre-dose\",\"flags\":[\"screening_burden\",\"washout\",\"ambiguous\"]},\n{\"id\":\"NCT07851246-exc-03\",\"category\":\"DISEASE\",\"rationale\":\"Recent confirmed influenza episode of target disease.\",\"thresholds\":[\"test-confirmed influenza within 180 days\"],\"time_window\":\"180 days prior to study intervention\",\"flags\":[\"washout\",\"screening_burden\"]},\n{\"id\":\"NCT07851246-exc-04\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Immunosuppression excluded; stable HIV permitted per protocol criteria.\",\"thresholds\":[\"HIV stability per protocol-defined criteria\"],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"modernisation_candidate\",\"ambiguous\"]},\n{\"id\":\"NCT07851246-exc-05\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Prior mRNA vaccine-associated myocarditis/pericarditis safety risk.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"screening_burden\"]},\n{\"id\":\"NCT07851246-exc-06\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Hypersensitivity to prior influenza vaccine.\",\"thresholds\":[],\"time_window\":null,\"flags\":[]},\n{\"id\":\"NCT07851246-exc-07\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Hypersensitivity to prior mRNA vaccine.\",\"thresholds\":[],\"time_window\":null,\"flags\":[]},\n{\"id\":\"NCT07851246-exc-08\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Vaccine-associated Guillain-Barré syndrome history.\",\"thresholds\":[\"GBS onset within 6 weeks of vaccination\"],\"time_window\":\"within 6 weeks of any vaccine\",\"flags\":[\"screening_burden\"]},\n{\"id\":\"NCT07851246-exc-09\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Acute or unstable chronic conditions excluded.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"ambiguous\",\"modernisation_candidate\"]},\n{\"id\":\"NCT07851246-exc-10\",\"category\":\"THERAPY\",\"rationale\":\"Recent or planned influenza vaccination prohibited.\",\"thresholds\":[\"no influenza vaccine within 180 days\"],\"time_window\":\"180 days before dosing through Visit 2\",\"flags\":[\"washout\"]},\n{\"id\":\"NCT07851246-exc-11\",\"category\":\"THERAPY\",\"rationale\":\"Prohibited vaccines within protocol-defined windows.\",\"thresholds\":[],\"time_window\":\"protocol-defined windows before/after study intervention\",\"flags\":[\"washout\",\"ambiguous\"]},\n{\"id\":\"NCT07851246-exc-12\",\"category\":\"THERAPY\",\"rationale\":\"Investigational product use washout and prohibition.\",\"thresholds\":[\"no investigational product within 30 days\"],\"time_window\":\"Day -29 to Day 1 and throughout study\",\"flags\":[\"washout\",\"modernisation_candidate\"]},\n{\"id\":\"NCT07851246-exc-13\",\"category\":\"THERAPY\",\"rationale\":\"Chronic or long-acting immune-modifying drugs prohibited.\",\"thresholds\":[\"> 14 consecutive days immune-modifying drugs\"],\"time_window\":\"up to end of study\",\"flags\":[\"washout\",\"ambiguous\"]},\n{\"id\":\"NCT07851246-exc-14\",\"category\":\"REPRODUCTIVE\",\"rationale\":\"Pregnancy or lactation excluded.\",\"thresholds\":[],\"time_window\":null,\"flags\":[]}]",
+ "at": "2026-10-01T14:48:00.098Z"
+}

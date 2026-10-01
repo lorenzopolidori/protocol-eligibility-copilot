@@ -1,0 +1,46 @@
+{
+ "model": "haiku",
+ "modelId": "claude-haiku-4-5-20251001",
+ "effort": "low",
+ "rep": 0,
+ "nct": "NCT07650916",
+ "wall_ms": 31977,
+ "duration_api_ms": 29278,
+ "cost_usd": 0.0239066,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 2503,
+  "cache_read_input_tokens": 6556,
+  "output_tokens": 3647,
+  "output_tokens_details": {
+   "thinking_tokens": 2747
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2503,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 10,
+    "output_tokens": 3647,
+    "cache_read_input_tokens": 6556,
+    "cache_creation_input_tokens": 2503,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2503
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "```json\n[\n  {\n    \"id\": \"NCT07650916-inc-00\",\n    \"category\": \"DEMOGRAPHICS\",\n    \"rationale\": \"Age and weight eligibility criteria\",\n    \"thresholds\": [\"Age ≥12 years\", \"Weight >35 kg\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07650916-inc-01\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Historical virologic suppression requirement\",\n    \"thresholds\": [\"HIV-1 RNA <50 copies/mL\"],\n    \"time_window\": \"12 months prior to screening\",\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07650916-inc-02\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Baseline virologic suppression confirmation\",\n    \"thresholds\": [\"HIV-1 RNA <50 copies/mL\"],\n    \"time_window\": \"at screening\",\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07650916-inc-03\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Stability on continuous oral antiretroviral therapy\",\n    \"thresholds\": [\"≥6 months continuous oral ART\"],\n    \"time_window\": \"6 months prior to screening\",\n    \"flags\": [\"washout\", \"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07650916-inc-04\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Prior therapy switches not for virologic failure\",\n    \"thresholds\": [\"No switches for virologic failure (RNA ≥200 copies/mL)\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"screening_burden\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07650916-exc-05\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Major resistance to study agents INSTI NNRTI\",\n    \"thresholds\": [\"No major INSTI or NNRTI resistance mutations\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07650916-exc-06\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Immunotherapeutic vaccine washout period\",\n    \"thresholds\": [],\n    \"time_window\": \"within 90 days of screening\",\n    \"flags\": [\"washout\"]\n  },\n  {\n    \"id\": \"NCT07650916-exc-07\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Prior long-acting HIV therapy exposure exclusion\",\n    \"thresholds\": [],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07650916-exc-08\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Prior cabotegravir or rilpivirine exposure\",\n    \"thresholds\": [],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07650916-exc-09\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Significant uncontrolled comorbidities affecting safety\",\n    \"thresholds\": [],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\", \"modernisation_candidate\"]\n  }\n]\n```",
+ "at": "2026-10-01T14:45:27.349Z"
+}

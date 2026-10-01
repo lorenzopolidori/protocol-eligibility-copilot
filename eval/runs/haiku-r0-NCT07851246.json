@@ -1,0 +1,46 @@
+{
+ "model": "haiku",
+ "modelId": "claude-haiku-4-5-20251001",
+ "effort": "low",
+ "rep": 0,
+ "nct": "NCT07851246",
+ "wall_ms": 50974,
+ "duration_api_ms": 48222,
+ "cost_usd": 0.038891600000000005,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 2738,
+  "cache_read_input_tokens": 6556,
+  "output_tokens": 6550,
+  "output_tokens_details": {
+   "thinking_tokens": 4943
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2738,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 10,
+    "output_tokens": 6550,
+    "cache_read_input_tokens": 6556,
+    "cache_creation_input_tokens": 2738,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2738
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "```json\n[\n  {\n    \"id\": \"NCT07851246-inc-00\",\n    \"category\": \"CONSENT_LOGISTICS\",\n    \"rationale\": \"Protocol compliance and practical participation ability required\",\n    \"thresholds\": [\"ability to complete eDiary\", \"ability to attend follow-up visits\", \"access to electronic communications\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07851246-inc-01\",\n    \"category\": \"DEMOGRAPHICS\",\n    \"rationale\": \"Age 18-64 years at intervention administration\",\n    \"thresholds\": [\"age >= 18 years\", \"age <= 64 years\"],\n    \"time_window\": \"at time of study intervention administration\",\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07851246-inc-02\",\n    \"category\": \"REPRODUCTIVE\",\n    \"rationale\": \"Childbearing potential requires contraception and negative pregnancy test\",\n    \"thresholds\": [\"negative urine pregnancy test within 24 hours\", \"adequate contraception 30 days prior\", \"continued contraception 8 weeks post-intervention\"],\n    \"time_window\": \"30 days prior to intervention; within 24 hours pre-intervention; 8 weeks post-intervention\",\n    \"flags\": [\"screening_burden\", \"washout\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-03\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Recent confirmed influenza infection within 180 days excluded\",\n    \"thresholds\": [\"no test-confirmed influenza infection within 180 days\"],\n    \"time_window\": \"within 180 days prior to intervention\",\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-04\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Immunosuppression/immunodeficiency excluded except stable HIV\",\n    \"thresholds\": [\"no confirmed immunosuppression/immunodeficiency OR stable HIV with protocol criteria\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\", \"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-05\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Prior mRNA vaccine-related myocarditis/pericarditis excluded\",\n    \"thresholds\": [\"no history of mRNA vaccine-related myocarditis or pericarditis\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-06\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Prior hypersensitivity to influenza vaccine excluded\",\n    \"thresholds\": [\"no history of hypersensitivity or allergic reaction to influenza vaccine\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-07\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Prior hypersensitivity to mRNA vaccine excluded\",\n    \"thresholds\": [\"no history of hypersensitivity or allergic reaction to mRNA vaccine\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-08\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Vaccine-related Guillain-Barré syndrome within 6 weeks excluded\",\n    \"thresholds\": [\"no history of GBS within 6 weeks of vaccine\"],\n    \"time_window\": \"within 6 weeks of receiving any vaccine\",\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-09\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Acute or unstable chronic conditions excluded\",\n    \"thresholds\": [\"no acute conditions\", \"no unstable chronic conditions\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-10\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Recent influenza vaccine or planned vaccine before Visit 2 excluded\",\n    \"thresholds\": [\"no influenza vaccine within 180 days prior\", \"no planned influenza vaccine before Visit 2\"],\n    \"time_window\": \"180 days before intervention; before Visit 2\",\n    \"flags\": [\"washout\", \"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-11\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Prohibited vaccines within protocol-defined time windows excluded\",\n    \"thresholds\": [\"no prohibited vaccines within protocol-defined time windows\"],\n    \"time_window\": \"protocol-defined time windows before/after intervention\",\n    \"flags\": [\"washout\", \"screening_burden\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-12\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Investigational/non-registered products within 30 days excluded\",\n    \"thresholds\": [\"no investigational or non-registered products within 30 days\"],\n    \"time_window\": \"30 days before intervention (Day -29 to Day 1)\",\n    \"flags\": [\"washout\", \"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-13\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Chronic immune-modifying drugs >14 consecutive days excluded\",\n    \"thresholds\": [\"no chronic immune-modifying drugs (>14 consecutive days)\", \"no planned long-acting immune-modifying treatments\"],\n    \"time_window\": \"up to end of study\",\n    \"flags\": [\"screening_burden\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-14\",\n    \"category\": \"REPRODUCTIVE\",\n    \"rationale\": \"Pregnant or lactating females excluded\",\n    \"thresholds\": [\"not pregnant\", \"not lactating\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  }\n]\n```",
+ "at": "2026-10-01T14:45:46.347Z"
+}

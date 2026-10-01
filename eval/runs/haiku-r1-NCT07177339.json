@@ -1,0 +1,46 @@
+{
+ "model": "haiku",
+ "modelId": "claude-haiku-4-5-20251001",
+ "effort": "low",
+ "rep": 1,
+ "nct": "NCT07177339",
+ "wall_ms": 128280,
+ "duration_api_ms": 125439,
+ "cost_usd": 0.06971759999999999,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 9526,
+  "output_tokens": 13751,
+  "output_tokens_details": {
+   "thinking_tokens": 12093
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 10,
+    "output_tokens": 13751,
+    "cache_read_input_tokens": 9526,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "```json\n[\n  {\n    \"id\": \"NCT07177339-inc-00\",\n    \"category\": \"DEMOGRAPHICS\",\n    \"rationale\": \"Sex/gender eligibility; definition of 'eligible female' not specified\",\n    \"thresholds\": [\"Male\", \"Eligible female\"],\n    \"time_window\": null,\n    \"flags\": [\"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07177339-inc-01\",\n    \"category\": \"LABS_VITALS\",\n    \"rationale\": \"Blood eosinophil count threshold for eosinophilic phenotype selection\",\n    \"thresholds\": [\"Blood eosinophil count threshold (exact value not specified)\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"modernisation_candidate\"]\n  },\n  {\n    \"id\": \"NCT07177339-inc-02\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Spirometric confirmation of COPD diagnosis; moderate-severe classification\",\n    \"thresholds\": [\"Post-salbutamol FEV1/FVC <0.70\", \"Post-salbutamol FEV1 >30% predicted\", \"Post-salbutamol FEV1 <80% predicted\", \"Clinically documented COPD history ≥1 year\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT07177339-inc-03\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Exactly one moderate exacerbation in 12 months plus objective risk factors\",\n    \"thresholds\": [\"Exactly 1 moderate exacerbation in prior 12 months\", \"At least one of: mMRC ≥2, CAT ≥15, FEV1 <50% predicted, chronic bronchitis\"],\n    \"time_window\": \"12 months prior to baseline screening\",\n    \"flags\": [\"screening_burden\", \"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT07177339-inc-04\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Smoking exposure history ≥10 pack-years defines COPD phenotype\",\n    \"thresholds\": [\"Current or former cigarette smoker\", \"≥10 pack-years cumulative smoking history\"],\n    \"time_window\": null,\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07177339-inc-05\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Dual or triple ICS/LABA/LAMA inhaler therapy for minimum 3 months\",\n    \"thresholds\": [\"Dual therapy: ICS+LABA or LABA+LAMA\", \"Triple therapy: ICS+LABA+LAMA\", \"Minimum 3 months duration\"],\n    \"time_window\": \"At least 3 months prior to screening\",\n    \"flags\": [\"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT07177339-inc-06\",\n    \"category\": \"DEMOGRAPHICS\",\n    \"rationale\": \"Minimum body mass index threshold to exclude severely underweight\",\n    \"thresholds\": [\"BMI ≥16 kg/m²\"],\n    \"time_window\": null,\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07177339-exc-07\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"COPD must be primary diagnosis; asthma diagnosis excluded with age-based exception\",\n    \"thresholds\": [\"No current or prior asthma diagnosis\", \"Childhood asthma allowed if resolved before age 18 and non-recurrent\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07177339-exc-08\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Other clinically significant non-COPD lung disease excluded\",\n    \"thresholds\": [\"No other clinically significant lung disease\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07177339-exc-09\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Severe exacerbation history or multiple moderate exacerbations excluded\",\n    \"thresholds\": [\"≤1 moderate exacerbation in past 12 months\", \"Zero severe exacerbations in past 12 months\"],\n    \"time_window\": \"12 months prior to Visit 1\",\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07177339-exc-10\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Recent acute respiratory event washout to establish baseline stability\",\n    \"thresholds\": [\"No pneumonia, COPD exacerbation, or lower respiratory tract infection\"],\n    \"time_window\": \"4 weeks prior to Visit 1\",\n    \"flags\": [\"washout\"]\n  },\n  {\n    \"id\": \"NCT07177339-exc-11\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Prior or planned lung volume reduction surgery/endobronchial valve excluded\",\n    \"thresholds\": [\"No history of lung volume reduction surgery\", \"No history of endobronchial valve procedure\", \"No planned lung surgery\"],\n    \"time_window\": null,\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07177339-exc-12\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Acute phase pulmonary rehabilitation washout to establish stability\",\n    \"thresholds\": [\"Not in acute phase of pulmonary rehabilitation program\"],\n    \"time_window\": \"4 weeks prior to Visit 1\",\n    \"flags\": [\"washout\"]\n  },\n  {\n    \"id\": \"NCT07177339-exc-13\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Chronic hypercapnia managed with non-invasive ventilation excluded\",\n    \"thresholds\": [\"No chronic hypercapnia requiring NIPPV/BiPAP/CPAP\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT07177339-exc-14\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Continuous oxygen supplementation requirement excluded\",\n    \"thresholds\": [\"No continuous oxygen supplementation for COPD\"],\n    \"time_window\": null,\n    \"flags\": []\n  }\n]\n```",
+ "at": "2026-10-01T14:47:35.632Z"
+}

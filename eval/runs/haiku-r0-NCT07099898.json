@@ -1,0 +1,46 @@
+{
+ "model": "haiku",
+ "modelId": "claude-haiku-4-5-20251001",
+ "effort": "low",
+ "rep": 0,
+ "nct": "NCT07099898",
+ "wall_ms": 35815,
+ "duration_api_ms": 33016,
+ "cost_usd": 0.027946600000000002,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 2788,
+  "cache_read_input_tokens": 6556,
+  "output_tokens": 4341,
+  "output_tokens_details": {
+   "thinking_tokens": 2572
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2788,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 10,
+    "output_tokens": 4341,
+    "cache_read_input_tokens": 6556,
+    "cache_creation_input_tokens": 2788,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2788
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "```json\n[\n  {\n    \"id\": \"NCT07099898-inc-00\",\n    \"category\": \"DEMOGRAPHICS\",\n    \"rationale\": \"Age eligibility at informed consent signing\",\n    \"thresholds\": [\"≥18 years or minimum legal adult age\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT07099898-inc-01\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Confirmed extensive-stage SCLC diagnosis required\",\n    \"thresholds\": [\"ES-SCLC histologically or cytologically confirmed\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07099898-inc-02\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Prior platinum-PD(L)1 therapy with washout and progression documentation\",\n    \"thresholds\": [\"1 prior platinum + PD-(L)1 regimen\", \"≥2 cycles\", \"documented progression\", \"tarlatamab prior treatment eligible\"],\n    \"time_window\": \">30 days chemotherapy-free interval\",\n    \"flags\": [\"washout\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07099898-inc-03\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Measurable disease per RECIST 1.1 required for response assessment\",\n    \"thresholds\": [\"≥1 target lesion per RECIST 1.1\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT07099898-inc-04\",\n    \"category\": \"CONSENT_LOGISTICS\",\n    \"rationale\": \"Standard informed consent and protocol compliance capability\",\n    \"thresholds\": [\"Able to provide informed consent\", \"Able to comply with protocol\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT07099898-inc-05\",\n    \"category\": \"LABS_VITALS\",\n    \"rationale\": \"Adequate organ function and good performance status required\",\n    \"thresholds\": [\"Adequate organ function\", \"ECOG PS 0–1\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT07099898-exc-06\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Excludes SCLC phenotype variants\",\n    \"thresholds\": [\"NOT complex SCLC\", \"NOT transformed SCLC\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07099898-exc-07\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Limited-stage disease excluded at diagnosis\",\n    \"thresholds\": [\"NOT limited-stage SCLC\"],\n    \"time_window\": null,\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07099898-exc-08\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Prior TOPO1 ADC or B7-H3 inhibitor exposure excluded\",\n    \"thresholds\": [\"No prior TOPO1 ADC\", \"No prior B7-H3 targeted therapy\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07099898-exc-09\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Hypersensitivity to drug components or excipients precludes participation\",\n    \"thresholds\": [\"No known hypersensitivity to study drug/excipients\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT07099898-exc-10\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Severe/uncontrolled cardiovascular disease poses safety risk\",\n    \"thresholds\": [\"No severe cardiovascular disorder\", \"No uncontrolled cardiovascular disorder\", \"No active cardiovascular disorder\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07099898-exc-11\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Recent bleeding symptoms or tendency increases hemorrhage risk\",\n    \"thresholds\": [\"No significant bleeding symptoms/tendency\"],\n    \"time_window\": \"within 1 month prior to first dose\",\n    \"flags\": [\"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07099898-exc-12\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Active infection or HIV precludes immunocompromised participation\",\n    \"thresholds\": [\"No active infectious disease requiring treatment\", \"HIV negative\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07099898-exc-13\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"CNS metastases or progression excluded due to safety/efficacy concerns\",\n    \"thresholds\": [\"No symptomatic brain metastases\", \"No untreated brain progression\", \"No leptomeningeal/brainstem metastases\", \"No spinal cord metastases\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07099898-exc-14\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"ILD/pneumonitis history increases pulmonary toxicity risk\",\n    \"thresholds\": [\"No current ILD\", \"No prior high-dose steroid-requiring pneumonitis\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07099898-exc-15\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Significant pulmonary disease increases respiratory complications\",\n    \"thresholds\": [\"No significant pulmonary disease\", \"No uncontrolled asthma/COPD\", \"No restrictive lung disease\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\", \"modernisation_candidate\"]\n  },\n  {\n    \"id\": \"NCT07099898-exc-16\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Active hepatitis B or C reflects infectious disease burden\",\n    \"thresholds\": [\"No active Hepatitis B\", \"No active Hepatitis C\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  }\n]\n```",
+ "at": "2026-10-01T14:45:31.185Z"
+}

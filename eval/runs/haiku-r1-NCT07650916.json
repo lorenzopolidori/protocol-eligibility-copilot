@@ -1,0 +1,46 @@
+{
+ "model": "haiku",
+ "modelId": "claude-haiku-4-5-20251001",
+ "effort": "low",
+ "rep": 1,
+ "nct": "NCT07650916",
+ "wall_ms": 30648,
+ "duration_api_ms": 28160,
+ "cost_usd": 0.0186059,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 9059,
+  "output_tokens": 3538,
+  "output_tokens_details": {
+   "thinking_tokens": 2546
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 10,
+    "output_tokens": 3538,
+    "cache_read_input_tokens": 9059,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "```json\n[\n  {\n    \"id\": \"NCT07650916-inc-00\",\n    \"category\": \"DEMOGRAPHICS\",\n    \"rationale\": \"Age and weight thresholds for HIV-positive adolescents and adults\",\n    \"thresholds\": [\"age ≥12 years\", \"weight >35 kg\"],\n    \"time_window\": null,\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07650916-inc-01\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Prior 12-month virologic suppression history required for stability\",\n    \"thresholds\": [\"HIV-1 RNA <50 copies/mL\"],\n    \"time_window\": \"12 months prior to screening\",\n    \"flags\": [\"screening_burden\", \"washout\"]\n  },\n  {\n    \"id\": \"NCT07650916-inc-02\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Current virologic suppression confirmed at baseline assessment\",\n    \"thresholds\": [\"HIV-1 RNA <50 copies/mL\"],\n    \"time_window\": \"at screening\",\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07650916-inc-03\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Stable oral ART regimen for minimum 6 months prior to enrollment\",\n    \"thresholds\": [\"continuous oral ART ≥6 months\"],\n    \"time_window\": \"6 months prior to screening\",\n    \"flags\": [\"washout\", \"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07650916-inc-04\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Prior switches only for tolerability/safety/access, excluding virologic failure\",\n    \"thresholds\": [\"reason for switch: tolerability/safety/access/convenience only\", \"no prior virologic failure ≥200 copies/mL\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07650916-exc-05\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Exclude INSTI and NNRTI resistance-associated mutations to study drugs\",\n    \"thresholds\": [\"no INSTI RAM\", \"no NNRTI RAM\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07650916-exc-06\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Exclude recent HIV immunotherapeutic vaccine within washout window\",\n    \"thresholds\": [\"no HIV immunotherapeutic vaccine within 90 days\"],\n    \"time_window\": \"90 days prior to screening\",\n    \"flags\": [\"washout\"]\n  },\n  {\n    \"id\": \"NCT07650916-exc-07\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Exclude all prior long-acting HIV therapy experience for study integrity\",\n    \"thresholds\": [\"no prior long-acting therapy\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"modernisation_candidate\"]\n  },\n  {\n    \"id\": \"NCT07650916-exc-08\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Exclude prior exposure to CAB or RPV from any indication\",\n    \"thresholds\": [\"no prior CAB exposure\", \"no prior RPV exposure\"],\n    \"time_window\": null,\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07650916-exc-09\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Uncontrolled significant comorbidities excluded if affecting safety/participation\",\n    \"thresholds\": [\"no significant uncontrolled comorbidities\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\"]\n  }\n]\n```",
+ "at": "2026-10-01T14:46:16.995Z"
+}

@@ -1,0 +1,46 @@
+{
+ "model": "haiku",
+ "modelId": "claude-haiku-4-5-20251001",
+ "effort": "low",
+ "rep": 0,
+ "nct": "NCT06716606",
+ "wall_ms": 104158,
+ "duration_api_ms": 101164,
+ "cost_usd": 0.0652266,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 3068,
+  "cache_read_input_tokens": 6556,
+  "output_tokens": 11685,
+  "output_tokens_details": {
+   "thinking_tokens": 10235
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3068,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 10,
+    "output_tokens": 11685,
+    "cache_read_input_tokens": 6556,
+    "cache_creation_input_tokens": 3068,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3068
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "```json\n[\n  {\n    \"id\": \"NCT06716606-inc-00\",\n    \"category\": \"CONSENT_LOGISTICS\",\n    \"rationale\": \"Completion of parent study without early discontinuation required\",\n    \"thresholds\": [\"Week 52 completion of parent study 218224 or 221672\", \"No treatment discontinuation prior to Week 52\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT06716606-inc-01\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Adequate subcutaneous injection sites despite SSc skin involvement\",\n    \"thresholds\": [\"Uninvolved or mildly thickened skin suitable for SC injection\", \"Injection site available at abdomen or front/middle thigh\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT06716606-inc-02\",\n    \"category\": \"CONSENT_LOGISTICS\",\n    \"rationale\": \"Capable of self-administering study medication or arranging caregiver\",\n    \"thresholds\": [\"Self-administration capability or identified caregiver/healthcare professional\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT06716606-inc-03\",\n    \"category\": \"REPRODUCTIVE\",\n    \"rationale\": \"Pregnancy status and highly effective contraception for WOCBP\",\n    \"thresholds\": [\"WONCBP status or WOCBP with <1% failure rate contraceptive\", \"Contraception maintained through study and 4 months post-final dose\"],\n    \"time_window\": \"Study duration plus 4 months after last dose\",\n    \"flags\": [\"screening_burden\", \"investigator_judgement\", \"modernisation_candidate\"]\n  },\n  {\n    \"id\": \"NCT06716606-inc-04\",\n    \"category\": \"REPRODUCTIVE\",\n    \"rationale\": \"Negative pregnancy test required for WOCBP prior to dosing\",\n    \"thresholds\": [\"Negative highly sensitive pregnancy test (urine or serum)\"],\n    \"time_window\": \"Within 24 hours before first dose\",\n    \"flags\": [\"screening_burden\", \"modernisation_candidate\"]\n  },\n  {\n    \"id\": \"NCT06716606-inc-05\",\n    \"category\": \"REPRODUCTIVE\",\n    \"rationale\": \"Confirmatory serum pregnancy test if urine result ambiguous\",\n    \"thresholds\": [\"Negative serum pregnancy test when urine result inconclusive\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT06716606-inc-06\",\n    \"category\": \"REPRODUCTIVE\",\n    \"rationale\": \"Additional pregnancy testing requirements during and after study\",\n    \"thresholds\": [\"Ongoing pregnancy testing per protocol specifications\"],\n    \"time_window\": \"During study intervention and post-intervention as specified\",\n    \"flags\": [\"screening_burden\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT06716606-inc-07\",\n    \"category\": \"REPRODUCTIVE\",\n    \"rationale\": \"Medical and sexual history review to exclude early pregnancy\",\n    \"thresholds\": [\"Review of medical history, menstrual history, and sexual activity\", \"Signed informed consent with protocol compliance capability\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT06716606-exc-08\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Exclusion of early discontinuers from parent study treatment\",\n    \"thresholds\": [\"Parent study treatment continuation through Week 52\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT06716606-exc-09\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Significant uncontrolled diseases and prior serious adverse events\",\n    \"thresholds\": [\"No significant/unstable/uncontrolled acute or chronic non-CTD diseases\", \"No prior adverse events creating undue risk at investigator discretion\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT06716606-exc-10\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Safety-related conditions affecting drug metabolism or interpretation\",\n    \"thresholds\": [\"No conditions altering drug absorption/metabolism/elimination\", \"No safety risks from medical diseases, lab abnormalities, or conditions\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT06716606-exc-11\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Prior radiation exposure exceeding safety threshold\",\n    \"thresholds\": [\"Cumulative ionizing radiation exposure ≤10 mSv above background\"],\n    \"time_window\": \"Previous 3 years\",\n    \"flags\": [\"screening_burden\", \"washout\"]\n  },\n  {\n    \"id\": \"NCT06716606-exc-12\",\n    \"category\": \"LABS_VITALS\",\n    \"rationale\": \"Baseline QTc interval within normal limits from parent study\",\n    \"thresholds\": [\"QTc ≤480 msec at Week 52 of parent study\"],\n    \"time_window\": null,\n    \"flags\": [\"modernisation_candidate\"]\n  }\n]\n```",
+ "at": "2026-10-01T14:46:39.533Z"
+}

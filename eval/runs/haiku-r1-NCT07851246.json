@@ -1,0 +1,46 @@
+{
+ "model": "haiku",
+ "modelId": "claude-haiku-4-5-20251001",
+ "effort": "low",
+ "rep": 1,
+ "nct": "NCT07851246",
+ "wall_ms": 54037,
+ "duration_api_ms": 51712,
+ "cost_usd": 0.0331444,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 9294,
+  "output_tokens": 6441,
+  "output_tokens_details": {
+   "thinking_tokens": 4926
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 10,
+    "output_tokens": 6441,
+    "cache_read_input_tokens": 9294,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "```json\n[\n  {\n    \"id\": \"NCT07851246-inc-00\",\n    \"category\": \"CONSENT_LOGISTICS\",\n    \"rationale\": \"Protocol compliance and electronic communication access capability\",\n    \"thresholds\": [],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07851246-inc-01\",\n    \"category\": \"DEMOGRAPHICS\",\n    \"rationale\": \"Age inclusion with upper bound\",\n    \"thresholds\": [\"18-64 years inclusive\"],\n    \"time_window\": \"at time of study intervention administration\",\n    \"flags\": [\"modernisation_candidate\"]\n  },\n  {\n    \"id\": \"NCT07851246-inc-02\",\n    \"category\": \"REPRODUCTIVE\",\n    \"rationale\": \"Contraception documentation and pregnancy testing requirement\",\n    \"thresholds\": [\"adequate contraception ≥30 days prior\", \"negative urine pregnancy test <24h prior\", \"continued contraception ≥8 weeks post\"],\n    \"time_window\": \"30 days prior; 24 hours prior; 8 weeks post-intervention\",\n    \"flags\": [\"screening_burden\", \"washout\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-03\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Recent test-confirmed influenza infection exclusion\",\n    \"thresholds\": [\"no confirmed influenza within 180 days\"],\n    \"time_window\": \"180 days prior to intervention\",\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-04\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Immunosuppression screening with stable HIV exception\",\n    \"thresholds\": [\"no confirmed or suspected immunosuppression except stable HIV\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\", \"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-05\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"mRNA vaccine-associated myocarditis or pericarditis history\",\n    \"thresholds\": [\"no causally associated myocarditis or pericarditis from mRNA vaccine\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-06\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Prior influenza vaccine hypersensitivity or allergic reaction\",\n    \"thresholds\": [\"no prior influenza vaccine allergy or hypersensitivity\"],\n    \"time_window\": null,\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07851246-exc-07\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Prior mRNA vaccine hypersensitivity or allergic reaction\",\n    \"thresholds\": [\"no prior mRNA vaccine allergy or hypersensitivity\"],\n    \"time_window\": null,\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07851246-exc-08\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Guillain-Barré syndrome within 6 weeks post-vaccine\",\n    \"thresholds\": [\"no GBS within 6 weeks of any vaccine\"],\n    \"time_window\": \"6 weeks following any vaccine\",\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07851246-exc-09\",\n    \"category\": \"COMORBIDITY_SAFETY\",\n    \"rationale\": \"Acute or unstable chronic conditions exclusion\",\n    \"thresholds\": [],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\", \"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-10\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Recent influenza vaccine administration washout\",\n    \"thresholds\": [\"no influenza vaccine within 180 days prior\"],\n    \"time_window\": \"180 days prior to intervention; through Visit 2\",\n    \"flags\": [\"washout\", \"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-11\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Prohibited vaccine co-administration within protocol windows\",\n    \"thresholds\": [\"no prohibited vaccines within protocol-defined time windows\"],\n    \"time_window\": \"protocol-defined windows before and after intervention\",\n    \"flags\": [\"washout\", \"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-12\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Investigational or non-registered product exclusion\",\n    \"thresholds\": [\"no investigational products in 30-day window or during study\"],\n    \"time_window\": \"Day -29 to Day 1; throughout study period\",\n    \"flags\": [\"washout\", \"screening_burden\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-13\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Chronic immune-modifying drugs and long-acting modulators\",\n    \"thresholds\": [\"no >14 consecutive days immune-modifying drugs\", \"no long-acting immune modulators\"],\n    \"time_window\": \"any time through end of study\",\n    \"flags\": [\"washout\", \"screening_burden\", \"ambiguous\", \"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT07851246-exc-14\",\n    \"category\": \"REPRODUCTIVE\",\n    \"rationale\": \"Pregnancy and lactation exclusion\",\n    \"thresholds\": [\"not pregnant\", \"not lactating\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\"]\n  }\n]\n```",
+ "at": "2026-10-01T14:46:44.499Z"
+}

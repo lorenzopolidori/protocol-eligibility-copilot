@@ -1,0 +1,46 @@
+{
+ "model": "sonnet",
+ "modelId": "claude-sonnet-5-5",
+ "effort": "low",
+ "rep": 1,
+ "nct": "NCT07650916",
+ "wall_ms": 9479,
+ "duration_api_ms": 6781,
+ "cost_usd": 0.0238516,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2876,
+  "cache_read_input_tokens": 8668,
+  "output_tokens": 1061,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2876,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1061,
+    "cache_read_input_tokens": 8668,
+    "cache_creation_input_tokens": 2876,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2876
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "[\n{\"id\":\"NCT07650916-inc-00\",\"category\":\"DEMOGRAPHICS\",\"rationale\":\"Age and body weight requirement combined with HIV-1 infection status.\",\"thresholds\":[\"age >=12 years\",\"weight >35 kg\"],\"time_window\":null,\"flags\":[\"ambiguous\"]},\n{\"id\":\"NCT07650916-inc-01\",\"category\":\"DISEASE\",\"rationale\":\"Documented viral suppression history requires record retrieval over 12 months.\",\"thresholds\":[\"HIV-1 RNA <50 copies/mL\"],\"time_window\":\"12 months prior to Screening\",\"flags\":[\"screening_burden\",\"ambiguous\"]},\n{\"id\":\"NCT07650916-inc-02\",\"category\":\"DISEASE\",\"rationale\":\"Screening viral load must show suppression.\",\"thresholds\":[\"HIV-1 RNA <50 copies/mL\"],\"time_window\":\"at screening\",\"flags\":[]},\n{\"id\":\"NCT07650916-inc-03\",\"category\":\"THERAPY\",\"rationale\":\"Requires stable uninterrupted daily oral ART duration before screening.\",\"thresholds\":[\"current daily oral ART >=6 months uninterrupted\"],\"time_window\":\"6 months prior to Screening\",\"flags\":[\"washout\",\"screening_burden\",\"ambiguous\"]},\n{\"id\":\"NCT07650916-inc-04\",\"category\":\"THERAPY\",\"rationale\":\"Prior switch reasons restricted; excludes virologic failure-driven switches, needing history review.\",\"thresholds\":[\"no switch for virologic failure (HIV-1 RNA >=200 copies/mL)\"],\"time_window\":null,\"flags\":[\"screening_burden\",\"investigator_judgement\",\"ambiguous\"]},\n{\"id\":\"NCT07650916-exc-05\",\"category\":\"DISEASE\",\"rationale\":\"Excludes baseline INSTI or NNRTI major resistance mutations; requires genotype data.\",\"thresholds\":[\"any major INSTI or NNRTI resistance-associated mutation\"],\"time_window\":null,\"flags\":[\"screening_burden\",\"ambiguous\"]},\n{\"id\":\"NCT07650916-exc-06\",\"category\":\"THERAPY\",\"rationale\":\"Recent HIV-1 immunotherapeutic vaccine exposure excluded.\",\"thresholds\":[],\"time_window\":\"within 90 days of screening\",\"flags\":[\"washout\"]},\n{\"id\":\"NCT07650916-exc-07\",\"category\":\"THERAPY\",\"rationale\":\"Any prior long-acting HIV therapy excluded.\",\"thresholds\":[],\"time_window\":\"any history\",\"flags\":[\"modernisation_candidate\"]},\n{\"id\":\"NCT07650916-exc-08\",\"category\":\"THERAPY\",\"rationale\":\"Prior CAB or RPV exposure, including prevention, excluded.\",\"thresholds\":[],\"time_window\":\"any prior exposure\",\"flags\":[\"modernisation_candidate\"]},\n{\"id\":\"NCT07650916-exc-09\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Vague uncontrolled comorbidity exclusion relying on investigator assessment.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"ambiguous\",\"modernisation_candidate\"]}\n]",
+ "at": "2026-10-01T14:47:18.145Z"
+}

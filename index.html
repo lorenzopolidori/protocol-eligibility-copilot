@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Protocol Eligibility Copilot</title>
+<meta name="description" content="A Development Operations agentic-AI skill prototype: structures clinical-trial eligibility criteria from ClinicalTrials.gov, benchmarks feasibility, and is evaluated against a rule baseline. Built by Lorenzo Polidori.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+html, body { margin: 0; }
+[hidden] { display: none !important; }
+/* Layout: a protocol-review workbench. One reading column for narrative, wide panels for the tool,
+   the criteria table reads like an annotated protocol section with reviewer markup. */
+:root {
+  --paper: #f5f7f9;      /* page ground: cool clinical paper */
+  --sheet: #ffffff;      /* panels */
+  --ink: #142033;        /* primary text: navy ink */
+  --ink-2: #4a5568;      /* secondary text */
+  --ink-3: #6b7686;      /* muted */
+  --rule: #d9dfe6;       /* hairlines */
+  --accent: #0b6e79;     /* clinical teal: actions, links */
+  --accent-soft: #e2f0f1;
+  --mark: #f3c623;       /* reviewer highlighter: flags only */
+  --mark-soft: #fdf3c4;
+  --good: #16794a; --good-soft: #e3f3ea;
+  --bad: #b42318;  --bad-soft: #fde8e6;
+  --warn: #9a6200;
+  /* categorical slots (dataviz reference order 1-7) */
+  --c1: #2a78d6; --c2: #eb6834; --c3: #1baf7a; --c4: #eda100; --c5: #e87ba4; --c6: #008300; --c7: #4a3aa7;
+  --f-display: "IBM Plex Sans Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --radius: 6px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0f1622; --sheet: #172131; --ink: #e8edf4; --ink-2: #b4bfcd; --ink-3: #8794a6; --rule: #2a3749;
+  --accent: #4fc1cc; --accent-soft: #15333a; --mark: #f3c623; --mark-soft: #3b3312;
+  --good: #4cc38a; --good-soft: #143224; --bad: #f2877c; --bad-soft: #3a1c1a; --warn: #e5b45a;
+  --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #d55181; --c6: #008300; --c7: #9085e9;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #0f1622; --sheet: #172131; --ink: #e8edf4; --ink-2: #b4bfcd; --ink-3: #8794a6; --rule: #2a3749;
+  --accent: #4fc1cc; --accent-soft: #15333a; --mark: #f3c623; --mark-soft: #3b3312;
+  --good: #4cc38a; --good-soft: #143224; --bad: #f2877c; --bad-soft: #3a1c1a; --warn: #e5b45a;
+  --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #d55181; --c6: #008300; --c7: #9085e9;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font: 15px/1.55 var(--f-body); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; letter-spacing: -0.005em; }
+h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.05; font-weight: 700; }
+h2 { font-size: 26px; line-height: 1.15; font-weight: 600; }
+h3 { font-size: 17px; font-weight: 600; }
+p { margin: 0; }
+.prose { max-width: 68ch; display: grid; gap: 10px; color: var(--ink-2); }
+.prose strong { color: var(--ink); font-weight: 600; }
+a { color: var(--accent); text-underline-offset: 2px; }
+.eyebrow { font: 500 12px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.mono { font-family: var(--f-mono); font-size: .92em; }
+.muted { color: var(--ink-3); }
+.num { font-variant-numeric: tabular-nums; }
+section { display: grid; gap: 18px; }
+.sec-head { display: grid; gap: 6px; }
+
+/* header */
+header.top { display: grid; gap: 18px; border-bottom: 1px solid var(--rule); padding-bottom: 28px; }
+.byline { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--ink-2); font-size: 14px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.kpi { background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius); padding: 14px 16px; display: grid; gap: 4px; }
+.kpi b { font: 600 28px/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
+.kpi span { font-size: 13px; color: var(--ink-2); }
+nav.jump { display: flex; flex-wrap: wrap; gap: 8px; }
+nav.jump a { font: 500 13px var(--f-mono); padding: 5px 10px; border: 1px solid var(--rule); border-radius: 999px; text-decoration: none; color: var(--ink-2); background: var(--sheet); }
+nav.jump a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* panels */
+.panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: end; }
+.field { display: grid; gap: 4px; }
+.field label { font: 500 12px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+input[type=text], input[type=password], select { font: 14px var(--f-body); padding: 8px 10px; border: 1px solid var(--rule); border-radius: 4px; background: var(--paper); color: var(--ink); min-width: 0; }
+input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button { font: 600 14px var(--f-body); padding: 8px 14px; border-radius: 4px; border: 1px solid var(--accent); background: var(--accent); color: var(--sheet); cursor: pointer; }
+button.ghost { background: transparent; color: var(--accent); }
+button:disabled { opacity: .55; cursor: progress; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip-btn { font: 500 13px var(--f-body); padding: 6px 10px; border-radius: 4px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); cursor: pointer; text-align: left; display: grid; gap: 1px; }
+.chip-btn small { font: 400 11.5px var(--f-mono); color: var(--ink-3); }
+.chip-btn[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.note { font-size: 13px; color: var(--ink-2); border-left: 3px solid var(--rule); padding-left: 10px; }
+.note.warn { border-left-color: var(--mark); }
+
+/* pipeline trace */
+.trace { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.step { border: 1px solid var(--rule); border-radius: var(--radius); padding: 10px 12px; display: grid; gap: 4px; align-content: start; background: var(--paper); min-width: 0; }
+.step .k { font: 500 11px var(--f-mono); color: var(--ink-3); letter-spacing: .06em; text-transform: uppercase; }
+.step .t { font-weight: 600; font-size: 14px; }
+.step .d { font-size: 12.5px; color: var(--ink-2); overflow-wrap: anywhere; }
+.step .s { font: 500 12px var(--f-mono); }
+.step[data-state="done"] .s { color: var(--good); }
+.step[data-state="run"] .s { color: var(--warn); }
+.step[data-state="fallback"] .s { color: var(--warn); }
+.step[data-state="error"] .s { color: var(--bad); }
+.step[data-state="human"] { border-style: dashed; }
+@media (max-width: 860px) { .trace { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 460px) { .trace { grid-template-columns: 1fr; } }
+
+/* study + benchmark */
+.two { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 14px; }
+@media (max-width: 860px) { .two { grid-template-columns: 1fr; } }
+dl.facts { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 0; font-size: 14px; }
+dl.facts dt { color: var(--ink-3); font: 500 12px/1.9 var(--f-mono); text-transform: uppercase; letter-spacing: .05em; }
+dl.facts dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.bench { width: 100%; border-collapse: collapse; font-size: 14px; }
+.bench th, .bench td { padding: 7px 8px; border-bottom: 1px solid var(--rule); text-align: right; font-variant-numeric: tabular-nums; }
+.bench th:first-child, .bench td:first-child { text-align: left; }
+.bench th { font: 500 11.5px var(--f-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); }
+
+/* composition bar */
+.comp { display: flex; height: 14px; border-radius: 4px; overflow: hidden; gap: 2px; background: var(--sheet); }
+.comp span { display: block; height: 100%; min-width: 3px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--ink-2); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+
+/* criteria table */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: var(--radius); }
+table.crit { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 860px; }
+table.crit th { position: sticky; top: 0; background: var(--sheet); font: 500 11.5px var(--f-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--rule); }
+table.crit td { padding: 9px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+table.crit tr.sec td { background: var(--paper); font: 600 12px var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+td.txt { max-width: 46ch; color: var(--ink); }
+td.txt .rat { display: block; margin-top: 4px; color: var(--ink-3); font-size: 12.5px; font-style: italic; }
+.cat { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; white-space: nowrap; }
+.cat i { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.verdict { font: 500 12px var(--f-mono); padding: 1px 6px; border-radius: 3px; white-space: nowrap; }
+.verdict.ok { color: var(--good); background: var(--good-soft); }
+.verdict.no { color: var(--bad); background: var(--bad-soft); }
+.flag { display: inline-block; font: 500 11px var(--f-mono); padding: 1px 6px; margin: 0 4px 4px 0; border-radius: 3px; background: var(--mark-soft); color: var(--ink); border: 1px solid var(--mark); }
+.thr { font: 12px var(--f-mono); color: var(--ink-2); }
+td select { font-size: 12.5px; padding: 4px 6px; }
+.audit { font: 12px/1.6 var(--f-mono); color: var(--ink-2); max-height: 140px; overflow: auto; background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 8px 10px; }
+
+/* eval */
+.evtbl { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 760px; }
+.evtbl th, .evtbl td { padding: 9px 10px; border-bottom: 1px solid var(--rule); text-align: right; font-variant-numeric: tabular-nums; }
+.evtbl th:first-child, .evtbl td:first-child { text-align: left; }
+.evtbl th { font: 500 11.5px var(--f-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); vertical-align: bottom; }
+.evtbl tr.pick td { background: var(--accent-soft); }
+.bars { display: grid; gap: 10px; }
+.bar-row { display: grid; grid-template-columns: 170px minmax(0, 1fr) 64px; gap: 10px; align-items: center; font-size: 13.5px; }
+.bar-track { position: relative; height: 18px; border-left: 1px solid var(--ink-3); background: repeating-linear-gradient(to right, transparent 0, transparent calc(25% - 1px), var(--rule) calc(25% - 1px), var(--rule) 25%); }
+.bar { position: absolute; left: 0; top: 3px; height: 12px; border-radius: 0 4px 4px 0; background: var(--c1); }
+.bar.base { background: var(--ink-3); }
+.bar-axis { display: grid; grid-template-columns: 170px minmax(0, 1fr) 64px; gap: 10px; font: 11px var(--f-mono); color: var(--ink-3); }
+.bar-axis div:nth-child(2) { display: flex; justify-content: space-between; }
+@media (max-width: 560px) { .bar-row, .bar-axis { grid-template-columns: 96px minmax(0, 1fr) 54px; } }
+.findings { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.finding { border-top: 2px solid var(--ink); padding-top: 10px; display: grid; gap: 6px; font-size: 14px; color: var(--ink-2); }
+.finding h3 { color: var(--ink); }
+
+/* design + lifecycle */
+.grid6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0; border-top: 1px solid var(--rule); }
+.grid6 > div { padding: 14px 16px 14px 0; border-bottom: 1px solid var(--rule); display: grid; gap: 4px; font-size: 14px; color: var(--ink-2); }
+.grid6 b { font: 600 15px var(--f-display); color: var(--ink); }
+.life { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; }
+.life > div { border-top: 3px solid var(--rule); padding: 10px 10px 0 0; display: grid; gap: 4px; align-content: start; font-size: 13px; color: var(--ink-2); min-width: 0; }
+.life > div.here { border-top-color: var(--accent); }
+.life b { font: 600 14px var(--f-display); color: var(--ink); }
+.life .ref { font: 11.5px var(--f-mono); color: var(--ink-3); }
+@media (max-width: 860px) { .life { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; } }
+.port { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 720px; }
+.port th, .port td { padding: 8px 10px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+.port th { font: 500 11.5px var(--f-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); }
+.dots { font-family: var(--f-mono); letter-spacing: 2px; color: var(--accent); white-space: nowrap; }
+.dots .off { color: var(--rule); }
+.risk { font: 500 12px var(--f-mono); padding: 1px 6px; border-radius: 3px; white-space: nowrap; }
+.risk.low { color: var(--good); background: var(--good-soft); }
+.risk.med { color: var(--warn); background: var(--mark-soft); }
+.risk.high { color: var(--bad); background: var(--bad-soft); }
+footer { border-top: 1px solid var(--rule); padding-top: 18px; font-size: 13px; color: var(--ink-3); display: grid; gap: 6px; }
+details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
+@media (prefers-reduced-motion: no-preference) { .bar { transition: width .5s ease; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="eyebrow">Development Operations · agentic AI skill prototype</div>
+  <h1>Protocol Eligibility Copilot</h1>
+  <div class="prose">
+    <p>Eligibility criteria decide how fast a trial can enrol, how many patients fail screening, and how many protocol amendments follow. This prototype turns the criteria of a real protocol into structured, reviewable data: each criterion is categorised, its thresholds and washout windows are pulled out, and anything a feasibility reviewer should question is flagged. It then benchmarks the protocol against completed trials in the same indication and phase.</p>
+    <p>The point of the exercise is the method as much as the tool. I picked one Development Operations workflow, set a baseline, built the skill with frontier agentic tools, measured it against that baseline on quality, cost, latency and consistency, and wrote down what it would take to use it in a GxP setting.</p>
+  </div>
+  <div class="byline"><span>Lorenzo Polidori</span><span class="mono">Data: ClinicalTrials.gov API v2 · 5 GSK/ViiV Phase 3 protocols</span><span class="mono" id="genDate"></span><a class="mono" href="https://github.com/lorenzopolidori/protocol-eligibility-copilot" target="_blank" rel="noopener">Code &amp; evaluation on GitHub</a></div>
+  <div class="kpis" id="kpis"></div>
+  <nav class="jump" aria-label="Sections">
+    <a href="#run">Run it</a><a href="#eval">Evaluation vs baseline</a><a href="#design">Agentic design</a><a href="#context">Clinical context</a><a href="#build">How it was built</a>
+  </nav>
+</header>
+
+<!-- RUN -->
+<section id="run">
+  <div class="sec-head"><div class="eyebrow">1 · Run it</div><h2>Structure a protocol's eligibility criteria</h2></div>
+  <div class="panel">
+    <div class="field"><label>Evaluation protocols (recorded runs)</label><div class="chips" id="trialChips"></div></div>
+    <div class="controls">
+      <div class="field"><label for="nctInput">Or any NCT ID (live)</label><input type="text" id="nctInput" placeholder="NCT07177339" size="16" autocomplete="off"></div>
+      <div class="field"><label for="methodSel">Classifier</label><select id="methodSel"></select></div>
+      <div class="field" id="keyField" hidden><label for="apiKey">Anthropic API key (kept in memory only)</label><input type="password" id="apiKey" placeholder="sk-ant-…" size="26" autocomplete="off"></div>
+      <button id="runBtn" type="button">Run pipeline</button>
+    </div>
+    <p class="note" id="modeNote"></p>
+    <div class="trace" id="trace" aria-live="polite"></div>
+  </div>
+
+  <div class="two">
+    <div class="panel">
+      <h3 id="studyTitle">Study</h3>
+      <dl class="facts" id="studyFacts"></dl>
+      <div class="field"><label>Criteria by category</label><div class="comp" id="comp" role="img" aria-label="Criteria by category"></div><div class="legend" id="compLegend"></div></div>
+    </div>
+    <div class="panel">
+      <h3>Feasibility benchmark</h3>
+      <p class="muted" id="benchQuery" style="font-size:13px"></p>
+      <div style="overflow-x:auto"><table class="bench" id="benchTbl"></table></div>
+      <p class="note" id="benchNote"></p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="controls" style="justify-content:space-between;align-items:center">
+      <h3>Criteria, structured <span class="muted mono" id="critCount" style="font-weight:400;font-size:13px"></span></h3>
+      <div class="legend"><span><span class="verdict ok">✓ ref</span> matches reference label</span><span><span class="verdict no">✗ ref</span> disagrees</span><span><span class="flag">flag</span> needs reviewer attention</span></div>
+    </div>
+    <div class="tbl-wrap"><table class="crit" id="critTbl"></table></div>
+    <details>
+      <summary>Reviewer audit trail <span class="muted mono" id="auditCount"></span></summary>
+      <p class="note" style="margin:8px 0">Change a category in the Reviewer column to record a human decision. In a GxP deployment this log would be attributable, time-stamped and retained with the study record.</p>
+      <div class="audit" id="audit">No reviewer changes yet.</div>
+    </details>
+  </div>
+</section>
+
+<!-- EVAL -->
+<section id="eval">
+  <div class="sec-head"><div class="eyebrow">2 · Evaluation vs baseline</div><h2>Does the skill beat the baseline, and at what cost?</h2></div>
+  <div class="prose">
+    <p>Reference set: <strong>70 criteria from 5 GSK/ViiV Phase 3 protocols</strong> across respiratory, oncology, HIV, vaccines and immunology, each given a reference category. Where a compound criterion fits two categories, both are accepted (lenient); strict accuracy counts only the primary label. The baseline is a keyword classifier written before any model ran and not tuned afterwards. Each model was run <span id="nRepeats">twice</span> per protocol, at low reasoning effort, through headless Claude Code with tools disabled.</p>
+  </div>
+  <div class="panel">
+    <h3>Strict accuracy (primary label only)</h3>
+    <div class="bars" id="bars"></div>
+    <div class="bar-axis"><div></div><div><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div><div></div></div>
+  </div>
+  <div class="tbl-wrap"><table class="evtbl" id="evTbl"></table></div>
+  <div class="findings" id="findings"></div>
+  <details class="panel">
+    <summary>Where the baseline goes wrong <span class="muted mono" id="errCount"></span></summary>
+    <div style="overflow-x:auto"><table class="port" id="errTbl"></table></div>
+  </details>
+</section>
+
+<!-- DESIGN -->
+<section id="design">
+  <div class="sec-head"><div class="eyebrow">3 · Agentic design</div><h2>Design choices, mapped to how agentic systems fail</h2></div>
+  <div class="prose"><p>I built this as a constrained workflow rather than a free-roaming agent. Orchestration is deterministic and the model is called at one step, with a fixed contract. That makes it cheaper to validate and easier to explain to Quality, and it leaves room to add autonomy where it pays.</p></div>
+  <div class="grid6">
+    <div><b>Context</b>Each call gets one protocol: the study metadata, the deterministically split criteria with stable IDs, and the taxonomy definitions. No retrieval guesswork and no patient data. The prompt is generated from the same taxonomy object the baseline and the scorer use.</div>
+    <div><b>Memory</b>Stateless by design: nothing carries between protocols, so results are reproducible. The only durable state is the reviewer audit trail, plus the frozen CT.gov snapshot used for evaluation. Cross-study memory, such as a library of past amendments, is a next step with its own governance.</div>
+    <div><b>Tool use</b>Two tools: <span class="mono">get_study</span> and <span class="mono">find_comparators</span>, both against the public ClinicalTrials.gov API v2. Tools are deterministic, so their outputs can be tested like ordinary code.</div>
+    <div><b>Orchestration</b>Fetch → split → classify → benchmark → human review. Fixed order, with fallbacks at each step: the rule baseline if no model is available, and the frozen snapshot if the registry is unreachable.</div>
+    <div><b>Evaluation</b>A reference set, a pre-registered baseline, and four metrics: accuracy, cost, latency and run-to-run agreement. The harness (<span class="mono">eval/run_eval.mjs</span>) reruns end to end with one command, so a model or prompt change gets re-scored before it ships.</div>
+    <div><b>Reliability</b>Outputs are schema-checked and fail closed: a missing or malformed answer becomes <span class="mono">NEEDS_REVIEW</span> and is never silently defaulted. Two runs per protocol measure consistency. A named human signs off every output.</div>
+  </div>
+</section>
+
+<!-- CONTEXT -->
+<section id="context">
+  <div class="sec-head"><div class="eyebrow">4 · Clinical context</div><h2>Where this sits in clinical development</h2></div>
+  <div class="prose"><p>Eligibility criteria are written at protocol design but their cost lands later, in feasibility, screen failure, recruitment timelines and amendments. ICH E8(R1) asks sponsors to design quality in by focusing on factors critical to quality. FDA's 2020 guidance on eligibility criteria and the ASCO–Friends of Cancer Research recommendations push back on exclusions that are not scientifically necessary. This skill gives study teams that challenge at design time, before sites see the protocol.</p></div>
+  <div class="life">
+    <div class="here"><b>Protocol design</b>Criteria drafted, critical-to-quality factors set<span class="ref">ICH E8(R1) · ICH M11</span></div>
+    <div class="here"><b>Feasibility &amp; site selection</b>Patient pool, country and site mix, enrolment forecast<span class="ref">this skill + benchmark</span></div>
+    <div><b>Study start-up</b>Ethics and regulatory submissions, contracts, site activation<span class="ref">EU CTR / CTIS</span></div>
+    <div><b>Enrolment &amp; conduct</b>Screening, monitoring, deviations, risk-based quality management<span class="ref">ICH E6(R3)</span></div>
+    <div><b>Data management</b>Cleaning, queries, database lock<span class="ref">ALCOA+ · Part 11 / Annex 11</span></div>
+    <div><b>Reporting</b>Clinical study report, registry results, submission<span class="ref">ICH E3 · eCTD</span></div>
+  </div>
+  <div class="panel">
+    <h3>What the skills library could hold next</h3>
+    <p class="muted" style="font-size:13px">An illustrative first-pass prioritisation of the kind I would run with functional leads. Scores are my own judgement, to be replaced with each function's baseline data.</p>
+    <div style="overflow-x:auto"><table class="port" id="portTbl"></table></div>
+  </div>
+</section>
+
+<!-- BUILD -->
+<section id="build">
+  <div class="sec-head"><div class="eyebrow">5 · How it was built</div><h2>Built in a day, with the evidence attached</h2></div>
+  <div class="prose">
+    <p>Built in one day with Claude Code as the agentic development environment. The pieces: <span class="mono">lib.js</span> holds the splitter, baseline, taxonomy, prompt and scorer, shared by this page and the evaluation harness so the two cannot drift apart. <span class="mono">skills/eligibility-criteria-structurer/SKILL.md</span> packages the step as a reusable agent skill, with its standards. <span class="mono">eval/</span> holds the frozen protocols, reference labels, raw model runs and the harness.</p>
+    <p><strong>Limitations.</strong> The reference set is small (70 criteria), and the labels were drafted with AI assistance before human review, which can favour model-style labelling. The categories are deliberately coarse, so the task saturates. The feasibility flags and thresholds are shown but not yet scored. Costs come from Claude Code's harness at list price, so they are an upper bound on a direct API call. Manual review time has not been measured yet; a time-and-motion baseline with study teams is the next step before any value claim on cycle time.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Prototype for discussion. Uses only public registry data from ClinicalTrials.gov and makes no eligibility decision about any patient. Not affiliated with or endorsed by GSK.</p>
+  <p class="mono" id="footGen"></p>
+</footer>
+</div>
+
+<script src="lib.js"></script>
+<script src="data/results.js"></script>
+<script>
+(function () {
+  "use strict";
+  const R = window.PEC_RESULTS, P = window.PEC;
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const CAT_VAR = Object.fromEntries(P.CATS.map((c, i) => [c, `var(--c${i + 1})`]));
+  const CAT_LABEL = Object.fromEntries(P.TAXONOMY.map((t) => [t.key, t.label]));
+  CAT_LABEL.NEEDS_REVIEW = "Needs review";
+  const SHORT = { NCT07177339: "Depemokimab · COPD", NCT07099898: "GSK'227 ADC · SCLC", NCT07650916: "CAB+RPV ULA · HIV", NCT07851246: "mRNA flu vaccine", NCT06716606: "Belimumab · SSc-ILD" };
+  const MODEL_IDS = R.models;
+  const pct = (x) => (x * 100).toFixed(0) + "%";
+  const pct1 = (x) => (x * 100).toFixed(1) + "%";
+  const fmtDate = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+
+  const state = { nct: R.trials[0], method: "sonnet", rows: [], study: null, bench: null, audit: [], live: false };
+
+  // ---------- header ----------
+  $("genDate").textContent = "Evaluated " + fmtDate(R.generated);
+  $("footGen").textContent = `Snapshot ${R.generated} · models ${Object.values(MODEL_IDS).join(", ")} · effort ${R.effort} · ${R.repeats} runs/protocol`;
+  $("nRepeats").textContent = R.repeats === 2 ? "twice" : R.repeats + " times";
+  const byM = Object.fromEntries(R.summary.map((s) => [s.method, s]));
+  const best = byM.sonnet || R.summary[1];
+  $("kpis").innerHTML = [
+    [pct(byM.baseline.strict_accuracy) + " → " + pct(best.strict_accuracy), "strict accuracy, rule baseline → Claude Sonnet"],
+    ["$" + best.cost_per_protocol.toFixed(3), "model cost per protocol (list price, upper bound)"],
+    [best.latency_s_per_protocol.toFixed(1) + " s", "model time per protocol"],
+    [pct(best.run_agreement), "run-to-run agreement, schema-valid " + pct(best.schema_valid)],
+  ].map(([b, s]) => `<div class="kpi"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join("");
+
+  // ---------- controls ----------
+  $("trialChips").innerHTML = R.trials.map((n) => `<button type="button" class="chip-btn" data-nct="${n}" aria-pressed="${n === state.nct}">${esc(SHORT[n] || n)}<small>${n}</small></button>`).join("");
+  $("trialChips").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-nct]"); if (!b) return;
+    $("nctInput").value = ""; state.nct = b.dataset.nct; run();
+  });
+  const methods = [["baseline", "Rule baseline (keywords)"], ...Object.keys(MODEL_IDS).map((m) => [m, `Claude ${m[0].toUpperCase() + m.slice(1)} · recorded`]), ["live", "Claude Sonnet 5.5 · live (your key)"]];
+  $("methodSel").innerHTML = methods.map(([k, l]) => `<option value="${k}" ${k === state.method ? "selected" : ""}>${esc(l)}</option>`).join("");
+  $("methodSel").addEventListener("change", () => { state.method = $("methodSel").value; $("keyField").hidden = state.method !== "live"; run(); });
+  $("runBtn").addEventListener("click", () => { const v = $("nctInput").value.trim().toUpperCase(); if (v) state.nct = v; run(); });
+  $("nctInput").addEventListener("keydown", (e) => { if (e.key === "Enter") $("runBtn").click(); });
+
+  // ---------- pipeline ----------
+  const STEPS = [
+    ["fetch", "Fetch protocol", "get_study · ClinicalTrials.gov"],
+    ["split", "Split criteria", "deterministic parser"],
+    ["classify", "Classify & flag", "skill: eligibility-criteria-structurer"],
+    ["bench", "Benchmark", "find_comparators · completed trials"],
+    ["review", "Reviewer sign-off", "human in the loop"],
+  ];
+  const trace = {};
+  function drawTrace() {
+    $("trace").innerHTML = STEPS.map(([k, t, d], i) => {
+      const s = trace[k] || { state: "idle", msg: "waiting" };
+      return `<div class="step" data-state="${s.state}"><span class="k">Step ${i + 1}</span><span class="t">${esc(t)}</span><span class="d">${esc(s.detail || d)}</span><span class="s">${esc(s.msg)}</span></div>`;
+    }).join("");
+  }
+  const setStep = (k, st, msg, detail) => { trace[k] = { state: st, msg, detail }; drawTrace(); };
+
+  async function timed(fn) { const t = performance.now(); const v = await fn(); return [v, performance.now() - t]; }
+  const ms = (x) => x < 1000 ? `${x.toFixed(0)} ms` : `${(x / 1000).toFixed(1)} s`;
+
+  async function run() {
+    for (const k in trace) delete trace[k];
+    document.querySelectorAll("#trialChips [data-nct]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.nct === state.nct)));
+    $("runBtn").disabled = true;
+    state.audit = []; drawAudit();
+    const recorded = R.trials.includes(state.nct);
+    let study, criteria, liveOk = true;
+
+    // 1. fetch
+    setStep("fetch", "run", "fetching…");
+    try {
+      const [s, t] = await timed(() => P.getStudy(state.nct));
+      study = s; setStep("fetch", "done", `live · ${ms(t)}`);
+    } catch (e) {
+      liveOk = false;
+      if (recorded) { study = { ...R.studies[state.nct] }; setStep("fetch", "fallback", "registry unreachable here · frozen snapshot"); }
+      else { setStep("fetch", "error", "could not reach ClinicalTrials.gov", "This viewer blocks external requests, and this NCT ID is not in the recorded set. Pick one of the five evaluation protocols, or open lorenzopolidori.github.io/protocol-eligibility-copilot for live mode."); finish(); return; }
+    }
+    // 2. split
+    if (study.criteriaText) criteria = P.assignIds(study.nct, P.splitCriteria(study.criteriaText));
+    else criteria = R.criteria.filter((c) => c.nct === state.nct).map(({ id, section, text, nct }) => ({ id, section, text, nct }));
+    setStep("split", "done", `${criteria.length} criteria`);
+    if (recorded && criteria.length !== R.criteria.filter((c) => c.nct === state.nct).length) {
+      setStep("split", "fallback", "registry text changed since snapshot · using snapshot");
+      criteria = R.criteria.filter((c) => c.nct === state.nct).map(({ id, section, text, nct }) => ({ id, section, text, nct }));
+    }
+    // 3. classify
+    const recRows = Object.fromEntries(R.criteria.filter((c) => c.nct === state.nct).map((c) => [c.id, c]));
+    let preds = {};
+    const m = state.method;
+    if (m === "baseline") {
+      criteria.forEach((c) => (preds[c.id] = { category: P.ruleClassify(c.text), thresholds: P.ruleExtract(c.text).thresholds, time_window: P.ruleExtract(c.text).time_window, flags: [] }));
+      setStep("classify", "done", "rule baseline · <1 ms", "keyword rules, no model");
+    } else if (m === "live") {
+      const key = $("apiKey").value.trim();
+      if (!key) { setStep("classify", "error", "add an API key to run live"); preds = baselinePreds(criteria); }
+      else {
+        setStep("classify", "run", "calling Claude…", "claude-sonnet-5-5 · live");
+        try {
+          const [out, t] = await timed(() => callClaude(key, study, criteria));
+          out.forEach((o) => (preds[o.id] = { ...o, category: P.CATS.includes(o.category) ? o.category : "NEEDS_REVIEW" }));
+          criteria.forEach((c) => { if (!preds[c.id]) preds[c.id] = { category: "NEEDS_REVIEW" }; });
+          setStep("classify", "done", `live · ${ms(t)}`, "claude-sonnet-5-5 · schema-checked");
+        } catch (e) { setStep("classify", "error", String(e.message).slice(0, 90), "falling back to rule baseline"); preds = baselinePreds(criteria); }
+      }
+    } else if (recorded) {
+      criteria.forEach((c) => (preds[c.id] = (recRows[c.id] && recRows[c.id].models[m]) || { category: "NEEDS_REVIEW" }));
+      const sm = byM[m];
+      setStep("classify", "done", `recorded · ~${sm.latency_s_per_protocol.toFixed(0)} s, $${sm.cost_per_protocol.toFixed(3)}`, MODEL_IDS[m]);
+    } else {
+      preds = baselinePreds(criteria);
+      setStep("classify", "fallback", "no recorded run for this protocol · rule baseline", "choose the live option with your key for Claude");
+    }
+    // 4. bench
+    setStep("bench", "run", "searching comparators…");
+    let bench = null;
+    if (liveOk) {
+      try { const [b, t] = await timed(() => P.findComparators(study)); bench = b; setStep("bench", "done", `live · ${b.sampled} trials · ${ms(t)}`); }
+      catch (e) { bench = R.comparators[state.nct] || null; setStep("bench", bench ? "fallback" : "error", bench ? "snapshot" : "comparator search failed"); }
+    } else { bench = R.comparators[state.nct] || null; setStep("bench", bench ? "fallback" : "error", bench ? `snapshot · ${bench.sampled} trials` : "unavailable"); }
+    setStep("review", "human", "awaiting reviewer", "edit categories below; changes are logged");
+
+    state.study = study; state.bench = bench; state.live = liveOk;
+    state.rows = criteria.map((c) => ({ ...c, pred: preds[c.id] || { category: "NEEDS_REVIEW" }, ref: recRows[c.id] ? { gold: recRows[c.id].gold, alt: recRows[c.id].alt } : null, reviewer: null }));
+    $("modeNote").textContent = noteFor(recorded, liveOk, m);
+    $("modeNote").className = "note" + (liveOk ? "" : " warn");
+    drawStudy(); drawBench(); drawTable();
+    finish();
+  }
+  function finish() { $("runBtn").disabled = false; }
+  function baselinePreds(criteria) { const p = {}; criteria.forEach((c) => { const x = P.ruleExtract(c.text); p[c.id] = { category: P.ruleClassify(c.text), thresholds: x.thresholds, time_window: x.time_window, flags: [] }; }); return p; }
+  function noteFor(recorded, liveOk, m) {
+    const a = liveOk ? "Protocol and comparators fetched live from ClinicalTrials.gov." : "This viewer blocks external requests, so the protocol and comparators come from the frozen snapshot taken for the evaluation.";
+    const b = m === "baseline" ? " Classifier: keyword rules." : m === "live" ? " Classifier: Claude, called from your browser with your key." : recorded ? ` Classifier: recorded output from ${MODEL_IDS[m]} (run 1 of ${R.repeats}).` : "";
+    return a + b;
+  }
+
+  async function callClaude(key, study, criteria) {
+    const r = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+      body: JSON.stringify({ model: "claude-sonnet-5-5", max_tokens: 8000, system: "You are a precise clinical-operations data analyst. Follow the output format exactly.", messages: [{ role: "user", content: P.buildPrompt(study, criteria) }] }),
+    });
+    if (!r.ok) throw new Error(`Anthropic API ${r.status}: ${(await r.text()).slice(0, 120)}`);
+    const j = await r.json();
+    return P.parseModelJson((j.content || []).filter((b) => b.type === "text").map((b) => b.text).join(""));
+  }
+
+  // ---------- render ----------
+  function drawStudy() {
+    const s = state.study;
+    $("studyTitle").textContent = s.title || s.nct;
+    const facts = [
+      ["NCT", `<a href="https://clinicaltrials.gov/study/${esc(s.nct)}" target="_blank" rel="noopener">${esc(s.nct)}</a>`],
+      ["Sponsor", esc(s.sponsor)], ["Condition", esc((s.conditions || []).join(", "))],
+      ["Phase", esc((s.phases || []).join(", ").replace(/PHASE/g, "Phase "))], ["Status", esc(String(s.status || "").replace(/_/g, " ").toLowerCase())],
+      ["Enrolment", `<span class="num">${esc(s.enrollment ?? "–")}</span> ${esc((s.enrollmentType || "").toLowerCase())}`],
+      ["Sites", `<span class="num">${esc(s.sites || "–")}</span> listed · ${esc(s.countries || "–")} countries`],
+      ["Ages", esc([s.minAge, s.maxAge].filter(Boolean).join(" – ") || "–")],
+    ];
+    $("studyFacts").innerHTML = facts.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+    const counts = {}; state.rows.forEach((r) => { const c = r.reviewer || r.pred.category; counts[c] = (counts[c] || 0) + 1; });
+    const keys = [...P.CATS, "NEEDS_REVIEW"].filter((k) => counts[k]);
+    $("comp").innerHTML = keys.map((k) => `<span title="${esc(CAT_LABEL[k])}: ${counts[k]}" style="flex:${counts[k]};background:${CAT_VAR[k] || "var(--ink-3)"}"></span>`).join("");
+    $("compLegend").innerHTML = keys.map((k) => `<span><i style="background:${CAT_VAR[k] || "var(--ink-3)"}"></i>${esc(CAT_LABEL[k])} <span class="num">${counts[k]}</span></span>`).join("");
+  }
+
+  function drawBench() {
+    const b = state.bench, s = state.study;
+    if (!b || b.error) { $("benchQuery").textContent = ""; $("benchTbl").innerHTML = ""; $("benchNote").textContent = "No comparator benchmark available."; return; }
+    $("benchQuery").innerHTML = `Completed interventional trials · condition <span class="mono">${esc(b.query.condition)}</span> · ${esc(String(b.query.phase).replace("PHASE", "Phase "))} · ${b.totalMatching ?? b.sampled} matching · top ${b.sampled} by registry relevance`;
+    const fmt = (x, d = 0) => (x == null ? "–" : Number(x).toFixed(d));
+    const nCrit = state.rows.length;
+    const rows = [
+      ["Eligibility criteria", nCrit, b.median_criteria, 0],
+      ["Enrolment (participants)", s.enrollment, b.median_enrollment, 0],
+      ["Sites listed", s.sites || null, b.median_sites, 0],
+      ["Start → primary completion (months)", P.monthsBetween(s.start, s.primaryCompletion), b.median_duration_months, 1],
+    ];
+    $("benchTbl").innerHTML = `<tr><th>Measure</th><th>This protocol</th><th>Comparator median</th></tr>` + rows.map(([k, a, m, d]) => `<tr><td>${k}</td><td>${fmt(a, d)}</td><td>${fmt(m, d)}</td></tr>`).join("");
+    const ex = (b.examples || []).slice(0, 3).map((e) => `<a href="https://clinicaltrials.gov/study/${esc(e.nct)}" target="_blank" rel="noopener" class="mono">${esc(e.nct)}</a>`).join(", ");
+    $("benchNote").innerHTML = `Durations use planned dates for ongoing studies. CT.gov criteria are often abridged versions of the full protocol, so counts are indicative. Examples: ${ex}`;
+  }
+
+  function drawTable() {
+    const m = state.method;
+    const hasRef = state.rows.some((r) => r.ref);
+    let html = `<tr><th style="width:38%">Criterion</th><th>Category</th>${hasRef ? "<th>vs ref</th>" : ""}<th>Thresholds · window</th><th>Flags</th><th>Reviewer</th></tr>`;
+    let sec = null, ok = 0, n = 0;
+    for (const r of state.rows) {
+      if (r.section !== sec) { sec = r.section; html += `<tr class="sec"><td colspan="${hasRef ? 6 : 5}">${sec} criteria</td></tr>`; }
+      const c = r.pred.category;
+      let v = "";
+      if (hasRef && r.ref) { const good = P.isCorrect(c, r.ref); n++; ok += good ? 1 : 0; v = `<td><span class="verdict ${good ? "ok" : "no"}" title="reference: ${esc(CAT_LABEL[r.ref.gold])}${r.ref.alt.length ? " (also accepted: " + r.ref.alt.map((a) => CAT_LABEL[a]).join(", ") + ")" : ""}">${good ? "✓" : "✗"} ref</span></td>`; }
+      else if (hasRef) v = "<td></td>";
+      const thr = [...(r.pred.thresholds || [])].map(esc).join("; ");
+      const win = r.pred.time_window ? `<div class="thr">⏱ ${esc(r.pred.time_window)}</div>` : "";
+      const flags = (r.pred.flags || []).map((f) => `<span class="flag" title="${esc(P.FLAGS[f] || f)}">${esc(f.replace(/_/g, " "))}</span>`).join("");
+      const opts = P.CATS.map((k) => `<option value="${k}" ${k === (r.reviewer || c) ? "selected" : ""}>${esc(CAT_LABEL[k])}</option>`).join("");
+      html += `<tr><td class="txt">${esc(r.text)}${r.pred.rationale ? `<span class="rat">${esc(r.pred.rationale)}</span>` : ""}</td>
+        <td><span class="cat"><i style="background:${CAT_VAR[c] || "var(--ink-3)"}"></i>${esc(CAT_LABEL[c] || c)}</span></td>${v}
+        <td><span class="thr">${thr || "–"}</span>${win}</td><td>${flags || '<span class="muted">–</span>'}</td>
+        <td><select data-id="${esc(r.id)}" aria-label="Reviewer category for ${esc(r.id)}">${opts}</select></td></tr>`;
+    }
+    $("critTbl").innerHTML = html;
+    $("critCount").textContent = `${state.rows.length} criteria` + (n ? ` · ${ok}/${n} match reference` : "") + (m === "baseline" ? " · baseline extracts thresholds only" : "");
+  }
+  $("critTbl").addEventListener("change", (e) => {
+    const sel = e.target.closest("select[data-id]"); if (!sel) return;
+    const row = state.rows.find((r) => r.id === sel.dataset.id);
+    const from = row.reviewer || row.pred.category; row.reviewer = sel.value;
+    state.audit.unshift(`${new Date().toISOString()}  reviewer  ${row.id}  ${from} → ${sel.value}  (model: ${row.pred.category})`);
+    drawAudit(); drawStudy();
+  });
+  function drawAudit() {
+    $("audit").textContent = state.audit.length ? state.audit.join("\n") : "No reviewer changes yet.";
+    $("auditCount").textContent = state.audit.length ? `(${state.audit.length})` : "";
+  }
+
+  // ---------- eval section ----------
+  const rowsEval = R.summary;
+  $("bars").innerHTML = rowsEval.map((s) => `<div class="bar-row"><span>${esc(s.method === "baseline" ? "Rule baseline" : "Claude " + s.method[0].toUpperCase() + s.method.slice(1))}</span>
+    <div class="bar-track" title="${esc(s.label)}: strict ${pct1(s.strict_accuracy)}, lenient ${pct1(s.accuracy)}"><div class="bar ${s.method === "baseline" ? "base" : ""}" style="width:${(s.strict_accuracy * 100).toFixed(1)}%"></div></div>
+    <span class="num">${pct1(s.strict_accuracy)}</span></div>`).join("");
+  $("evTbl").innerHTML = `<tr><th>Method</th><th>Accuracy<br>(lenient)</th><th>Accuracy<br>(strict)</th><th>Macro-F1</th><th>Cost /<br>protocol</th><th>Time /<br>protocol</th><th>Run-to-run<br>agreement</th><th>Schema-<br>valid</th></tr>` +
+    rowsEval.map((s) => `<tr class="${s.method === "sonnet" ? "pick" : ""}"><td>${esc(s.label)}${s.method === "sonnet" ? ' <span class="verdict ok">pick</span>' : ""}</td><td>${pct1(s.accuracy)}</td><td>${pct1(s.strict_accuracy)}</td><td>${s.macro_f1.toFixed(3)}</td>
+      <td>${s.method === "baseline" ? "$0" : "$" + s.cost_per_protocol.toFixed(3)}</td><td>${s.method === "baseline" ? "<1 ms" : s.latency_s_per_protocol.toFixed(1) + " s"}</td><td>${s.method === "baseline" ? "n/a" : pct1(s.run_agreement)}</td><td>${pct(s.schema_valid)}</td></tr>`).join("");
+  const h = byM.haiku, so = byM.sonnet, op = byM.opus, bl = byM.baseline;
+  const findings = [
+    ["Every model clears the baseline", `The keyword baseline gets ${pct(bl.accuracy)} lenient and ${pct(bl.strict_accuracy)} strict. All three Claude models reach ${pct(Math.min(h.accuracy, so.accuracy, op.accuracy))} lenient and ${pct(Math.min(h.strict_accuracy, so.strict_accuracy, op.strict_accuracy))}–${pct(Math.max(h.strict_accuracy, so.strict_accuracy, op.strict_accuracy))} strict. The remaining strict misses are compound criteria where a second label is also defensible.`],
+    ["The category task saturates", "At this level the reference set no longer separates the models, so quality stops being the deciding factor. The next evaluation round has to score the harder fields, flags and thresholds, against labels from clinical operations reviewers."],
+    ["Cost and speed decide", `Sonnet at low effort was fastest (${so.latency_s_per_protocol.toFixed(0)} s) and cheapest ($${so.cost_per_protocol.toFixed(3)}) per protocol, with ${pct(so.run_agreement)} agreement across runs. Haiku kept extended reasoning on in this harness, which made it slower (${h.latency_s_per_protocol.toFixed(0)} s) and dearer. Opus matched quality at about ${(op.cost_per_protocol / so.cost_per_protocol).toFixed(1)}× Sonnet's cost.`],
+    ["Decision: pilot, not scale", "Go to a supervised pilot with one study team: Sonnet at low effort, a human reviewer on every output, and a measured manual baseline for review time. Scale only after the flags are evaluated and the pilot shows a cycle-time gain."],
+  ];
+  $("findings").innerHTML = findings.map(([t, p]) => `<div class="finding"><h3>${esc(t)}</h3><p>${esc(p)}</p></div>`).join("");
+  const crit = Object.fromEntries(R.criteria.map((c) => [c.id, c]));
+  $("errCount").textContent = `(${bl.errors.length} of ${bl.n})`;
+  $("errTbl").innerHTML = `<tr><th>Criterion</th><th>Baseline said</th><th>Reference</th><th>Claude Sonnet said</th></tr>` + bl.errors.map((e) => `<tr><td>${esc(crit[e.id].text.slice(0, 160))}${crit[e.id].text.length > 160 ? "…" : ""}</td><td>${esc(CAT_LABEL[e.pred])}</td><td>${esc(CAT_LABEL[e.gold])}</td><td>${esc(CAT_LABEL[crit[e.id].models.sonnet?.category] || "–")}</td></tr>`).join("");
+
+  // ---------- portfolio ----------
+  const dots = (n) => `<span class="dots" aria-label="${n} of 5">${"●".repeat(n)}<span class="off">${"●".repeat(5 - n)}</span></span>`;
+  const PORT = [
+    ["Eligibility criteria structuring & feasibility challenge", "Protocol design", 4, 5, "low", "Prototype (this page)"],
+    ["Protocol deviation classification & trending", "Conduct", 4, 4, "med", "Text classification against a deviation taxonomy; feeds RBQM"],
+    ["Monitoring visit report summarisation & action extraction", "Conduct", 4, 4, "med", "Drafts for CRA review; time saved per report is measurable"],
+    ["TMF document classification & completeness QC", "Start-up → close-out", 5, 4, "med", "High volume, clear reference model (DIA TMF Reference Model)"],
+    ["Site feasibility questionnaire drafting & response triage", "Feasibility", 3, 5, "low", "Low GxP impact; quick adoption win for the Champion Network"],
+    ["Plain-language informed consent review", "Start-up", 3, 4, "high", "Patient-facing; needs ethics and medical review in the loop"],
+  ];
+  $("portTbl").innerHTML = `<tr><th>Workflow</th><th>Stage</th><th>Value</th><th>Feasibility</th><th>GxP risk</th><th>Notes</th></tr>` +
+    PORT.map(([w, st, v, f, r, n]) => `<tr><td>${esc(w)}</td><td>${esc(st)}</td><td>${dots(v)}</td><td>${dots(f)}</td><td><span class="risk ${r}">${r === "med" ? "medium" : r}</span></td><td>${esc(n)}</td></tr>`).join("");
+
+  drawTrace();
+  run();
+})();
+</script>
+</body>
+</html>

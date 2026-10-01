@@ -1,0 +1,46 @@
+{
+ "model": "opus",
+ "modelId": "claude-opus-5-5",
+ "effort": "low",
+ "rep": 0,
+ "nct": "NCT07177339",
+ "wall_ms": 13441,
+ "duration_api_ms": 11804,
+ "cost_usd": 0.054172000000000005,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2738,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 1613,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2738,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1613,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 2738,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2738
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "[{\"id\":\"NCT07177339-inc-00\",\"category\":\"DEMOGRAPHICS\",\"rationale\":\"Sex eligibility; 'eligible female' undefined here, links to reproductive criteria.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"ambiguous\"]},\n{\"id\":\"NCT07177339-inc-01\",\"category\":\"DISEASE\",\"rationale\":\"Type 2 eosinophilic phenotype biomarker defining target population.\",\"thresholds\":[\"BEC threshold not specified\"],\"time_window\":null,\"flags\":[\"screening_burden\",\"ambiguous\"]},\n{\"id\":\"NCT07177339-inc-02\",\"category\":\"DISEASE\",\"rationale\":\"COPD diagnosis duration and spirometric severity definition.\",\"thresholds\":[\"COPD history >=1 year\",\"post-salbutamol FEV1/FVC <0.70\",\"post-salbutamol FEV1 >30% and <80% predicted\"],\"time_window\":\"COPD history >=1 year\",\"flags\":[\"screening_burden\"]},\n{\"id\":\"NCT07177339-inc-03\",\"category\":\"DISEASE\",\"rationale\":\"Exacerbation history plus additional risk factors define elevated risk.\",\"thresholds\":[\"exactly 1 moderate exacerbation in prior 12 months\",\"mMRC >=2\",\"CAT >=15\",\"post-bronchodilator FEV1 <50% predicted\",\"chronic bronchitis\"],\"time_window\":\"prior 12 months\",\"flags\":[\"screening_burden\",\"ambiguous\"]},\n{\"id\":\"NCT07177339-inc-04\",\"category\":\"DISEASE\",\"rationale\":\"Smoking history is disease-defining exposure for COPD.\",\"thresholds\":[\">=10 pack-years\",\"current or former smoker\"],\"time_window\":\"at Screening\",\"flags\":[\"screening_burden\"]},\n{\"id\":\"NCT07177339-inc-05\",\"category\":\"THERAPY\",\"rationale\":\"Requires stable dual or triple maintenance inhaler therapy.\",\"thresholds\":[\"ICS+LABA, LABA+LAMA, or ICS+LABA+LAMA\",\">=3 months\"],\"time_window\":\">=3 months prior\",\"flags\":[\"investigator_judgement\",\"washout\"]},\n{\"id\":\"NCT07177339-inc-06\",\"category\":\"DEMOGRAPHICS\",\"rationale\":\"Minimum body mass index requirement.\",\"thresholds\":[\"BMI >=16 kg/m^2\"],\"time_window\":null,\"flags\":[]},\n{\"id\":\"NCT07177339-exc-07\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Excludes asthma and non-COPD primary lung disease; childhood asthma permitted.\",\"thresholds\":[\"childhood asthma resolved before age 18 without recurrence\"],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"ambiguous\"]},\n{\"id\":\"NCT07177339-exc-08\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Excludes other clinically significant lung disease per investigator judgement.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"ambiguous\"]},\n{\"id\":\"NCT07177339-exc-09\",\"category\":\"DISEASE\",\"rationale\":\"Excludes higher exacerbation frequency or any severe exacerbation.\",\"thresholds\":[\">1 moderate exacerbation\",\"any severe exacerbation\"],\"time_window\":\"12 months prior to Visit 1\",\"flags\":[\"screening_burden\"]},\n{\"id\":\"NCT07177339-exc-10\",\"category\":\"DISEASE\",\"rationale\":\"Requires disease stability; recent exacerbation, pneumonia, or LRTI excluded.\",\"thresholds\":[],\"time_window\":\"4 weeks prior to Visit 1\",\"flags\":[\"washout\",\"ambiguous\"]},\n{\"id\":\"NCT07177339-exc-11\",\"category\":\"THERAPY\",\"rationale\":\"Prior or planned lung volume reduction or endobronchial valve procedures.\",\"thresholds\":[],\"time_window\":null,\"flags\":[]},\n{\"id\":\"NCT07177339-exc-12\",\"category\":\"THERAPY\",\"rationale\":\"Excludes acute-phase pulmonary rehabilitation participation recently.\",\"thresholds\":[],\"time_window\":\"4 weeks prior to Visit 1\",\"flags\":[\"washout\",\"ambiguous\"]},\n{\"id\":\"NCT07177339-exc-13\",\"category\":\"THERAPY\",\"rationale\":\"Excludes NIPPV (BiPAP/CPAP) use for chronic hypercapnia.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"ambiguous\"]},\n{\"id\":\"NCT07177339-exc-14\",\"category\":\"THERAPY\",\"rationale\":\"Excludes participants requiring supplemental oxygen for COPD.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"ambiguous\"]}]",
+ "at": "2026-10-01T14:47:36.220Z"
+}

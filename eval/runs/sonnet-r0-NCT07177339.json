@@ -1,0 +1,46 @@
+{
+ "model": "sonnet",
+ "modelId": "claude-sonnet-5-5",
+ "effort": "low",
+ "rep": 0,
+ "nct": "NCT07177339",
+ "wall_ms": 10877,
+ "duration_api_ms": 9165,
+ "cost_usd": 0.026962,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2742,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 1599,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2742,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1599,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 2742,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2742
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "[\n{\"id\":\"NCT07177339-inc-00\",\"category\":\"DEMOGRAPHICS\",\"rationale\":\"Sex eligibility; females must meet eligibility criteria.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"ambiguous\"]},\n{\"id\":\"NCT07177339-inc-01\",\"category\":\"DISEASE\",\"rationale\":\"Eosinophilic phenotype defined by blood eosinophil count biomarker.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"ambiguous\",\"screening_burden\"]},\n{\"id\":\"NCT07177339-inc-02\",\"category\":\"DISEASE\",\"rationale\":\"COPD diagnosis history and spirometry severity requirements.\",\"thresholds\":[\"COPD history >=1 year\",\"post-salbutamol FEV1/FVC <0.70\",\"post-salbutamol FEV1 >30% and <80% predicted\"],\"time_window\":\"at least 1 year\",\"flags\":[\"screening_burden\",\"ambiguous\"]},\n{\"id\":\"NCT07177339-inc-03\",\"category\":\"DISEASE\",\"rationale\":\"Exacerbation history plus risk factors for future exacerbations.\",\"thresholds\":[\"exactly 1 moderate exacerbation\",\"mMRC >=2\",\"CAT >=15\",\"post-bronchodilator FEV1 <50% predicted\",\"chronic bronchitis\"],\"time_window\":\"prior 12 months\",\"flags\":[\"ambiguous\",\"screening_burden\",\"modernisation_candidate\"]},\n{\"id\":\"NCT07177339-inc-04\",\"category\":\"DISEASE\",\"rationale\":\"Smoking exposure history defining COPD risk population.\",\"thresholds\":[\">=10 pack-years\",\"current or former cigarette smoker\"],\"time_window\":null,\"flags\":[\"modernisation_candidate\",\"screening_burden\"]},\n{\"id\":\"NCT07177339-inc-05\",\"category\":\"THERAPY\",\"rationale\":\"Required background inhaler maintenance therapy duration.\",\"thresholds\":[\"dual or triple inhaler therapy >=3 months\"],\"time_window\":\"at least 3 months\",\"flags\":[\"washout\",\"investigator_judgement\",\"ambiguous\"]},\n{\"id\":\"NCT07177339-inc-06\",\"category\":\"DEMOGRAPHICS\",\"rationale\":\"Minimum BMI requirement.\",\"thresholds\":[\"BMI >=16 kg/m^2\"],\"time_window\":null,\"flags\":[\"modernisation_candidate\"]},\n{\"id\":\"NCT07177339-exc-07\",\"category\":\"DISEASE\",\"rationale\":\"Primary diagnosis must be COPD; asthma history excluded with childhood exception.\",\"thresholds\":[\"childhood asthma resolved before age 18\"],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"ambiguous\",\"modernisation_candidate\"]},\n{\"id\":\"NCT07177339-exc-08\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Other significant lung disease; investigator judges COPD primary.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"ambiguous\",\"modernisation_candidate\"]},\n{\"id\":\"NCT07177339-exc-09\",\"category\":\"DISEASE\",\"rationale\":\"Exacerbation frequency/severity exceeding allowed history.\",\"thresholds\":[\">1 moderate exacerbation or any severe exacerbation\"],\"time_window\":\"12 months prior to Visit 1\",\"flags\":[\"ambiguous\"]},\n{\"id\":\"NCT07177339-exc-10\",\"category\":\"DISEASE\",\"rationale\":\"Recent pneumonia, exacerbation or LRTI indicating COPD instability.\",\"thresholds\":[],\"time_window\":\"within 4 weeks prior to Visit 1\",\"flags\":[\"washout\"]},\n{\"id\":\"NCT07177339-exc-11\",\"category\":\"THERAPY\",\"rationale\":\"History or plan of lung volume reduction surgery or valves.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"ambiguous\"]},\n{\"id\":\"NCT07177339-exc-12\",\"category\":\"THERAPY\",\"rationale\":\"Recent acute-phase pulmonary rehabilitation participation.\",\"thresholds\":[],\"time_window\":\"within 4 weeks prior to Visit 1\",\"flags\":[\"washout\",\"ambiguous\"]},\n{\"id\":\"NCT07177339-exc-13\",\"category\":\"THERAPY\",\"rationale\":\"Chronic hypercapnia requiring NIPPV, BiPAP or CPAP.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"ambiguous\",\"modernisation_candidate\"]},\n{\"id\":\"NCT07177339-exc-14\",\"category\":\"THERAPY\",\"rationale\":\"Requirement for supplemental oxygen for COPD.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"ambiguous\",\"modernisation_candidate\"]}\n]",
+ "at": "2026-10-01T14:46:50.411Z"
+}

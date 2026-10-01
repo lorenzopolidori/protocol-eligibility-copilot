@@ -1,0 +1,46 @@
+{
+ "model": "sonnet",
+ "modelId": "claude-sonnet-5-5",
+ "effort": "low",
+ "rep": 0,
+ "nct": "NCT06716606",
+ "wall_ms": 10649,
+ "duration_api_ms": 8032,
+ "cost_usd": 0.030961600000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 3621,
+  "cache_read_input_tokens": 8668,
+  "output_tokens": 1474,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3621,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1474,
+    "cache_read_input_tokens": 8668,
+    "cache_creation_input_tokens": 3621,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3621
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "[\n{\"id\":\"NCT06716606-inc-00\",\"category\":\"CONSENT_LOGISTICS\",\"rationale\":\"Requires completion of parent study through Week 52 without treatment discontinuation.\",\"thresholds\":[\"Completed Week 52 of 218224 or 221672\",\"No study medication discontinuation\"],\"time_window\":\"Through Week 52 of parent study\",\"flags\":[\"ambiguous\"]},\n{\"id\":\"NCT06716606-inc-01\",\"category\":\"DISEASE\",\"rationale\":\"SSc skin involvement must permit SC injection, per investigator opinion.\",\"thresholds\":[\"Area of uninvolved or mildly thickened skin at abdomen or mid-front thigh\"],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"screening_burden\"]},\n{\"id\":\"NCT06716606-inc-02\",\"category\":\"CONSENT_LOGISTICS\",\"rationale\":\"Participant or caregiver must be able and willing to administer study drug.\",\"thresholds\":[],\"time_window\":\"Throughout the study\",\"flags\":[\"modernisation_candidate\"]},\n{\"id\":\"NCT06716606-inc-03\",\"category\":\"REPRODUCTIVE\",\"rationale\":\"Non-pregnant, non-breastfeeding; WONCBP or WOCBP using highly effective contraception.\",\"thresholds\":[\"Contraceptive failure rate <1%\"],\"time_window\":\"Treatment period and at least 4 months after last dose\",\"flags\":[\"investigator_judgement\",\"ambiguous\"]},\n{\"id\":\"NCT06716606-inc-04\",\"category\":\"REPRODUCTIVE\",\"rationale\":\"WOCBP need negative highly sensitive pregnancy test before first dose.\",\"thresholds\":[\"Negative highly sensitive pregnancy test (urine or serum)\"],\"time_window\":\"Within 24 hours before first dose\",\"flags\":[\"screening_burden\"]},\n{\"id\":\"NCT06716606-inc-05\",\"category\":\"REPRODUCTIVE\",\"rationale\":\"Unconfirmed urine result requires serum test; positive serum excludes participant.\",\"thresholds\":[\"Serum pregnancy test negative\"],\"time_window\":null,\"flags\":[\"screening_burden\"]},\n{\"id\":\"NCT06716606-inc-06\",\"category\":\"REPRODUCTIVE\",\"rationale\":\"Refers to additional pregnancy testing requirements during and after intervention; text incomplete.\",\"thresholds\":[],\"time_window\":\"During and after study intervention\",\"flags\":[\"screening_burden\",\"ambiguous\"]},\n{\"id\":\"NCT06716606-inc-07\",\"category\":\"CONSENT_LOGISTICS\",\"rationale\":\"Compound: investigator pregnancy-risk review plus signed informed consent and compliance.\",\"thresholds\":[\"Signed informed consent\"],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"ambiguous\",\"screening_burden\"]},\n{\"id\":\"NCT06716606-exc-08\",\"category\":\"THERAPY\",\"rationale\":\"Excludes parent-study participants who discontinued study treatment before Week 52.\",\"thresholds\":[\"Treatment discontinuation before Week 52\"],\"time_window\":\"Prior to Week 52 of parent study\",\"flags\":[]},\n{\"id\":\"NCT06716606-exc-09\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Significant unstable non-CTD disease or parent-study AE posing undue risk, per investigator.\",\"thresholds\":[],\"time_window\":\"During parent study\",\"flags\":[\"investigator_judgement\",\"ambiguous\"]},\n{\"id\":\"NCT06716606-exc-10\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Other conditions or lab abnormalities altering drug handling or safety, per investigator.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"ambiguous\"]},\n{\"id\":\"NCT06716606-exc-11\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Ionizing radiation exposure above limit from occupational or research sources.\",\"thresholds\":[\">10 mSv above background\"],\"time_window\":\"Previous 3 years\",\"flags\":[\"screening_burden\",\"washout\"]},\n{\"id\":\"NCT06716606-exc-12\",\"category\":\"LABS_VITALS\",\"rationale\":\"QTc prolongation at parent study Week 52 ECG.\",\"thresholds\":[\"QTc >480 msec\"],\"time_window\":\"At Week 52 of parent study\",\"flags\":[]}\n]",
+ "at": "2026-10-01T14:47:08.665Z"
+}

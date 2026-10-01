@@ -1,0 +1,46 @@
+{
+ "model": "haiku",
+ "modelId": "claude-haiku-4-5-20251001",
+ "effort": "low",
+ "rep": 0,
+ "nct": "NCT07177339",
+ "wall_ms": 55102,
+ "duration_api_ms": 52283,
+ "cost_usd": 0.0384656,
+ "usage": {
+  "input_tokens": 10,
+  "cache_creation_input_tokens": 2970,
+  "cache_read_input_tokens": 6556,
+  "output_tokens": 6372,
+  "output_tokens_details": {
+   "thinking_tokens": 4843
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2970,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 10,
+    "output_tokens": 6372,
+    "cache_read_input_tokens": 6556,
+    "cache_creation_input_tokens": 2970,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2970
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "```json\n[\n  {\n    \"id\": \"NCT07177339-inc-00\",\n    \"category\": \"DEMOGRAPHICS\",\n    \"rationale\": \"Sex-based eligibility criterion\",\n    \"thresholds\": [\"Male or female (eligible)\"],\n    \"time_window\": null,\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07177339-inc-01\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Eosinophilic phenotype identified via biomarker\",\n    \"thresholds\": [\"Eosinophilic phenotype by BEC\"],\n    \"time_window\": null,\n    \"flags\": [\"screening_burden\", \"ambiguous\", \"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT07177339-inc-02\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"COPD diagnosis and severity via spirometry\",\n    \"thresholds\": [\"FEV1/FVC <0.70\", \"FEV1 >30% and <80% predicted\", \"≥1 year disease history\"],\n    \"time_window\": \"At least 1 year prior to enrollment\",\n    \"flags\": [\"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07177339-inc-03\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Exacerbation history and risk markers for deterioration\",\n    \"thresholds\": [\"1 moderate exacerbation past 12 months\", \"mMRC ≥2 or CAT ≥15 or FEV1 <50% or chronic bronchitis\"],\n    \"time_window\": \"Prior 12 months\",\n    \"flags\": [\"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07177339-inc-04\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Smoking history as COPD-defining exposure\",\n    \"thresholds\": [\"≥10 pack-years cigarette smoking\"],\n    \"time_window\": \"At Screening\",\n    \"flags\": [\"investigator_judgement\", \"screening_burden\"]\n  },\n  {\n    \"id\": \"NCT07177339-inc-05\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Required baseline dual or triple inhaler therapy\",\n    \"thresholds\": [\"Dual (ICS+LABA or LABA+LAMA) or triple (ICS+LABA+LAMA)\"],\n    \"time_window\": \"At least 3 months\",\n    \"flags\": [\"investigator_judgement\", \"washout\"]\n  },\n  {\n    \"id\": \"NCT07177339-inc-06\",\n    \"category\": \"DEMOGRAPHICS\",\n    \"rationale\": \"Body mass index threshold requirement\",\n    \"thresholds\": [\"BMI ≥16 kg/m²\"],\n    \"time_window\": null,\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07177339-exc-07\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Excludes asthma; permits resolved childhood asthma\",\n    \"thresholds\": [\"No current/prior asthma (except resolved childhood before age 18)\"],\n    \"time_window\": \"Childhood asthma must resolve before age 18\",\n    \"flags\": [\"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07177339-exc-08\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Excludes other clinically significant lung diseases\",\n    \"thresholds\": [\"COPD must be primary diagnosis for lung manifestations\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"ambiguous\"]\n  },\n  {\n    \"id\": \"NCT07177339-exc-09\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Excludes excessive exacerbations in prior year\",\n    \"thresholds\": [\"≤1 moderate exacerbation and 0 severe exacerbations\"],\n    \"time_window\": \"Prior 12 months before Visit 1\",\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07177339-exc-10\",\n    \"category\": \"DISEASE\",\n    \"rationale\": \"Requires COPD stability before enrollment\",\n    \"thresholds\": [\"No pneumonia, COPD exacerbation, or lower respiratory infection\"],\n    \"time_window\": \"Within 4 weeks prior to Visit 1\",\n    \"flags\": [\"washout\"]\n  },\n  {\n    \"id\": \"NCT07177339-exc-11\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Excludes history of lung surgery procedures\",\n    \"thresholds\": [\"No lung volume reduction surgery or endobronchial valve history/plan\"],\n    \"time_window\": null,\n    \"flags\": []\n  },\n  {\n    \"id\": \"NCT07177339-exc-12\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Requires completion of pulmonary rehabilitation program\",\n    \"thresholds\": [\"Not in acute phase of pulmonary rehabilitation\"],\n    \"time_window\": \"Within 4 weeks prior to Visit 1\",\n    \"flags\": [\"washout\", \"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT07177339-exc-13\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Excludes chronic hypercapnia requiring ventilation support\",\n    \"thresholds\": [\"No chronic hypercapnia requiring NIPPV/BiPAP/CPAP\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\"]\n  },\n  {\n    \"id\": \"NCT07177339-exc-14\",\n    \"category\": \"THERAPY\",\n    \"rationale\": \"Excludes continuous oxygen supplementation requirement\",\n    \"thresholds\": [\"No continuous oxygen supplementation for COPD\"],\n    \"time_window\": null,\n    \"flags\": [\"investigator_judgement\", \"modernisation_candidate\"]\n  }\n]\n```",
+ "at": "2026-10-01T14:45:50.461Z"
+}

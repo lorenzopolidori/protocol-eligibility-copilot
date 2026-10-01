@@ -1,0 +1,261 @@
+{
+ "_about": "Reference labels for 70 eligibility criteria from 5 GSK/ViiV Phase 3 protocols (ClinicalTrials.gov, fetched 2026-10-01). 'gold' is the primary label; 'alt' lists other labels judged defensible for compound/ambiguous criteria \u2014 a prediction matching gold OR alt counts as correct (strict accuracy uses gold only). Labels drafted with AI assistance against the written taxonomy in lib.js, human review pending (see ../README.md). Treat as a pilot reference set, not a validated one.",
+ "labels": {
+  "NCT07177339-inc-00": {
+   "gold": "DEMOGRAPHICS"
+  },
+  "NCT07177339-inc-01": {
+   "gold": "DISEASE",
+   "alt": [
+    "LABS_VITALS"
+   ]
+  },
+  "NCT07177339-inc-02": {
+   "gold": "DISEASE"
+  },
+  "NCT07177339-inc-03": {
+   "gold": "DISEASE"
+  },
+  "NCT07177339-inc-04": {
+   "gold": "DISEASE"
+  },
+  "NCT07177339-inc-05": {
+   "gold": "THERAPY"
+  },
+  "NCT07177339-inc-06": {
+   "gold": "DEMOGRAPHICS"
+  },
+  "NCT07177339-exc-07": {
+   "gold": "COMORBIDITY_SAFETY",
+   "alt": [
+    "DISEASE"
+   ]
+  },
+  "NCT07177339-exc-08": {
+   "gold": "COMORBIDITY_SAFETY",
+   "alt": [
+    "DISEASE"
+   ]
+  },
+  "NCT07177339-exc-09": {
+   "gold": "DISEASE"
+  },
+  "NCT07177339-exc-10": {
+   "gold": "DISEASE",
+   "alt": [
+    "COMORBIDITY_SAFETY"
+   ]
+  },
+  "NCT07177339-exc-11": {
+   "gold": "THERAPY"
+  },
+  "NCT07177339-exc-12": {
+   "gold": "THERAPY"
+  },
+  "NCT07177339-exc-13": {
+   "gold": "DISEASE",
+   "alt": [
+    "THERAPY",
+    "COMORBIDITY_SAFETY"
+   ]
+  },
+  "NCT07177339-exc-14": {
+   "gold": "THERAPY",
+   "alt": [
+    "DISEASE"
+   ]
+  },
+  "NCT07099898-inc-00": {
+   "gold": "DEMOGRAPHICS"
+  },
+  "NCT07099898-inc-01": {
+   "gold": "DISEASE"
+  },
+  "NCT07099898-inc-02": {
+   "gold": "THERAPY"
+  },
+  "NCT07099898-inc-03": {
+   "gold": "DISEASE"
+  },
+  "NCT07099898-inc-04": {
+   "gold": "CONSENT_LOGISTICS"
+  },
+  "NCT07099898-inc-05": {
+   "gold": "LABS_VITALS"
+  },
+  "NCT07099898-exc-06": {
+   "gold": "DISEASE"
+  },
+  "NCT07099898-exc-07": {
+   "gold": "DISEASE"
+  },
+  "NCT07099898-exc-08": {
+   "gold": "THERAPY"
+  },
+  "NCT07099898-exc-09": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07099898-exc-10": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07099898-exc-11": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07099898-exc-12": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07099898-exc-13": {
+   "gold": "DISEASE"
+  },
+  "NCT07099898-exc-14": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07099898-exc-15": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07099898-exc-16": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07650916-inc-00": {
+   "gold": "DEMOGRAPHICS",
+   "alt": [
+    "DISEASE"
+   ]
+  },
+  "NCT07650916-inc-01": {
+   "gold": "DISEASE",
+   "alt": [
+    "LABS_VITALS"
+   ]
+  },
+  "NCT07650916-inc-02": {
+   "gold": "DISEASE",
+   "alt": [
+    "LABS_VITALS"
+   ]
+  },
+  "NCT07650916-inc-03": {
+   "gold": "THERAPY"
+  },
+  "NCT07650916-inc-04": {
+   "gold": "THERAPY"
+  },
+  "NCT07650916-exc-05": {
+   "gold": "DISEASE"
+  },
+  "NCT07650916-exc-06": {
+   "gold": "THERAPY"
+  },
+  "NCT07650916-exc-07": {
+   "gold": "THERAPY"
+  },
+  "NCT07650916-exc-08": {
+   "gold": "THERAPY"
+  },
+  "NCT07650916-exc-09": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07851246-inc-00": {
+   "gold": "CONSENT_LOGISTICS"
+  },
+  "NCT07851246-inc-01": {
+   "gold": "DEMOGRAPHICS"
+  },
+  "NCT07851246-inc-02": {
+   "gold": "REPRODUCTIVE"
+  },
+  "NCT07851246-exc-03": {
+   "gold": "DISEASE",
+   "alt": [
+    "COMORBIDITY_SAFETY"
+   ]
+  },
+  "NCT07851246-exc-04": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07851246-exc-05": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07851246-exc-06": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07851246-exc-07": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07851246-exc-08": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07851246-exc-09": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT07851246-exc-10": {
+   "gold": "THERAPY"
+  },
+  "NCT07851246-exc-11": {
+   "gold": "THERAPY"
+  },
+  "NCT07851246-exc-12": {
+   "gold": "THERAPY"
+  },
+  "NCT07851246-exc-13": {
+   "gold": "THERAPY"
+  },
+  "NCT07851246-exc-14": {
+   "gold": "REPRODUCTIVE"
+  },
+  "NCT06716606-inc-00": {
+   "gold": "CONSENT_LOGISTICS",
+   "alt": [
+    "DISEASE"
+   ]
+  },
+  "NCT06716606-inc-01": {
+   "gold": "CONSENT_LOGISTICS",
+   "alt": [
+    "DISEASE"
+   ]
+  },
+  "NCT06716606-inc-02": {
+   "gold": "CONSENT_LOGISTICS"
+  },
+  "NCT06716606-inc-03": {
+   "gold": "REPRODUCTIVE"
+  },
+  "NCT06716606-inc-04": {
+   "gold": "REPRODUCTIVE"
+  },
+  "NCT06716606-inc-05": {
+   "gold": "REPRODUCTIVE"
+  },
+  "NCT06716606-inc-06": {
+   "gold": "REPRODUCTIVE"
+  },
+  "NCT06716606-inc-07": {
+   "gold": "REPRODUCTIVE",
+   "alt": [
+    "CONSENT_LOGISTICS"
+   ]
+  },
+  "NCT06716606-exc-08": {
+   "gold": "CONSENT_LOGISTICS",
+   "alt": [
+    "THERAPY"
+   ]
+  },
+  "NCT06716606-exc-09": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT06716606-exc-10": {
+   "gold": "COMORBIDITY_SAFETY",
+   "alt": [
+    "LABS_VITALS"
+   ]
+  },
+  "NCT06716606-exc-11": {
+   "gold": "COMORBIDITY_SAFETY"
+  },
+  "NCT06716606-exc-12": {
+   "gold": "LABS_VITALS"
+  }
+ }
+}

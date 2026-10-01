@@ -1,0 +1,3490 @@
+{
+ "protocolSection": {
+  "identificationModule": {
+   "nctId": "NCT07650916",
+   "orgStudyIdInfo": {
+    "id": "222794"
+   },
+   "secondaryIdInfos": [
+    {
+     "id": "2024-518511-19-00",
+     "type": "OTHER",
+     "domain": "EU CT Number"
+    }
+   ],
+   "organization": {
+    "fullName": "ViiV Healthcare",
+    "class": "INDUSTRY"
+   },
+   "briefTitle": "A Study to Investigate Cabotegravir Ultra Long-Acting (CAB ULA) Plus Rilpivirine Ultra Long-Acting (RPV ULA) in Adults and Adolescents With HIV Who Are Virologically Suppressed",
+   "officialTitle": "A Phase III, Randomized, Multicenter, Parallel-group, Non-inferiority, Open-label Study Evaluating the Efficacy, Safety, and Tolerability of Cabotegravir Ultra Long-acting Plus Rilpivirine Ultra Long-acting or Cabotegravir Long-acting Plus Rilpivirine Long-acting in Adults and Adolescents With HIV Who Are Virologically Suppressed on ART"
+  },
+  "statusModule": {
+   "statusVerifiedDate": "2026-09",
+   "overallStatus": "RECRUITING",
+   "expandedAccessInfo": {
+    "hasExpandedAccess": false
+   },
+   "startDateStruct": {
+    "date": "2026-06-25",
+    "type": "ACTUAL"
+   },
+   "primaryCompletionDateStruct": {
+    "date": "2029-09-04",
+    "type": "ESTIMATED"
+   },
+   "completionDateStruct": {
+    "date": "2029-09-04",
+    "type": "ESTIMATED"
+   },
+   "studyFirstSubmitDate": "2026-06-10",
+   "studyFirstSubmitQcDate": "2026-06-10",
+   "studyFirstPostDateStruct": {
+    "date": "2026-06-16",
+    "type": "ACTUAL"
+   },
+   "lastUpdateSubmitDate": "2026-09-25",
+   "lastUpdatePostDateStruct": {
+    "date": "2026-09-28",
+    "type": "ACTUAL"
+   }
+  },
+  "sponsorCollaboratorsModule": {
+   "responsibleParty": {
+    "type": "SPONSOR"
+   },
+   "leadSponsor": {
+    "name": "ViiV Healthcare",
+    "class": "INDUSTRY"
+   }
+  },
+  "oversightModule": {
+   "oversightHasDmc": true,
+   "isFdaRegulatedDrug": true,
+   "isFdaRegulatedDevice": false
+  },
+  "descriptionModule": {
+   "briefSummary": "This study compares the efficacy, safety and tolerability of CAB ULA and RPV ULA administered with CAB long acting (LA) and RPV LA administered in adults and adolescents with HIV who are virologically suppressed on anti-retroviral therapy (ART)."
+  },
+  "conditionsModule": {
+   "conditions": [
+    "HIV Infections"
+   ],
+   "keywords": [
+    "Cabotegravir",
+    "Rilpivirine",
+    "HIV",
+    "Non-inferiority",
+    "Efficacy",
+    "Safety",
+    "Tolerability"
+   ]
+  },
+  "designModule": {
+   "studyType": "INTERVENTIONAL",
+   "phases": [
+    "PHASE3"
+   ],
+   "designInfo": {
+    "allocation": "RANDOMIZED",
+    "interventionModel": "PARALLEL",
+    "primaryPurpose": "TREATMENT",
+    "maskingInfo": {
+     "masking": "NONE",
+     "maskingDescription": "This is an open-label study."
+    }
+   },
+   "enrollmentInfo": {
+    "count": 564,
+    "type": "ESTIMATED"
+   }
+  },
+  "armsInterventionsModule": {
+   "armGroups": [
+    {
+     "label": "CAB ULA+ RPV ULA",
+     "type": "EXPERIMENTAL",
+     "description": "Participants will receive CAB ULA+RPV ULA.",
+     "interventionNames": [
+      "Drug: CAB ULA",
+      "Drug: RPV ULA"
+     ]
+    },
+    {
+     "label": "CAB LA+ RPV LA",
+     "type": "ACTIVE_COMPARATOR",
+     "description": "Participants will receive CAB LA+RPV LA.",
+     "interventionNames": [
+      "Drug: CAB LA",
+      "Drug: RPV LA"
+     ]
+    }
+   ],
+   "interventions": [
+    {
+     "type": "DRUG",
+     "name": "CAB ULA",
+     "description": "CAB ULA will be administered.",
+     "armGroupLabels": [
+      "CAB ULA+ RPV ULA"
+     ]
+    },
+    {
+     "type": "DRUG",
+     "name": "RPV ULA",
+     "description": "RPV ULA will be administered.",
+     "armGroupLabels": [
+      "CAB ULA+ RPV ULA"
+     ]
+    },
+    {
+     "type": "DRUG",
+     "name": "CAB LA",
+     "description": "CAB LA will be administered.",
+     "armGroupLabels": [
+      "CAB LA+ RPV LA"
+     ]
+    },
+    {
+     "type": "DRUG",
+     "name": "RPV LA",
+     "description": "RPV LA will be administered.",
+     "armGroupLabels": [
+      "CAB LA+ RPV LA"
+     ]
+    }
+   ]
+  },
+  "outcomesModule": {
+   "primaryOutcomes": [
+    {
+     "measure": "Percentage of participants with plasma HIV-RNA greater than or equal to (>=) 50 copies (c)/mL as per Food and Drug Administration (FDA) Snapshot algorithm",
+     "timeFrame": "At Month 11"
+    }
+   ],
+   "secondaryOutcomes": [
+    {
+     "measure": "Percentage of participants with plasma HIV-RNA >= 50 c/mL as per FDA Snapshot algorithm",
+     "timeFrame": "At Month 23"
+    },
+    {
+     "measure": "Percentage of participants with plasma HIV-RNA less than (<) 50 c/mL as per FDA Snapshot algorithm",
+     "timeFrame": "At Month 11 and Month 23"
+    },
+    {
+     "measure": "Percentage of participants with confirmed virologic failure (CVF)",
+     "description": "CVF is defined as 2 consecutive HIV-1 RNA levels \\>=200 c/mL.",
+     "timeFrame": "Up to Month 23"
+    },
+    {
+     "measure": "Number of participants with drug-related adverse events (AEs) as per severity of Grade 2-5",
+     "description": "An AE is any untoward medical occurrence in a clinical study participant, temporally associated with the use of a study intervention, whether or not considered related to the study intervention. Severity is graded according to the Division of Acquired Immunodeficiency Syndrome (DAIDS) grading criteria, where Grade 2 = moderate, Grade 3 = severe, Grade 4 = potentially life-threatening, Grade 5 = death.",
+     "timeFrame": "Up to Month 23"
+    },
+    {
+     "measure": "Number of participants with drug-related serious adverse events (SAEs)",
+     "description": "An SAE is defined as any untoward medical occurrence that results in death, is life threatening, requires hospitalization or prolongs existing hospitalization, results in disability/incapacity or other medically significant events.",
+     "timeFrame": "Up to Month 23"
+    },
+    {
+     "measure": "Number of participants who discontinue treatment due to AEs or injection intolerability",
+     "timeFrame": "Up to Month 23"
+    },
+    {
+     "measure": "Number of participants with treatment emergent genotypic or phenotypic resistance to CAB and RPV",
+     "timeFrame": "Up to Month 23"
+    },
+    {
+     "measure": "Ctrough of CAB and RPV",
+     "timeFrame": "Up to Month 23"
+    },
+    {
+     "measure": "Maximum concentrations post dose (Cmax) of CAB and RPV",
+     "timeFrame": "Up to Month 23"
+    },
+    {
+     "measure": "Area under the curve (AUC) of CAB and RPV",
+     "timeFrame": "Up to Month 23"
+    },
+    {
+     "measure": "Absolute value of CD4+ cell counts in participants",
+     "timeFrame": "Up to Month 23"
+    },
+    {
+     "measure": "Change from Baseline in CD4+ cell counts in participants",
+     "timeFrame": "At Month 23 compared to baseline (Day 1)"
+    }
+   ]
+  },
+  "eligibilityModule": {
+   "eligibilityCriteria": "Inclusion criteria:\n\nPatient Study Participant (PSP) Inclusion criteria:\n\n* Adults and adolescents with HIV-1 infection aged 12 years or older with a weight \\>35 kg.\n* Documented HIV-1 RNA measurements \\<50 copies/mL in the 12 months prior to Screening.\n* HIV-1 RNA \\<50 copies/mL at screening assessment.\n* Must be on current daily oral antiretroviral regimen for at least 6 months uninterrupted prior to Screening.\n* Any prior switch in therapy must have occurred due to tolerability/safety, access to medications, or convenience/simplification, and must NOT have been done for virologic treatment failure (HIV-1 RNA \u2265200 copies/mL).\n\nExclusion criteria:\n\nPatient Study Participant (PSP) Exclusion criteria:\n\n* Any evidence of primary resistance based on the presence of any major known INSTI (including CAB) or NNRTI (including RPV) resistance-associated mutation.\n* Treatment with an HIV-1 immunotherapeutic vaccine within 90 days of screening.\n* Any history of receiving long-acting therapy for HIV.\n* Previous exposure to CAB and/or RPV for treatment or prevention of HIV-1 infection.\n* Significant uncontrolled or clinically relevant comorbidities (e.g., cardiovascular, hepatic, renal, neurological, psychiatric) that may impact safety or study participation.\n\nNote: Other protocol defined Inclusion/Exclusion criteria may apply.",
+   "healthyVolunteers": false,
+   "sex": "ALL",
+   "minimumAge": "12 Years",
+   "stdAges": [
+    "CHILD",
+    "ADULT",
+    "OLDER_ADULT"
+   ]
+  },
+  "contactsLocationsModule": {
+   "centralContacts": [
+    {
+     "name": "US GSK Clinical Trials Call Center",
+     "role": "CONTACT",
+     "phone": "877-379-3718",
+     "email": "GSKClinicalSupportHD@gsk.com"
+    },
+    {
+     "name": "EU GSK Clinical Trials Call Center",
+     "role": "CONTACT",
+     "phone": "+44 (0) 20 89904466",
+     "email": "GSKClinicalSupportHD@gsk.com"
+    }
+   ],
+   "locations": [
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Phoenix",
+     "state": "Arizona",
+     "zip": "85015",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Douglas Cunningham",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 33.44838,
+      "lon": -112.07404
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Bakersfield",
+     "state": "California",
+     "zip": "93309",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Franco Felizarta",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 35.37329,
+      "lon": -119.01871
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Los Angeles",
+     "state": "California",
+     "zip": "90027",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "William Towner",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 34.05223,
+      "lon": -118.24368
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Los Angeles",
+     "state": "California",
+     "zip": "90036",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Peter Ruane",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 34.05223,
+      "lon": -118.24368
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "San Diego",
+     "state": "California",
+     "zip": "92103",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Timothy Wilkin",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 32.71571,
+      "lon": -117.16472
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "West Hollywood",
+     "state": "California",
+     "zip": "90046",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Wm David Hardy MD",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 34.09001,
+      "lon": -118.36174
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "New Haven",
+     "state": "Connecticut",
+     "zip": "06510",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Onyema Ogbuagu",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 41.30815,
+      "lon": -72.92816
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Washington D.C.",
+     "state": "District of Columbia",
+     "zip": "20017",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Theo Hodge",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 38.89511,
+      "lon": -77.03637
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "DeLand",
+     "state": "Florida",
+     "zip": "32720",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Godson Oguchi",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 29.02832,
+      "lon": -81.30312
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Fort Lauderdale",
+     "state": "Florida",
+     "zip": "33316",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Michael Sension",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 26.12231,
+      "lon": -80.14338
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Ft. Pierce",
+     "state": "Florida",
+     "zip": "34982-7148",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Moti Ramgopal",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 27.44671,
+      "lon": -80.32561
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Jacksonville",
+     "state": "Florida",
+     "zip": "32209",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Mobeen Rathore",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 30.33218,
+      "lon": -81.65565
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Miami",
+     "state": "Florida",
+     "zip": "33136",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Charles Mitchell",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 25.77427,
+      "lon": -80.19366
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Orlando",
+     "state": "Florida",
+     "zip": "32803-1851",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Charlotte-Paige Rolle",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 28.53834,
+      "lon": -81.37924
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Pensacola",
+     "state": "Florida",
+     "zip": "32503",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Mitchell Whitehead",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 30.42131,
+      "lon": -87.21691
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Vero Beach",
+     "state": "Florida",
+     "zip": "32960-6541",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Gerald Pierone",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 27.63864,
+      "lon": -80.39727
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "West Palm Beach",
+     "state": "Florida",
+     "zip": "33407",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Olayemi Osiyemi",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 26.71534,
+      "lon": -80.05337
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "West Palm Beach",
+     "state": "Florida",
+     "zip": "33409",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Hector Bolivar",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 26.71534,
+      "lon": -80.05337
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Decatur",
+     "state": "Georgia",
+     "zip": "30033",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Alexandra Dretler",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 33.77483,
+      "lon": -84.29631
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Baltimore",
+     "state": "Maryland",
+     "zip": "21287",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Allison Agwu",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 39.29038,
+      "lon": -76.61219
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Grosse Pointe Woods",
+     "state": "Michigan",
+     "zip": "48236",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Leonard Johnson",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 42.44365,
+      "lon": -82.90686
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Kansas City",
+     "state": "Missouri",
+     "zip": "64111",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Blair Thedinger",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 39.09973,
+      "lon": -94.57857
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Las Vegas",
+     "state": "Nevada",
+     "zip": "89101",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Jerry Cade",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 36.17497,
+      "lon": -115.13722
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Newark",
+     "state": "New Jersey",
+     "zip": "07102-1909",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Jihad Slim",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 40.73566,
+      "lon": -74.17237
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Santa Fe",
+     "state": "New Mexico",
+     "zip": "87505",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Joel Gallant",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 35.68698,
+      "lon": -105.9378
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Stony Brook",
+     "state": "New York",
+     "zip": "11794",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Sharon Nachman",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 40.92565,
+      "lon": -73.14094
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Syracuse",
+     "state": "New York",
+     "zip": "13057",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Elizabeth Asiago-Reddy",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 43.04812,
+      "lon": -76.14742
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Greensboro",
+     "state": "North Carolina",
+     "zip": "27401",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Cornelius Van Dam",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 36.07264,
+      "lon": -79.79198
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Winston-Salem",
+     "state": "North Carolina",
+     "zip": "27157",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Caryn Morse",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 36.09986,
+      "lon": -80.24422
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Columbus",
+     "state": "Ohio",
+     "zip": "43210",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Jose Bazan",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 39.96118,
+      "lon": -82.99879
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Philadelphia",
+     "state": "Pennsylvania",
+     "zip": "19104",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "William Short",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 39.95238,
+      "lon": -75.16362
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Pittsburgh",
+     "state": "Pennsylvania",
+     "zip": "15212",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Chiu-Bin Hsiao",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 40.44062,
+      "lon": -79.99589
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Austin",
+     "state": "Texas",
+     "zip": "78705-3326",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Cynthia Brinson",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 30.26715,
+      "lon": -97.74306
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Dallas",
+     "state": "Texas",
+     "zip": "75219",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Marc Tribble",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 32.78306,
+      "lon": -96.80667
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Dallas",
+     "state": "Texas",
+     "zip": "75246-2004",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Christopher Bettacchi",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 32.78306,
+      "lon": -96.80667
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "El Paso",
+     "state": "Texas",
+     "zip": "79902",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Ogechika Alozie",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 31.75872,
+      "lon": -106.48693
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Houston",
+     "state": "Texas",
+     "zip": "77098",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Gordon Crofoot, Jr., MD",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 29.76328,
+      "lon": -95.36327
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Salt Lake City",
+     "state": "Utah",
+     "zip": "84102",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Harry Rosado-Santos",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 40.76078,
+      "lon": -111.89105
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Lynchburg",
+     "state": "Virginia",
+     "zip": "24501",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Joseph Saabiye",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 37.41375,
+      "lon": -79.14225
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Seattle",
+     "state": "Washington",
+     "zip": "98104",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Peter Shalit",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 47.60621,
+      "lon": -122.33207
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Seattle",
+     "state": "Washington",
+     "zip": "98104",
+     "country": "United States",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Audrey Li",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 47.60621,
+      "lon": -122.33207
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Buenos Aires",
+     "zip": "1427",
+     "country": "Argentina",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Pedro Cahn",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -34.61315,
+      "lon": -58.37723
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Buenos Aires",
+     "zip": "C1023AAB",
+     "country": "Argentina",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Veronica Lacal Ridilenir",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -34.61315,
+      "lon": -58.37723
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Buenos Aires",
+     "zip": "C1181ACH",
+     "country": "Argentina",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Marisa Sanchez",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -34.61315,
+      "lon": -58.37723
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Buenos Aires",
+     "zip": "C1425AGC",
+     "country": "Argentina",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Sebastian Nunez",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -34.61315,
+      "lon": -58.37723
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Ciudad Autonoma Buenos Aires",
+     "zip": "C1405CKC",
+     "country": "Argentina",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Ezequiel Cordova",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ]
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Ciudad Autonoma Buenos Aires",
+     "zip": "C1425AWK",
+     "country": "Argentina",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Gustavo Lopardo",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ]
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "C\u00f3rdoba",
+     "zip": "X5000JJS",
+     "country": "Argentina",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Marcelo Martins",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -31.40648,
+      "lon": -64.18853
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Rosario",
+     "zip": "2000",
+     "country": "Argentina",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Sergio Lupo",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -32.94682,
+      "lon": -60.63932
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "San Miguel de Tucum\u00e1n",
+     "zip": "T4000IHE",
+     "country": "Argentina",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Juan Gonzalo Tomas",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -26.81601,
+      "lon": -65.21051
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Darlinghurst",
+     "state": "New South Wales",
+     "zip": "2010",
+     "country": "Australia",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Mark O'Reilly",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -33.87939,
+      "lon": 151.21925
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Sydney",
+     "state": "New South Wales",
+     "zip": "2010",
+     "country": "Australia",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Mark Bloch",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -33.86785,
+      "lon": 151.20732
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Taringa",
+     "state": "Queensland",
+     "zip": "4068",
+     "country": "Australia",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Fiona Bisshop",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -27.49061,
+      "lon": 152.97861
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Perth",
+     "state": "Western Australia",
+     "zip": "6000",
+     "country": "Australia",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Mina John",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -31.95224,
+      "lon": 115.8614
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Curitiba",
+     "zip": "80060-900",
+     "country": "Brazil",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Monica Maria Gomes da Silva",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -25.42778,
+      "lon": -49.27306
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Nova Igua\u00e7u",
+     "zip": "26030-380",
+     "country": "Brazil",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Aline Ramalho",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -22.75917,
+      "lon": -43.45111
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Rio de Janeiro",
+     "zip": "21045900",
+     "country": "Brazil",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Beatriz Gilda Grinsztejn",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -22.90642,
+      "lon": -43.18223
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Salvador",
+     "zip": "40110-060",
+     "country": "Brazil",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Carlos Roberto Alves",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -12.97563,
+      "lon": -38.49096
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "S\u00e3o Paulo",
+     "zip": "04037-030",
+     "country": "Brazil",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "ricardo diaz",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -23.5475,
+      "lon": -46.63611
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "S\u00e3o Paulo",
+     "zip": "04121-000",
+     "country": "Brazil",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Jose Valdez Madruga",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": -23.5475,
+      "lon": -46.63611
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Vancouver",
+     "state": "British Columbia",
+     "zip": "V6Z 2T1",
+     "country": "Canada",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Malcolm Hedgcock",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 49.24966,
+      "lon": -123.11934
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Ottawa",
+     "state": "Ontario",
+     "zip": "K1Y 4E9",
+     "country": "Canada",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Jonathan Angel",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 45.41117,
+      "lon": -75.69812
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Toronto",
+     "state": "Ontario",
+     "zip": "M5G 1K2",
+     "country": "Canada",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Mona Loutfy",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 43.70643,
+      "lon": -79.39864
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Montreal",
+     "state": "Quebec",
+     "zip": "H2L 4E9",
+     "country": "Canada",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Elise Sasseville",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 45.50884,
+      "lon": -73.58781
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Montreal",
+     "state": "Quebec",
+     "zip": "H2L 4P9",
+     "country": "Canada",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Jason Szabo",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 45.50884,
+      "lon": -73.58781
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Montreal",
+     "state": "Quebec",
+     "zip": "H4A 3J1",
+     "country": "Canada",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Alexandra de Pokomandy",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 45.50884,
+      "lon": -73.58781
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Qu\u00e9bec",
+     "state": "Quebec",
+     "zip": "G1R 2J6",
+     "country": "Canada",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Marie-Louise Vachon",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 46.81228,
+      "lon": -71.21454
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Regina",
+     "state": "Saskatchewan",
+     "zip": "S4P 0W5",
+     "country": "Canada",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Alexander Wong",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 50.45008,
+      "lon": -104.6178
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Aichi",
+     "zip": "460-0001",
+     "country": "Japan",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Yoshiyuki Yokomaku",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 32.51879,
+      "lon": 130.62158
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Kanagawa",
+     "zip": "221-0855",
+     "country": "Japan",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Yukihiro Yoshimura",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 37.58333,
+      "lon": 139.91667
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Osaka",
+     "zip": "540-0006",
+     "country": "Japan",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Dai Watanabe",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 34.69379,
+      "lon": 135.50107
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Tokyo",
+     "zip": "108-8639",
+     "country": "Japan",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Eisuke Adachi",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 35.6895,
+      "lon": 139.69171
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Tokyo",
+     "zip": "113-8677",
+     "country": "Japan",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Ryoko Sekiya",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 35.6895,
+      "lon": 139.69171
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Tokyo",
+     "zip": "162-8655",
+     "country": "Japan",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Hiroyuki Gatanaga",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 35.6895,
+      "lon": 139.69171
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "San Pedro Garza Garc\u00eda",
+     "state": "Nuevo Le\u00f3n",
+     "zip": "66260",
+     "country": "Mexico",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Reynaldo Lara-Medrano",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 25.66158,
+      "lon": -100.4034
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Guadajalara",
+     "zip": "44280",
+     "country": "Mexico",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Luz Alicia Gonzalez-Hernandez",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ]
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Mexico City",
+     "zip": "06760",
+     "country": "Mexico",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Edgar Perez-Barragan",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 19.42847,
+      "lon": -99.12766
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Mexico City",
+     "zip": "14080",
+     "country": "Mexico",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Alvaro Lopez I\u00f1iguez",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 19.42847,
+      "lon": -99.12766
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "M\u00e9rida",
+     "zip": "97070",
+     "country": "Mexico",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Orlando Paredes Ceballos",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 20.967,
+      "lon": -89.62318
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "San Juan",
+     "zip": "00909",
+     "country": "Puerto Rico",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Javier Morales-Ramirez",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 18.46633,
+      "lon": -66.10572
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Pozuelo de Alarc\u00f3n",
+     "state": "Madrid",
+     "zip": "28224",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Alberto D\u00edaz de Santiago",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 40.43293,
+      "lon": -3.81338
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Alicante",
+     "zip": "03010",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Sergio Reus Ba\u00f1uls",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 38.34517,
+      "lon": -0.48149
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Badalona",
+     "zip": "08005",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Anna Bonjoch Badia",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 41.45004,
+      "lon": 2.24741
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Barcelona",
+     "zip": "08026",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Paula Prieto",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 41.38879,
+      "lon": 2.15899
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Barcelona",
+     "zip": "08035",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Joaquin Burgos Cibrian",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 41.38879,
+      "lon": 2.15899
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Barcelona",
+     "zip": "08036",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Josep Mallolas Masferrer",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 41.38879,
+      "lon": 2.15899
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Barcelona",
+     "zip": "8907",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Arkaitz Imaz Vacas",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 41.38879,
+      "lon": 2.15899
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Burgos",
+     "zip": "09006",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Luis Buzon",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 42.34106,
+      "lon": -3.70184
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Cartagena Murcia",
+     "zip": "30202",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Francisco Jes\u00fas Vera M\u00e9ndez",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ]
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "C\u00f3rdoba",
+     "zip": "14004",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Ignacio P\u00e9rez Valero",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 37.89155,
+      "lon": -4.77275
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Elche Alicante",
+     "zip": "03203",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "MAR MASIA",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ]
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Madrid",
+     "zip": "28007",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Cristina Diez Romero",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 40.4165,
+      "lon": -3.70256
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Madrid",
+     "zip": "28031",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Guillermo Cuevas Tascon",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 40.4165,
+      "lon": -3.70256
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Madrid",
+     "zip": "28034",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Sergio Serrano Villar",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 40.4165,
+      "lon": -3.70256
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Madrid",
+     "zip": "28040",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Vicente Estrada",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 40.4165,
+      "lon": -3.70256
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Madrid",
+     "zip": "28041",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Rafael Rubio",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 40.4165,
+      "lon": -3.70256
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Madrid",
+     "zip": "28046",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Maria Luisa Montes Ramirez",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 40.4165,
+      "lon": -3.70256
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Sabadell Barcelona",
+     "zip": "08208",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Marta Navarro Vilasar\u00f3",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ]
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Seville",
+     "zip": "Sevilla",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Juan Macias",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 37.38283,
+      "lon": -5.97317
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Valencia",
+     "zip": "46014",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Miguel Garc\u00eda Deltoro",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 39.47391,
+      "lon": -0.37966
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Vigo Pontevedra",
+     "zip": "36312",
+     "country": "Spain",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Antonio Ocampo Hermidia",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ]
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Birmingham",
+     "state": "West Midlands",
+     "zip": "B9 5SS",
+     "country": "United Kingdom",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Steve Taylor",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 52.48142,
+      "lon": -1.89983
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "Liverpool",
+     "zip": "L7 8YE",
+     "country": "United Kingdom",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Emily Clarke",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 53.41058,
+      "lon": -2.97794
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "London",
+     "zip": "E1 1FR",
+     "country": "United Kingdom",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Chloe Orkin",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 51.50853,
+      "lon": -0.12574
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "London",
+     "zip": "SE1 7EH",
+     "country": "United Kingdom",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Julie Fox",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 51.50853,
+      "lon": -0.12574
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "London",
+     "zip": "SW10 9NH",
+     "country": "United Kingdom",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Ruth Byrne",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 51.50853,
+      "lon": -0.12574
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "London",
+     "zip": "W2 1NY",
+     "country": "United Kingdom",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Caroline Foster",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 51.50853,
+      "lon": -0.12574
+     }
+    },
+    {
+     "facility": "GSK Investigational Site",
+     "status": "RECRUITING",
+     "city": "London",
+     "zip": "WC1E 6JB",
+     "country": "United Kingdom",
+     "contacts": [
+      {
+       "name": "US GSK Clinical Trials Call Center",
+       "role": "CONTACT",
+       "phone": "877-379-3718",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "EU GSK Clinical Trials Call Centre",
+       "role": "CONTACT",
+       "phone": "+44 (0) 20 8990 4466",
+       "email": "GSKClinicalSupportHD@gsk.com"
+      },
+      {
+       "name": "Sarah Pett",
+       "role": "PRINCIPAL_INVESTIGATOR"
+      }
+     ],
+     "geoPoint": {
+      "lat": 51.50853,
+      "lon": -0.12574
+     }
+    }
+   ]
+  },
+  "ipdSharingStatementModule": {
+   "ipdSharing": "YES",
+   "description": "Study Sponsor will assess requests from qualified researchers for anonymized individual patient-level data and related study documents. Data sharing is subject to certain criteria, conditions, and exceptions. For further information, refer tohttps://www.viiv-studyregister.com/documents/About\\_ViiV\\_Patient\\_Level\\_Data\\_Sharing\\_Final\\_25Sep2023.pdf.",
+   "infoTypes": [
+    "STUDY_PROTOCOL",
+    "SAP",
+    "ICF",
+    "CSR"
+   ],
+   "timeFrame": "Anonymized IPD will be made available within 6 months of publication of primary, key secondary and safety results for studies in product with approved indication(s) or asset(s) with development terminated across all indications.",
+   "accessCriteria": "Anonymized IPD is shared with researchers whose proposals are approved by an Independent Review Panel and after a Data Sharing Agreement is in place. Access is provided for an initial period of 12 months, but an extension may be granted, when justified, for up to 6 months.",
+   "url": "https://www.viiv-studyregister.com/documents/About_ViiV_Patient_Level_Data_Sharing_Final_25Sep2023.pdf"
+  }
+ },
+ "derivedSection": {
+  "miscInfoModule": {
+   "versionHolder": "2026-10-01"
+  },
+  "conditionBrowseModule": {
+   "meshes": [
+    {
+     "id": "D015658",
+     "term": "HIV Infections"
+    }
+   ],
+   "ancestors": [
+    {
+     "id": "D000086982",
+     "term": "Blood-Borne Infections"
+    },
+    {
+     "id": "D003141",
+     "term": "Communicable Diseases"
+    },
+    {
+     "id": "D007239",
+     "term": "Infections"
+    },
+    {
+     "id": "D015229",
+     "term": "Sexually Transmitted Diseases, Viral"
+    },
+    {
+     "id": "D012749",
+     "term": "Sexually Transmitted Diseases"
+    },
+    {
+     "id": "D016180",
+     "term": "Lentivirus Infections"
+    },
+    {
+     "id": "D012192",
+     "term": "Retroviridae Infections"
+    },
+    {
+     "id": "D012327",
+     "term": "RNA Virus Infections"
+    },
+    {
+     "id": "D014777",
+     "term": "Virus Diseases"
+    },
+    {
+     "id": "D000091662",
+     "term": "Genital Diseases"
+    },
+    {
+     "id": "D000091642",
+     "term": "Urogenital Diseases"
+    },
+    {
+     "id": "D007153",
+     "term": "Immunologic Deficiency Syndromes"
+    },
+    {
+     "id": "D007154",
+     "term": "Immune System Diseases"
+    }
+   ]
+  }
+ },
+ "hasResults": false
+}

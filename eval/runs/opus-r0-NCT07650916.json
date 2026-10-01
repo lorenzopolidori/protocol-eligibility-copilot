@@ -1,0 +1,46 @@
+{
+ "model": "opus",
+ "modelId": "claude-opus-5-5",
+ "effort": "low",
+ "rep": 0,
+ "nct": "NCT07650916",
+ "wall_ms": 11287,
+ "duration_api_ms": 8616,
+ "cost_usd": 0.0458442,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 3043,
+  "cache_read_input_tokens": 8761,
+  "output_tokens": 987,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3043,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 987,
+    "cache_read_input_tokens": 8761,
+    "cache_creation_input_tokens": 3043,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3043
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "[{\"id\":\"NCT07650916-inc-00\",\"category\":\"DEMOGRAPHICS\",\"rationale\":\"Age and body weight thresholds for adults and adolescents with HIV-1.\",\"thresholds\":[\"age >=12 years\",\"weight >35 kg\"],\"time_window\":null,\"flags\":[\"ambiguous\"]},\n{\"id\":\"NCT07650916-inc-01\",\"category\":\"DISEASE\",\"rationale\":\"Historical viral suppression documentation required over prior year.\",\"thresholds\":[\"HIV-1 RNA <50 copies/mL\"],\"time_window\":\"12 months prior to Screening\",\"flags\":[\"screening_burden\",\"washout\"]},\n{\"id\":\"NCT07650916-inc-02\",\"category\":\"DISEASE\",\"rationale\":\"Viral load suppression confirmed at screening.\",\"thresholds\":[\"HIV-1 RNA <50 copies/mL\"],\"time_window\":\"at Screening\",\"flags\":[]},\n{\"id\":\"NCT07650916-inc-03\",\"category\":\"THERAPY\",\"rationale\":\"Requires stable uninterrupted daily oral ART regimen.\",\"thresholds\":[\"≥6 months uninterrupted\"],\"time_window\":\"6 months prior to Screening\",\"flags\":[\"washout\",\"screening_burden\"]},\n{\"id\":\"NCT07650916-inc-04\",\"category\":\"THERAPY\",\"rationale\":\"Prior ART switches must not be due to virologic failure.\",\"thresholds\":[\"virologic failure defined HIV-1 RNA ≥200 copies/mL\"],\"time_window\":null,\"flags\":[\"screening_burden\",\"ambiguous\"]},\n{\"id\":\"NCT07650916-exc-05\",\"category\":\"DISEASE\",\"rationale\":\"Excludes INSTI or NNRTI resistance-associated mutations.\",\"thresholds\":[\"any major INSTI or NNRTI RAM\"],\"time_window\":null,\"flags\":[\"screening_burden\",\"ambiguous\"]},\n{\"id\":\"NCT07650916-exc-06\",\"category\":\"THERAPY\",\"rationale\":\"Prohibits recent HIV-1 immunotherapeutic vaccine.\",\"thresholds\":[],\"time_window\":\"90 days prior to screening\",\"flags\":[\"washout\"]},\n{\"id\":\"NCT07650916-exc-07\",\"category\":\"THERAPY\",\"rationale\":\"Excludes any prior long-acting HIV therapy.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"ambiguous\"]},\n{\"id\":\"NCT07650916-exc-08\",\"category\":\"THERAPY\",\"rationale\":\"Excludes prior study drug exposure for treatment or prevention.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"screening_burden\"]},\n{\"id\":\"NCT07650916-exc-09\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Excludes significant uncontrolled comorbidities impacting safety or participation.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"ambiguous\",\"modernisation_candidate\"]}]",
+ "at": "2026-10-01T14:47:40.487Z"
+}

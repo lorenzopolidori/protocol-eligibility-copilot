@@ -1,0 +1,46 @@
+{
+ "model": "opus",
+ "modelId": "claude-opus-5-5",
+ "effort": "low",
+ "rep": 1,
+ "nct": "NCT07099898",
+ "wall_ms": 16956,
+ "duration_api_ms": 14558,
+ "cost_usd": 0.042988200000000004,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 12201,
+  "output_tokens": 2027,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 2027,
+    "cache_read_input_tokens": 12201,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "raw": "[{\"id\":\"NCT07099898-inc-00\",\"category\":\"DEMOGRAPHICS\",\"rationale\":\"Adult age requirement at consent signing.\",\"thresholds\":[\">18 years or local legal adult age\"],\"time_window\":\"at time of ICF signing\",\"flags\":[\"ambiguous\"]},{\"id\":\"NCT07099898-inc-01\",\"category\":\"DISEASE\",\"rationale\":\"Confirmed extensive-stage SCLC diagnosis by histology or cytology.\",\"thresholds\":[\"histologically or cytologically confirmed ES-SCLC\"],\"time_window\":null,\"flags\":[\"screening_burden\"]},{\"id\":\"NCT07099898-inc-02\",\"category\":\"THERAPY\",\"rationale\":\"Requires one prior platinum plus PD-(L)1 regimen with documented progression.\",\"thresholds\":[\"1 prior platinum-based therapy with PD-(L)1 inhibitor\",\"≥2 cycles\",\"chemotherapy-free interval >30 days\",\"prior tarlatamab allowed\"],\"time_window\":\"chemotherapy-free interval >30 days\",\"flags\":[\"screening_burden\",\"washout\",\"ambiguous\"]},{\"id\":\"NCT07099898-inc-03\",\"category\":\"DISEASE\",\"rationale\":\"Measurable disease per RECIST 1.1 required.\",\"thresholds\":[\"≥1 target lesion per RECIST 1.1\"],\"time_window\":null,\"flags\":[\"screening_burden\",\"investigator_judgement\"]},{\"id\":\"NCT07099898-inc-04\",\"category\":\"CONSENT_LOGISTICS\",\"rationale\":\"Ability to give informed consent and comply with protocol.\",\"thresholds\":[],\"time_window\":null,\"flags\":[]},{\"id\":\"NCT07099898-inc-05\",\"category\":\"LABS_VITALS\",\"rationale\":\"Adequate organ function and ECOG performance status 0–1.\",\"thresholds\":[\"ECOG 0 or 1\",\"adequate organ function (undefined)\"],\"time_window\":null,\"flags\":[\"screening_burden\",\"modernisation_candidate\",\"ambiguous\"]},{\"id\":\"NCT07099898-exc-06\",\"category\":\"DISEASE\",\"rationale\":\"Excludes combined or transformed SCLC subtypes.\",\"thresholds\":[\"complex SCLC\",\"transformed SCLC\"],\"time_window\":null,\"flags\":[\"screening_burden\",\"ambiguous\"]},{\"id\":\"NCT07099898-exc-07\",\"category\":\"DISEASE\",\"rationale\":\"Excludes patients with limited-stage disease at initial diagnosis.\",\"thresholds\":[\"limited-stage SCLC at diagnosis\"],\"time_window\":\"at initial diagnosis\",\"flags\":[\"screening_burden\"]},{\"id\":\"NCT07099898-exc-08\",\"category\":\"THERAPY\",\"rationale\":\"Prior TOPO1-payload ADC or B7-H3-targeted therapy prohibited.\",\"thresholds\":[\"any prior TOPO1-inhibitor ADC\",\"any prior B7-H3-targeted therapy\"],\"time_window\":null,\"flags\":[\"screening_burden\"]},{\"id\":\"NCT07099898-exc-09\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Hypersensitivity to study drug components or contraindicating allergy.\",\"thresholds\":[],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"ambiguous\"]},{\"id\":\"NCT07099898-exc-10\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Excludes severe, uncontrolled or active cardiovascular disease.\",\"thresholds\":[\"severe, uncontrolled or active cardiovascular disorders\"],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"ambiguous\",\"screening_burden\"]},{\"id\":\"NCT07099898-exc-11\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Recent clinically significant bleeding or bleeding tendency excluded.\",\"thresholds\":[\"clinically significant bleeding or bleeding tendency\"],\"time_window\":\"within 1 month prior to first dose\",\"flags\":[\"washout\",\"investigator_judgement\",\"ambiguous\"]},{\"id\":\"NCT07099898-exc-12\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Active infection needing systemic therapy or known HIV excluded.\",\"thresholds\":[\"active infection requiring systemic treatment\",\"known HIV\"],\"time_window\":null,\"flags\":[\"modernisation_candidate\",\"ambiguous\"]},{\"id\":\"NCT07099898-exc-13\",\"category\":\"DISEASE\",\"rationale\":\"Excludes symptomatic/untreated CNS, leptomeningeal, brainstem or spinal metastases.\",\"thresholds\":[\"symptomatic brain metastases\",\"untreated progression solely due to brain metastases\",\"leptomeningeal/meningeal/brainstem metastasis\",\"spinal cord metastases\"],\"time_window\":\"during or after last treatment prior to screening\",\"flags\":[\"screening_burden\",\"modernisation_candidate\",\"ambiguous\"]},{\"id\":\"NCT07099898-exc-14\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Current or prior ILD/pneumonitis needing high-dose steroids excluded.\",\"thresholds\":[\"current ILD/pneumonitis\",\"prior ILD/non-infectious pneumonitis requiring high-dose steroids\"],\"time_window\":null,\"flags\":[\"screening_burden\",\"ambiguous\"]},{\"id\":\"NCT07099898-exc-15\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Significant pulmonary disease or respiratory impairment excluded.\",\"thresholds\":[\"uncontrolled asthma/COPD\",\"restrictive lung disease\"],\"time_window\":null,\"flags\":[\"investigator_judgement\",\"ambiguous\"]},{\"id\":\"NCT07099898-exc-16\",\"category\":\"COMORBIDITY_SAFETY\",\"rationale\":\"Active hepatitis B or C infection excluded.\",\"thresholds\":[\"active HBV\",\"active HCV\"],\"time_window\":null,\"flags\":[\"screening_burden\",\"modernisation_candidate\"]}]",
+ "at": "2026-10-01T14:47:57.444Z"
+}
