@@ -122,6 +122,57 @@ key is small and was drafted with AI help. The next steps are a larger key label
 operations experts, and measuring how much reviewer time the tool actually saves.
 
 
+**What about the flags?** The category is only half of the output. For each criterion the AI
+also decides whether to raise flags that ask a reviewer to look again: *washout*, *investigator
+judgement*, *screening burden*, *ambiguous* and *modernisation candidate*.
+
+**The short answer: we don't yet know whether the flags are right.** The category has an answer
+key. The flags don't, because "does this criterion deserve a second look?" is a judgement call
+that needs clinical operations experts to answer.
+
+**What we can measure now is consistency.** It is a necessary condition, not proof of
+correctness. If the AI raises a flag on one run and not the next, or two models disagree about
+the same criterion, that flag can't be trusted yet. Results across the 70 criteria:
+
+| Flag | What it means | Raised by Sonnet | Sonnet repeats itself on a second run | Sonnet and Opus agree* |
+|---|---|---|---|---|
+| Washout | A waiting period after a previous treatment | 12 of 70 | 97% | 69% |
+| Investigator judgement | Relies on the site doctor's opinion | 19 of 70 | 97% | 95% |
+| Screening burden | Adds tests or paperwork at screening | 21 of 70 | 87% | 53% |
+| Ambiguous | Wording likely to cause questions from sites | **41 of 70** | 86% | 67% |
+| Modernisation candidate | An exclusion that FDA/ASCO guidance suggests relaxing | 21 of 70 | 83% | **22%** |
+
+\* Agreement means: of all criteria where either model raised the flag, the share where both did.
+
+What this tells us:
+- **Two flags look dependable.** *Washout* and *investigator judgement* are close to factual
+  questions: is there a time limit, and does the text say "in the opinion of the investigator"?
+  They are stable and the models agree. Every washout flag also came with an extracted time window
+  (12 of 12).
+- **"Ambiguous" is raised too often.** It appears on 59% of criteria. A flag on most rows stops
+  being useful, because reviewers learn to ignore it.
+- **"Modernisation candidate" is unstable.** Sonnet raised it 21 times and Opus 12, and they agreed
+  on only 6. Some are sensible: both flagged a lung-cancer trial's blanket exclusion of people with
+  HIV, which current guidance discourages. Others are doubtful: Sonnet flagged a minimum BMI of 16,
+  which is not one of the exclusion types the guidance names. The definition is too loose.
+- **Overall,** Sonnet's full set of flags was identical across its two runs for only 61% of
+  criteria, against 100% for the category. The flags are the least mature part of the tool, and
+  the demo treats them as prompts for a human, never as decisions.
+
+**How we would find out properly:**
+1. **Tighten the definitions.** For example, limit *modernisation candidate* to the exclusion types
+   the guidance actually lists, and require a one-line reason for every flag.
+2. **Build an answer key for flags.** Two clinical operations reviewers label the same criteria
+   independently. Check first that they agree with each other; if experts disagree, the flag
+   itself needs redefining.
+3. **Score the AI on two questions.** Of the flags it raises, how many do experts agree with? That
+   measures crying wolf. Of the criteria experts would flag, how many did it catch? That measures
+   missed issues.
+4. **Keep measuring in a pilot.** Extend the audit trail to record whether reviewers accept or
+   dismiss each flag. That gives a running, real-world score.
+
+The consistency figures are produced by `eval/run_eval.mjs` (`flag_stats` in `eval/results.json`).
+
 ## Architecture
 
 A constrained workflow, not a free-roaming agent. Orchestration is deterministic, and the model is
@@ -262,7 +313,8 @@ else.
 - 70 criteria is a pilot set. The reference labels were drafted with AI assistance against the
   written taxonomy, with the author's review in progress. AI-assisted labels can favour
   model-style labelling.
-- The feasibility flags and thresholds are shown but not yet scored.
+- The feasibility flags are checked only for consistency, not correctness (see "What about the
+  flags?"). Extracted thresholds are shown but not yet scored.
 - Comparator benchmarks use the top 50 registry matches by relevance. Registry criteria are
   often abridged versions of the full protocol.
 - Manual review time has not been measured. A time-and-motion baseline with a study team comes

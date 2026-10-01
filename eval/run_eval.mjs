@@ -123,6 +123,36 @@ for (const m of models) {
 }
 function pick(s) { return { accuracy: s.accuracy, strict_accuracy: s.strict_accuracy, macro_f1: s.macro_f1, n: s.n, errors: s.errors }; }
 
+// 4b. Flags have no answer key yet, so measure what we can without one: how often each flag is
+// raised, whether the same model repeats it on a second run, and whether models agree.
+const FLAG_KEYS = Object.keys(L.FLAGS);
+const flagsOf = (m, rep, id) => {
+  const r = runs.find((x) => x.model === m && x.rep === rep && x.nct === id.slice(0, 11));
+  const o = (r?.parsed || []).find((x) => x.id === id);
+  return new Set((o?.flags || []).filter((f) => FLAG_KEYS.includes(f)));
+};
+const ids = allCriteria.map((c) => c.id);
+const flagStats = { per_model: {}, cross_model: {} };
+for (const m of models) {
+  const per = {};
+  for (const f of FLAG_KEYS) {
+    const raised = ids.filter((id) => flagsOf(m, 0, id).has(f)).length;
+    const agree = repeats > 1 ? ids.filter((id) => flagsOf(m, 0, id).has(f) === flagsOf(m, 1, id).has(f)).length / ids.length : null;
+    per[f] = { raised, rate: raised / ids.length, run_agreement: agree };
+  }
+  const exact = repeats > 1 ? ids.filter((id) => { const a = flagsOf(m, 0, id), b = flagsOf(m, 1, id); return a.size === b.size && [...a].every((x) => b.has(x)); }).length / ids.length : null;
+  flagStats.per_model[m] = { per_flag: per, flag_set_run_agreement: exact };
+}
+for (let i = 0; i < models.length; i++) for (let j = i + 1; j < models.length; j++) {
+  const a = models[i], b = models[j], out = {};
+  for (const f of FLAG_KEYS) {
+    const A = ids.filter((id) => flagsOf(a, 0, id).has(f)), B = new Set(ids.filter((id) => flagsOf(b, 0, id).has(f)));
+    const both = A.filter((id) => B.has(id)).length, union = new Set([...A, ...B]).size;
+    out[f] = { both, only_a: A.length - both, only_b: B.size - both, jaccard: union ? both / union : null };
+  }
+  flagStats.cross_model[`${a}_vs_${b}`] = out;
+}
+
 // 5. Per-criterion view for the UI (first repeat of each model)
 const criteriaOut = allCriteria.map((c) => {
   const row = { ...c, gold: gold[c.id].gold, alt: gold[c.id].alt || [], baseline: baseline[c.id], extract: L.ruleExtract(c.text), models: {} };
@@ -142,8 +172,9 @@ for (const nct of TRIALS) {
 
 const studiesOut = Object.fromEntries(TRIALS.map((n) => { const { criteriaText, criteria, ...rest } = studies[n]; return [n, rest]; }));
 const result = { generated: new Date().toISOString(), trials: TRIALS, models: Object.fromEntries(models.map((m) => [m, MODELS[m]])), repeats, effort,
-                 summary, criteria: criteriaOut, studies: studiesOut, comparators };
+                 summary, flag_stats: flagStats, criteria: criteriaOut, studies: studiesOut, comparators };
 writeFileSync(join(here, "results.json"), JSON.stringify(result, null, 1));
 mkdirSync(join(here, "..", "data"), { recursive: true });
 writeFileSync(join(here, "..", "data", "results.js"), "window.PEC_RESULTS = " + JSON.stringify(result) + ";\n");
+console.log("flag-set run agreement:", Object.fromEntries(Object.entries(flagStats.per_model).map(([m, v]) => [m, v.flag_set_run_agreement?.toFixed(2)])));
 console.table(summary.map((s) => ({ method: s.method, acc: s.accuracy.toFixed(3), strict: s.strict_accuracy.toFixed(3), macroF1: s.macro_f1.toFixed(3), cost: s.cost_per_protocol.toFixed(4), latency_s: s.latency_s_per_protocol.toFixed(2), valid: s.schema_valid, agree: s.run_agreement.toFixed(3) })));
