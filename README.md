@@ -74,7 +74,7 @@ is to show a repeatable way to bring agentic AI into a regulated workflow:
 4. Prove it beats the baseline on quality, cost, speed and consistency.
 5. Keep a human accountable for every output.
 
-**How we know it works.** Think of it as an exam with an answer key.
+**How we know it works.** We can think of it as an exam with an answer key.
 
 1. **The answer key.** Before any AI was run, each of the 70 criteria from the 5 protocols was
    given its correct category by hand. A few criteria genuinely fit two categories, and for
