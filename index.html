@@ -163,7 +163,7 @@ td select { font-size: 12.5px; padding: 4px 6px; }
 
 /* design + lifecycle */
 .grid6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0; border-top: 1px solid var(--rule); }
-.grid6 > div { padding: 14px 16px 14px 0; border-bottom: 1px solid var(--rule); display: grid; gap: 4px; font-size: 14px; color: var(--ink-2); }
+.grid6 > div { padding: 14px 16px 14px 0; border-bottom: 1px solid var(--rule); display: grid; gap: 4px; align-content: start; font-size: 14px; color: var(--ink-2); }
 .grid6 b { font: 600 15px var(--f-display); color: var(--ink); }
 .life { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; }
 .life > div { border-top: 3px solid var(--rule); padding: 10px 10px 0 0; display: grid; gap: 4px; align-content: start; font-size: 13px; color: var(--ink-2); min-width: 0; }
@@ -180,6 +180,10 @@ td select { font-size: 12.5px; padding: 4px 6px; }
 .risk.low { color: var(--good); background: var(--good-soft); }
 .risk.med { color: var(--warn); background: var(--mark-soft); }
 .risk.high { color: var(--bad); background: var(--bad-soft); }
+.prose ol, .prose ul { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; }
+.prose h3 { color: var(--ink); margin-top: 6px; }
+.ex td:first-child { max-width: 42ch; }
+.ok-t { color: var(--good); } .no-t { color: var(--bad); }
 footer { border-top: 1px solid var(--rule); padding-top: 18px; font-size: 13px; color: var(--ink-3); display: grid; gap: 6px; }
 details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
 @media (prefers-reduced-motion: no-preference) { .bar { transition: width .5s ease; } }
@@ -198,13 +202,45 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
   <div class="byline"><span>Lorenzo Polidori</span><span class="mono">Data: ClinicalTrials.gov API v2 · 5 GSK/ViiV Phase 3 protocols</span><span class="mono" id="genDate"></span><a class="mono" href="https://github.com/lorenzopolidori/protocol-eligibility-copilot" target="_blank" rel="noopener">Code &amp; evaluation on GitHub</a></div>
   <div class="kpis" id="kpis"></div>
   <nav class="jump" aria-label="Sections">
-    <a href="#run">Run it</a><a href="#eval">Evaluation vs baseline</a><a href="#design">Agentic design</a><a href="#context">Clinical context</a><a href="#build">How it was built</a>
+    <a href="#background">Background</a><a href="#run">Run it</a><a href="#eval">Evaluation</a><a href="#design">Agentic design</a><a href="#context">Clinical context</a><a href="#saved">Recorded vs live</a><a href="#build">How it was built</a>
   </nav>
 </header>
 
+<!-- BACKGROUND -->
+<section id="background">
+  <div class="sec-head"><div class="eyebrow">1 · Background</div><h2>Clinical trials and eligibility criteria, in plain words</h2></div>
+  <div class="prose">
+    <p><strong>Clinical trials.</strong> Before a new medicine or vaccine can be approved, a drug company (the <em>sponsor</em>) tests it on volunteers in clinical trials. A Phase 3 trial is the large, final stage, often with hundreds or thousands of participants at dozens of hospitals (<em>sites</em>) in many countries. It usually takes years and costs a great deal.</p>
+    <p><strong>The protocol.</strong> Each trial follows a written rulebook called the protocol. It covers what is being tested, on whom, how and for how long. Sponsors publish a summary of every protocol on <a href="https://clinicaltrials.gov" target="_blank" rel="noopener">ClinicalTrials.gov</a>, the public US registry used worldwide. This tool reads from it.</p>
+    <p><strong>Eligibility criteria.</strong> One part of the protocol sets out who may take part. <em>Inclusion criteria</em> are what a volunteer must have, and <em>exclusion criteria</em> are what rules them out. A trial typically has 10 to 40 of them, written in dense medical language. Every extra restriction shrinks the pool of patients who qualify. That slows recruitment, raises the share of candidates who are screened and then turned away, and often forces costly protocol changes (<em>amendments</em>) later.</p>
+    <h3>What the AI agent produces</h3>
+    <p>It turns one block of medical text for each criterion into a structured row that a person can scan, sort and question. Examples from GSK protocols in this demo:</p>
+  </div>
+  <div class="tbl-wrap"><table class="port ex">
+    <tr><th>Criterion (from the protocol)</th><th>Category</th><th>Threshold</th><th>Washout / time window</th><th>Flag for the reviewer</th></tr>
+    <tr><td>"Body mass index (BMI) ≥16 kg/m²"</td><td>Demographics</td><td>BMI ≥ 16</td><td>none</td><td><span class="flag">modernisation candidate</span></td></tr>
+    <tr><td>"Treatment with an HIV-1 immunotherapeutic vaccine within 90 days of screening"</td><td>Prior therapy</td><td>none</td><td>90 days before screening</td><td><span class="flag">washout</span></td></tr>
+    <tr><td>"Known active infectious diseases … or known HIV"</td><td>Comorbidity &amp; safety</td><td>none</td><td>none</td><td><span class="flag">ambiguous</span><span class="flag">modernisation candidate</span></td></tr>
+    <tr><td>"Participants who, in the opinion of the investigator, can and will comply with the protocol…"</td><td>Consent &amp; logistics</td><td>none</td><td>none</td><td><span class="flag">investigator judgement</span></td></tr>
+  </table></div>
+  <div class="grid6">
+    <div><b>Category</b>What kind of rule it is, such as age or weight, the disease itself, past treatments, lab results, other illnesses, pregnancy, or consent. Grouping shows at a glance where a protocol is most restrictive.</div>
+    <div><b>Threshold</b>The number that decides eligibility, such as a BMI of at least 16 or a lung function reading below 70%.</div>
+    <div><b>Washout window</b>How long a volunteer must wait after a previous treatment before joining, such as 90 days. Long washouts delay or block enrolment.</div>
+    <div><b>Feasibility flags</b>Prompts for a human to look again: a rule that adds screening work, relies on a doctor's judgement, is worded ambiguously, or is the kind of exclusion that FDA and oncology groups now encourage sponsors to relax unless it is scientifically needed, such as blanket exclusion of people with HIV.</div>
+    <div><b>Feasibility and the benchmark</b><span><em>Feasibility</em> asks whether a trial can realistically recruit the patients it needs, on time and at the planned sites. The tool compares the protocol with the median figures of completed trials of the same disease and phase. The depemokimab COPD trial plans 1,196 participants, against a median of about 330 in comparable completed COPD Phase 3 trials. That gap is a useful question to ask early.</span></div>
+    <div><b>The reviewer</b>The output is a draft for a person on the study team, such as a feasibility or clinical operations lead. They check every row and correct anything wrong. The tool never decides whether any patient is eligible, and it only uses public registry text.</div>
+  </div>
+  <div class="prose">
+    <h3>The goal</h3>
+    <p>Give study teams a fast, consistent first pass that challenges eligibility criteria at the design stage, before sites see the protocol. That is the cheapest point to remove unnecessary restrictions, and it should mean faster recruitment and fewer amendments. The wider aim is a repeatable way to bring agentic AI into a regulated workflow:</p>
+    <ol><li>Pick one real workflow.</li><li>Measure a simple baseline.</li><li>Build the AI step against a fixed contract.</li><li>Prove it beats the baseline on quality, cost, speed and consistency.</li><li>Keep a human accountable for every output.</li></ol>
+  </div>
+</section>
+
 <!-- RUN -->
 <section id="run">
-  <div class="sec-head"><div class="eyebrow">1 · Run it</div><h2>Structure a protocol's eligibility criteria</h2></div>
+  <div class="sec-head"><div class="eyebrow">2 · Run it</div><h2>Structure a protocol's eligibility criteria</h2></div>
   <div class="panel">
     <div class="field"><label>Evaluation protocols (recorded runs)</label><div class="chips" id="trialChips"></div></div>
     <div class="controls">
@@ -247,9 +283,30 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
 
 <!-- EVAL -->
 <section id="eval">
-  <div class="sec-head"><div class="eyebrow">2 · Evaluation vs baseline</div><h2>Does the skill beat the baseline, and at what cost?</h2></div>
+  <div class="sec-head"><div class="eyebrow">3 · Evaluation</div><h2>How we know it works</h2></div>
   <div class="prose">
-    <p>Reference set: <strong>70 criteria from 5 GSK/ViiV Phase 3 protocols</strong> across respiratory, oncology, HIV, vaccines and immunology, each given a reference category. Where a compound criterion fits two categories, both are accepted (lenient); strict accuracy counts only the primary label. The baseline is a keyword classifier written before any model ran and not tuned afterwards. Each model was run <span id="nRepeats">twice</span> per protocol, at low reasoning effort, through headless Claude Code with tools disabled.</p>
+    <p>The evaluation harness works like an exam with an answer key.</p>
+    <ol>
+      <li><strong>The answer key.</strong> Before any AI was run, each of the 70 criteria from the 5 protocols was given its correct category by hand. A few criteria genuinely fit two categories, and for those a second answer is also accepted.</li>
+      <li><strong>Two candidates take the exam.</strong> <em>The baseline</em> is a simple program that matches keywords: if it sees "vaccine" it answers Prior therapy, and if it sees "history of" or "disease" it answers Comorbidity. It was written before the AI was tested and never adjusted to fit the answer key. <em>The AI</em> is Claude, given the same criteria and the written category definitions.</li>
+      <li><strong>Marking.</strong> Each answer is compared with the key.</li>
+    </ol>
+    <p>Real examples where the two disagreed:</p>
+  </div>
+  <div class="tbl-wrap"><table class="port ex">
+    <tr><th>Criterion (trial)</th><th>Answer key</th><th>Keyword baseline</th><th>Claude Sonnet</th></tr>
+    <tr><td>"History of hypersensitivity or allergic reaction to any previous influenza vaccine" (flu vaccine)</td><td>Comorbidity &amp; safety: it is an allergy</td><td class="no-t">✗ Prior therapy, because it saw "vaccine"</td><td class="ok-t">✓ Comorbidity &amp; safety</td></tr>
+    <tr><td>"HIV-1 RNA &lt;50 copies/mL at screening" (HIV treatment)</td><td>Disease: viral load measures the disease being studied</td><td class="no-t">✗ Comorbidity, because it saw "HIV"</td><td class="ok-t">✓ Disease</td></tr>
+    <tr><td>"Moderate to severe COPD, defined as a clinically documented history of COPD…" (COPD)</td><td>Disease: it defines the condition under study</td><td class="no-t">✗ Comorbidity, because it saw "history of"</td><td class="ok-t">✓ Disease</td></tr>
+  </table></div>
+  <div class="prose">
+    <p>The baseline matches words, while the AI reads context. For example, HIV is <em>the disease under study</em> in an HIV trial but <em>another illness</em> in a lung cancer trial.</p>
+    <h3>The scores</h3>
+    <ul id="scoreList"></ul>
+    <h3>Is it practical to use?</h3>
+    <p>Accuracy is not enough on its own, so the harness also measures cost, speed, consistency and reliability. Each model was run <span id="nRepeats">twice</span> per protocol, at low reasoning effort.</p>
+    <ul id="practicalList"></ul>
+    <p><strong>Bottom line.</strong> The AI clearly beats the simple tool, and it is cheap and fast. But the answer key is small and was drafted with AI help. The next steps are a larger key labelled by clinical operations experts, and measuring how much reviewer time the tool actually saves.</p>
   </div>
   <div class="panel">
     <h3>Strict accuracy (primary label only)</h3>
@@ -262,15 +319,33 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
     <summary>Where the baseline goes wrong <span class="muted mono" id="errCount"></span></summary>
     <div style="overflow-x:auto"><table class="port" id="errTbl"></table></div>
   </details>
+  <div class="prose">
+    <h3>What about the flags?</h3>
+    <p>The category is only half of the output. For each criterion the AI also decides whether to raise flags that ask a reviewer to look again. <strong>We don't yet know whether the flags are right.</strong> The category has an answer key; the flags don't, because "does this criterion deserve a second look?" is a judgement call that needs clinical operations experts to answer.</p>
+    <p><strong>What we can measure now is consistency.</strong> It is a necessary condition, not proof of correctness. If the AI raises a flag on one run and not the next, or two models disagree about the same criterion, that flag can't be trusted yet.</p>
+  </div>
+  <div class="tbl-wrap"><table class="port" id="flagTbl"></table></div>
+  <p class="note">Agreement means: of all criteria where either model raised the flag, the share where both did.</p>
+  <div class="prose">
+    <p><strong>What this tells us</strong></p>
+    <ul id="flagFindings"></ul>
+    <p><strong>How we would find out properly</strong></p>
+    <ol>
+      <li><strong>Tighten the definitions.</strong> For example, limit <em>modernisation candidate</em> to the exclusion types the guidance actually lists, and require a one-line reason for every flag.</li>
+      <li><strong>Build an answer key for flags.</strong> Two clinical operations reviewers label the same criteria independently. Check first that they agree with each other; if experts disagree, the flag itself needs redefining.</li>
+      <li><strong>Score the AI on two questions.</strong> Of the flags it raises, how many do experts agree with? That measures crying wolf. Of the criteria experts would flag, how many did it catch? That measures missed issues.</li>
+      <li><strong>Keep measuring in a pilot.</strong> Record whether reviewers accept or dismiss each flag. That gives a running, real-world score.</li>
+    </ol>
+  </div>
 </section>
 
 <!-- DESIGN -->
 <section id="design">
-  <div class="sec-head"><div class="eyebrow">3 · Agentic design</div><h2>Design choices, mapped to how agentic systems fail</h2></div>
+  <div class="sec-head"><div class="eyebrow">4 · Agentic design</div><h2>Design choices, mapped to how agentic systems fail</h2></div>
   <div class="prose"><p>I built this as a constrained workflow rather than a free-roaming agent. Orchestration is deterministic and the model is called at one step, with a fixed contract. That makes it cheaper to validate and easier to explain to Quality, and it leaves room to add autonomy where it pays.</p></div>
   <div class="grid6">
     <div><b>Context</b>Each call gets one protocol: the study metadata, the deterministically split criteria with stable IDs, and the taxonomy definitions. No retrieval guesswork and no patient data. The prompt is generated from the same taxonomy object the baseline and the scorer use.</div>
-    <div><b>Memory</b>Stateless by design: nothing carries between protocols, so results are reproducible. The only durable state is the reviewer audit trail, plus the frozen CT.gov snapshot used for evaluation. Cross-study memory, such as a library of past amendments, is a next step with its own governance.</div>
+    <div><b>Memory</b>Stateless by design: nothing carries between protocols, so results are reproducible. The frozen CT.gov snapshot and saved model runs are the only stored data; the reviewer audit trail lives in the browser tab in this demo. Cross-study memory, such as a library of past amendments, is a next step with its own governance.</div>
     <div><b>Tool use</b>Two tools: <span class="mono">get_study</span> and <span class="mono">find_comparators</span>, both against the public ClinicalTrials.gov API v2. Tools are deterministic, so their outputs can be tested like ordinary code.</div>
     <div><b>Orchestration</b>Fetch → split → classify → benchmark → human review. Fixed order, with fallbacks at each step: the rule baseline if no model is available, and the frozen snapshot if the registry is unreachable.</div>
     <div><b>Evaluation</b>A reference set, a pre-registered baseline, and four metrics: accuracy, cost, latency and run-to-run agreement. The harness (<span class="mono">eval/run_eval.mjs</span>) reruns end to end with one command, so a model or prompt change gets re-scored before it ships.</div>
@@ -280,7 +355,7 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
 
 <!-- CONTEXT -->
 <section id="context">
-  <div class="sec-head"><div class="eyebrow">4 · Clinical context</div><h2>Where this sits in clinical development</h2></div>
+  <div class="sec-head"><div class="eyebrow">5 · Clinical context</div><h2>Where this sits in clinical development</h2></div>
   <div class="prose"><p>Eligibility criteria are written at protocol design but their cost lands later, in feasibility, screen failure, recruitment timelines and amendments. ICH E8(R1) asks sponsors to design quality in by focusing on factors critical to quality. FDA's 2020 guidance on eligibility criteria and the ASCO–Friends of Cancer Research recommendations push back on exclusions that are not scientifically necessary. This skill gives study teams that challenge at design time, before sites see the protocol.</p></div>
   <div class="life">
     <div class="here"><b>Protocol design</b>Criteria drafted, critical-to-quality factors set<span class="ref">ICH E8(R1) · ICH M11</span></div>
@@ -297,9 +372,28 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
   </div>
 </section>
 
+<!-- SAVED -->
+<section id="saved">
+  <div class="sec-head"><div class="eyebrow">6 · Recorded vs live</div><h2>What gets saved, and what doesn't</h2></div>
+  <div class="prose">
+    <p><strong>The evaluation results are static, captured once.</strong> All 30 model runs (3 models × 2 runs × 5 protocols) were made on 1 Oct 2026 by running the evaluation harness locally. They were committed to the repository by hand, one file per call in <span class="mono">eval/runs/</span>, holding the model's raw answer, cost, time and token counts. No automation adds or changes them: there is no CI job, schedule or bot.</p>
+    <p><strong>This page never saves anything.</strong> It is a static site, so it can read files from the repository but cannot write to it.</p>
+  </div>
+  <div class="tbl-wrap"><table class="port">
+    <tr><th>Classifier on this page</th><th>What happens</th><th>Saved?</th></tr>
+    <tr><td>Rule baseline</td><td>Keyword rules run in your browser</td><td>No</td></tr>
+    <tr><td>Claude Haiku / Sonnet / Opus · recorded</td><td>Shows the stored answers from those 30 runs</td><td>No; read only</td></tr>
+    <tr><td>Claude Sonnet 5.5 · live</td><td>Calls Claude from your browser with your own API key</td><td>No; gone when you reload</td></tr>
+  </table></div>
+  <div class="prose">
+    <p>The live ClinicalTrials.gov lookups and the reviewer audit trail also exist only in your browser tab. The audit trail illustrates the idea. A real deployment in a regulated (GxP) setting would store each reviewer decision permanently, with the reviewer's name and a timestamp.</p>
+    <p><strong>New results enter the repository only on purpose.</strong> Someone re-runs the evaluation locally, checks the new scores, and commits them, so the history shows when the numbers changed and why. A fixed test set with saved answers keeps every score reproducible: anyone can re-score the same answers with a new metric without calling the models again.</p>
+  </div>
+</section>
+
 <!-- BUILD -->
 <section id="build">
-  <div class="sec-head"><div class="eyebrow">5 · How it was built</div><h2>Built in a day, with the evidence attached</h2></div>
+  <div class="sec-head"><div class="eyebrow">7 · How it was built</div><h2>Built in a day, with the evidence attached</h2></div>
   <div class="prose">
     <p>Built in one day with Claude Code as the agentic development environment. The pieces: <span class="mono">lib.js</span> holds the splitter, baseline, taxonomy, prompt and scorer, shared by this page and the evaluation harness so the two cannot drift apart. <span class="mono">skills/eligibility-criteria-structurer/SKILL.md</span> packages the step as a reusable agent skill, with its standards. <span class="mono">eval/</span> holds the frozen protocols, reference labels, raw model runs and the harness.</p>
     <p><strong>Limitations.</strong> The reference set is small (70 criteria), and the labels were drafted with AI assistance before human review, which can favour model-style labelling. The categories are deliberately coarse, so the task saturates. The feasibility flags are checked only for consistency, not correctness, and the thresholds are not yet scored. Costs come from Claude Code's harness at list price, so they are an upper bound on a direct API call. Manual review time has not been measured yet; a time-and-motion baseline with study teams is the next step before any value claim on cycle time.</p>
@@ -548,13 +642,42 @@ details summary { cursor: pointer; font-weight: 600; color: var(--ink); }
     ["Every model clears the baseline", `The keyword baseline gets ${pct(bl.accuracy)} lenient and ${pct(bl.strict_accuracy)} strict. All three Claude models reach ${pct(Math.min(h.accuracy, so.accuracy, op.accuracy))} lenient and ${pct(Math.min(h.strict_accuracy, so.strict_accuracy, op.strict_accuracy))}–${pct(Math.max(h.strict_accuracy, so.strict_accuracy, op.strict_accuracy))} strict. The remaining strict misses are compound criteria where a second label is also defensible.`],
     ["The category task saturates", "At this level the reference set no longer separates the models, so quality stops being the deciding factor. The next evaluation round has to score the harder fields, flags and thresholds, against labels from clinical operations reviewers."],
     ["Cost and speed decide", `Sonnet at low effort was fastest (${so.latency_s_per_protocol.toFixed(0)} s) and cheapest ($${so.cost_per_protocol.toFixed(3)}) per protocol, with ${pct(so.run_agreement)} agreement across runs. Haiku kept extended reasoning on in this harness, which made it slower (${h.latency_s_per_protocol.toFixed(0)} s) and dearer. Opus matched quality at about ${(op.cost_per_protocol / so.cost_per_protocol).toFixed(1)}× Sonnet's cost.`],
-    ["Flags are not validated yet", (() => { const f = R.flag_stats?.per_model?.sonnet; if (!f) return "Flags are shown for reviewers but not yet scored."; const pf = f.per_flag; return `Flags have no answer key yet, so only their consistency is measured. Washout and investigator judgement are stable (${pct(pf.washout.run_agreement)} and ${pct(pf.investigator_judgement.run_agreement)} run-to-run). Ambiguous is raised on ${pf.ambiguous.raised} of 70 criteria, and Sonnet and Opus agree on modernisation candidates only ${pct(R.flag_stats.cross_model.sonnet_vs_opus.modernisation_candidate.jaccard)} of the time. Sonnet's full flag set repeats on only ${pct(f.flag_set_run_agreement)} of criteria. Next: expert-labelled flags.`; })()],
     ["Decision: pilot, not scale", "Go to a supervised pilot with one study team: Sonnet at low effort, a human reviewer on every output, and a measured manual baseline for review time. Scale only after the flags are evaluated and the pilot shows a cycle-time gain."],
   ];
   $("findings").innerHTML = findings.map(([t, p]) => `<div class="finding"><h3>${esc(t)}</h3><p>${esc(p)}</p></div>`).join("");
   const crit = Object.fromEntries(R.criteria.map((c) => [c.id, c]));
   $("errCount").textContent = `(${bl.errors.length} of ${bl.n})`;
   $("errTbl").innerHTML = `<tr><th>Criterion</th><th>Baseline said</th><th>Reference</th><th>Claude Sonnet said</th></tr>` + bl.errors.map((e) => `<tr><td>${esc(crit[e.id].text.slice(0, 160))}${crit[e.id].text.length > 160 ? "…" : ""}</td><td>${esc(CAT_LABEL[e.pred])}</td><td>${esc(CAT_LABEL[e.gold])}</td><td>${esc(CAT_LABEL[crit[e.id].models.sonnet?.category] || "–")}</td></tr>`).join("");
+
+
+  // ---------- plain-words scores, practicality, flags ----------
+  const cnt = (x) => Math.round(x * bl.n);
+  $("scoreList").innerHTML = [
+    `<em>Strict</em> counts only exact matches with the main answer: baseline ${cnt(bl.strict_accuracy)} of ${bl.n} (${pct(bl.strict_accuracy)}), Claude Sonnet ${cnt(so.strict_accuracy)} of ${so.n} (${pct(so.strict_accuracy)}).`,
+    `<em>Lenient</em> also accepts the reasonable second answer: baseline ${cnt(bl.accuracy)} of ${bl.n} (${pct(bl.accuracy)}), Sonnet ${cnt(so.accuracy)} of ${so.n} (${pct(so.accuracy)}).`,
+    `All of Sonnet's strict misses were criteria with two valid answers where it picked the other one. For example, "chronic hypercapnia requiring non-invasive ventilation" is <em>Disease</em> in the key, because it describes how severe the COPD is. Sonnet chose <em>Prior therapy</em>, because ventilation is a treatment. Both are defensible.`,
+  ].map((x) => `<li>${x}</li>`).join("");
+  $("practicalList").innerHTML = [
+    `<strong>Cost:</strong> about $${so.cost_per_protocol.toFixed(2)} to process a whole protocol with Sonnet, at list price.`,
+    `<strong>Speed:</strong> about ${so.latency_s_per_protocol.toFixed(0)} seconds per protocol.`,
+    `<strong>Consistency:</strong> Sonnet gave identical categories on both runs for ${pct(so.run_agreement)} of criteria; Haiku for ${pct(h.run_agreement)} and Opus for ${pct(op.run_agreement)}. A reviewer should not get a different answer on Tuesday than on Monday.`,
+    `<strong>Reliability:</strong> ${pct(so.schema_valid)} of answers came back in the expected format. A malformed answer would be marked "needs review", never guessed.`,
+  ].map((x) => `<li>${x}</li>`).join("");
+  const FS = R.flag_stats;
+  if (FS) {
+    const sf = FS.per_model.sonnet, x = FS.cross_model.sonnet_vs_opus;
+    const MEAN = { washout: "A waiting period after a previous treatment", investigator_judgement: "Relies on the site doctor's opinion", screening_burden: "Adds tests or paperwork at screening", ambiguous: "Wording likely to cause questions from sites", modernisation_candidate: "An exclusion that FDA/ASCO guidance suggests relaxing" };
+    const order = ["washout", "investigator_judgement", "screening_burden", "ambiguous", "modernisation_candidate"];
+    $("flagTbl").innerHTML = `<tr><th>Flag</th><th>What it means</th><th>Raised by Sonnet</th><th>Sonnet repeats itself on a second run</th><th>Sonnet and Opus agree</th></tr>` +
+      order.map((f) => `<tr><td><span class="flag">${esc(f.replace(/_/g, " "))}</span></td><td>${esc(MEAN[f])}</td><td class="num">${sf.per_flag[f].raised} of ${bl.n}</td><td class="num">${pct(sf.per_flag[f].run_agreement)}</td><td class="num">${pct(x[f].jaccard)}</td></tr>`).join("");
+    const mc = x.modernisation_candidate, op_mc = FS.per_model.opus.per_flag.modernisation_candidate.raised;
+    $("flagFindings").innerHTML = [
+      `<strong>Two flags look dependable.</strong> <em>Washout</em> and <em>investigator judgement</em> are close to factual questions: is there a time limit, and does the text say "in the opinion of the investigator"? They are stable and the models agree.`,
+      `<strong>"Ambiguous" is raised too often.</strong> It appears on ${pct(sf.per_flag.ambiguous.rate)} of criteria. A flag on most rows stops being useful, because reviewers learn to ignore it.`,
+      `<strong>"Modernisation candidate" is unstable.</strong> Sonnet raised it ${sf.per_flag.modernisation_candidate.raised} times and Opus ${op_mc}, and they agreed on only ${mc.both}. Some are sensible: both flagged a lung-cancer trial's blanket exclusion of people with HIV, which current guidance discourages. Others are doubtful: Sonnet flagged a minimum BMI of 16, which is not one of the exclusion types the guidance names.`,
+      `<strong>Overall,</strong> Sonnet's full set of flags was identical across its two runs for only ${pct(sf.flag_set_run_agreement)} of criteria, against ${pct(so.run_agreement)} for the category. The flags are the least mature part of the tool, and this page treats them as prompts for a human, never as decisions.`,
+    ].map((t) => `<li>${t}</li>`).join("");
+  }
 
   // ---------- portfolio ----------
   const dots = (n) => `<span class="dots" aria-label="${n} of 5">${"●".repeat(n)}<span class="off">${"●".repeat(5 - n)}</span></span>`;
